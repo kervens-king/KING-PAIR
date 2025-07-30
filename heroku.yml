@@ -3,5 +3,4 @@ build:
     - heroku/nodejs
 
 run:
-  web: npm star
-t
+  web: npm start
