@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: KERVENS 
+    name: Malvin
     env: docker
     region: HAÏTI
     plan: free
