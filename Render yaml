@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: KERVENS 
+    env: docker
+    region: HAÏTI
+    plan: free
