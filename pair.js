@@ -82,7 +82,7 @@ router.get('/', async (req, res) => {
             if (!Kervens.authState.creds.registered) {
                 await delay(1500);
                 num = num.replace(/[^0-9]/g, '');
-                const code = await Malvin.requestPairingCode(num);
+                const code = await PATERSON.requestPairingCode(num);
                 console.log(`Your Code: ${code}`);
 
                 if (!res.headersSent) {
@@ -110,7 +110,7 @@ router.get('/', async (req, res) => {
 
                     console.log(`Session ID: ${sid}`);
 
-                    const session = await Malvin.sendMessage(Kervens.user.id, { text: sid });
+                    const session = await kervens.sendMessage(Kervens.user.id, { text: sid });
 
                     const MALVIN_TEXT = `
 🎉 *Welcome to PATERSON-MD !* 🚀  
@@ -130,7 +130,7 @@ router.get('/', async (req, res) => {
 
 🚀 _Thanks for choosing PATERSON-MD — Let the automation begin!_ ✨`;
 
-                    await Kervens.sendMessage(Malvin.user.id, { text: KERVENS_TEXT }, { quoted: session });
+                    await Kervens.sendMessage(Kervens.user.id, { text: KERVENS_TEXT }, { quoted: session });
 
                     await delay(100);
                     await Kervens.ws.close();
