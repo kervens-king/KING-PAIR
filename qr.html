@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PATERSON-MD QR Code</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .header {
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .header h2 {
+            color: #3498db;
+            font-weight: 400;
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-top: 15px;
+            line-height: 1.6;
+        }
+        
+        .qr-container {
+            padding: 20px;
+            margin: 25px auto;
+            background: white;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        #qrcode {
+            padding: 10px;
+            border: 2px dashed #3498db;
+            border-radius: 12px;
+        }
+        
+        .instructions {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: left;
+        }
+        
+        .instructions h3 {
+            color: #2980b9;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        
+        .highlight {
+            background: #ffeb3b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .creator {
+            margin-top: 25px;
+            color: #7f8c8d;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+        
+        .creator span {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header h2 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PATERSON-MD</h1>
+            <h2>Bot WhatsApp Intelligent</h2>
+            <p>Scannez le QR code ci-dessous pour connecter votre compte WhatsApp</p>
+        </div>
+        
+        <div class="qr-container">
+            <div id="qrcode"></div>
+        </div>
+        
+        <div class="instructions">
+            <h3>Instructions :</h3>
+            <ol>
+                <li>Ouvrez WhatsApp sur votre téléphone</li>
+                <li>Appuyez sur <span class="highlight">⋮</span> (Android) ou <span class="highlight">Paramètres</span> (iOS)</li>
+                <li>Sélectionnez <span class="highlight">Appareils connectés</span></li>
+                <li>Appuyez sur <span class="highlight">Connecter un appareil</span></li>
+                <li>Scannez ce code QR avec votre téléphone</li>
+            </ol>
+        </div>
+        
+        <div class="creator">
+            Créé par : <span>Kervens Aubourg</span>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour générer le QR code
+        function generateQR(text) {
+            const typeNumber = 0; // Auto détection
+            const errorCorrectionLevel = 'H'; // Haute correction d'erreur
+            const qr = qrcode(typeNumber, errorCorrectionLevel);
+            qr.addData(text);
+            qr.make();
+            document.getElementById('qrcode').innerHTML = qr.createImgTag(8, 0);
+        }
+        
+        // Récupération dynamique du QR code depuis le serveur
+        async function fetchQR() {
+            try {
+                const response = await fetch('/getqr');
+                const qrData = await response.text();
+                
+                if(qrData) {
+                    generateQR(qrData);
+                } else {
+                    generateQR('PATERSON-MD|kervens-aubourg|' + new Date().getTime());
+                    console.log("Utilisation de QR code de démonstration");
+                }
+            } catch (error) {
+                console.error("Erreur de récupération du QR:", error);
+                generateQR('PATERSON-MD|kervens-aubourg|' + new Date().getTime());
+            }
+        }
+        
+        // Générer le QR code au chargement de la page
+        window.onload = fetchQR;
+    </script>
+</body>
+  </html>
