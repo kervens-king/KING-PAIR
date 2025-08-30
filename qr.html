@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PATERSON-MD QR Code</title>
-    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.min.js"></script>
+    <title>PATERSON-MD WhatsApp Connection</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -14,7 +14,7 @@
         }
         
         body {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            background: linear-gradient(135deg, #1a2a6c 0%, #2b5876 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -115,6 +115,28 @@
             font-weight: 600;
         }
         
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        .status.connecting {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status.connected {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
         @media (max-width: 480px) {
             .container {
                 padding: 25px;
@@ -134,61 +156,111 @@
     <div class="container">
         <div class="header">
             <h1>PATERSON-MD</h1>
-            <h2>Bot WhatsApp Intelligent</h2>
-            <p>Scannez le QR code ci-dessous pour connecter votre compte WhatsApp</p>
+            <h2>WhatsApp Connection</h2>
+            <p>Scan the QR code below to connect your WhatsApp account</p>
         </div>
         
         <div class="qr-container">
             <div id="qrcode"></div>
         </div>
         
+        <div id="status" class="status connecting">
+            ⏳ Waiting for QR code generation...
+        </div>
+        
         <div class="instructions">
-            <h3>Instructions :</h3>
+            <h3>Instructions:</h3>
             <ol>
-                <li>Ouvrez WhatsApp sur votre téléphone</li>
-                <li>Appuyez sur <span class="highlight">⋮</span> (Android) ou <span class="highlight">Paramètres</span> (iOS)</li>
-                <li>Sélectionnez <span class="highlight">Appareils connectés</span></li>
-                <li>Appuyez sur <span class="highlight">Connecter un appareil</span></li>
-                <li>Scannez ce code QR avec votre téléphone</li>
+                <li>Open WhatsApp on your phone</li>
+                <li>Tap on <span class="highlight">⋮</span> (Android) or <span class="highlight">Settings</span> (iOS)</li>
+                <li>Select <span class="highlight">Linked devices</span></li>
+                <li>Tap on <span class="highlight">Link a device</span></li>
+                <li>Scan this QR code with your phone</li>
             </ol>
         </div>
         
         <div class="creator">
-            Créé par : <span>Kervens Aubourg</span>
+            Created by: <span>Kervens Aubourg</span>
         </div>
     </div>
 
     <script>
-        // Fonction pour générer le QR code
-        function generateQR(text) {
-            const typeNumber = 0; // Auto détection
-            const errorCorrectionLevel = 'H'; // Haute correction d'erreur
-            const qr = qrcode(typeNumber, errorCorrectionLevel);
-            qr.addData(text);
-            qr.make();
-            document.getElementById('qrcode').innerHTML = qr.createImgTag(8, 0);
-        }
+        // Configuration
+        const QR_UPDATE_INTERVAL = 3000; // Check for new QR every 3 seconds
         
-        // Récupération dynamique du QR code depuis le serveur
-        async function fetchQR() {
+        // DOM Elements
+        const qrcodeElement = document.getElementById('qrcode');
+        const statusElement = document.getElementById('status');
+        
+        // Initialize QR code library
+        qrcode.stringToBytes = qrcode.stringToBytesFuncs['UTF-8'];
+        
+        // Function to generate QR code
+        function generateQR(text) {
             try {
-                const response = await fetch('/getqr');
-                const qrData = await response.text();
+                // Clear previous QR code
+                qrcodeElement.innerHTML = '';
                 
-                if(qrData) {
-                    generateQR(qrData);
-                } else {
-                    generateQR('PATERSON-MD|kervens-aubourg|' + new Date().getTime());
-                    console.log("Utilisation de QR code de démonstration");
-                }
+                // Generate new QR code
+                const typeNumber = 0;
+                const errorCorrectionLevel = 'H';
+                const qr = qrcode(typeNumber, errorCorrectionLevel);
+                qr.addData(text);
+                qr.make();
+                
+                // Add QR code to DOM
+                qrcodeElement.innerHTML = qr.createImgTag(8, 0);
+                
+                // Update status
+                statusElement.textContent = '✅ QR code ready - Scan with WhatsApp';
+                statusElement.className = 'status connected';
+                
+                console.log("QR code generated successfully");
             } catch (error) {
-                console.error("Erreur de récupération du QR:", error);
-                generateQR('PATERSON-MD|kervens-aubourg|' + new Date().getTime());
+                console.error("Error generating QR code:", error);
+                statusElement.textContent = '❌ Error generating QR code';
+                statusElement.className = 'status error';
             }
         }
         
-        // Générer le QR code au chargement de la page
-        window.onload = fetchQR;
+        // Function to fetch QR code from server
+        async function fetchQRCode() {
+            try {
+                statusElement.textContent = '⏳ Connecting to server...';
+                statusElement.className = 'status connecting';
+                
+                const response = await fetch('/qr');
+                if (!response.ok) {
+                    throw new Error(`Server returned ${response.status}: ${response.statusText}`);
+                }
+                
+                const qrData = await response.text();
+                if (qrData && qrData.length > 0) {
+                    generateQR(qrData);
+                } else {
+                    throw new Error("Empty QR code data received from server");
+                }
+            } catch (error) {
+                console.error("Error fetching QR code:", error);
+                
+                // Fallback: Generate a placeholder QR code
+                generateQR(`PATERSON-MD|${Date.now()}|Kervens-Aubourg`);
+                
+                statusElement.textContent = '⚠️ Using demo QR code - Server not available';
+                statusElement.className = 'status error';
+            }
+        }
+        
+        // Periodically update QR code
+        async function startQRMonitoring() {
+            await fetchQRCode(); // Initial fetch
+            
+            // Set up periodic updates
+            setInterval(fetchQRCode, QR_UPDATE_INTERVAL);
+        }
+        
+        // Start the process when page loads
+        window.addEventListener('load', startQRMonitoring);
     </script>
 </body>
-  </html>
+</html>
