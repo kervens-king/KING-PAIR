@@ -2,13 +2,11 @@ services:
   - type: web
     name: PATERSON-MD
     env: docker
-    region: us-east  # Render ne propose pas de région en Haïti
+    region: us-east
     plan: free
-    docker:
-      dockerfile: Dockerfile  # Si tu utilises un Dockerfile
-      # ou image: node:18-alpine  # Si tu utilises une image directement
+    dockerfile: Dockerfile
     envVars:
-      - key: NODE_ENV
-        value: production
-    healthCheckPath: /health  # Optionnel (adapte selon ton bot)
-    autoDeploy: true
+      - key: PORT
+        value: 5000
+      - key: MESSAGE
+        value: ""
