@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
         const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
 
         try {
-            let PATERSON = makeWASocket({
+            let paterson = makeWASocket({
                 auth: {
                     creds: state.creds,
                     keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
@@ -42,10 +42,10 @@ router.get('/', async (req, res) => {
                 browser: Browsers.macOS("Safari")
             });
 
-            if (!PATERSON.authState.creds.registered) {
+            if (!state.creds.registered) {
                 await delay(1500);
                 num = num.replace(/[^0-9]/g, '');
-                const code = await PATERSON.requestPairingCode(num);
+                const code = await paterson.requestPairingCode(num);
                 console.log(`Pairing Code: ${code}`);
 
                 if (!res.headersSent) {
@@ -53,8 +53,8 @@ router.get('/', async (req, res) => {
                 }
             }
 
-            PATERSON.ev.on('creds.update', saveCreds);
-            PATERSON.ev.on("connection.update", async (s) => {
+            paterson.ev.on('creds.update', saveCreds);
+            paterson.ev.on("connection.update", async (s) => {
                 const { connection, lastDisconnect } = s;
 
                 if (connection === "open") {
@@ -77,7 +77,7 @@ router.get('/', async (req, res) => {
 
 🚀 _Thanks for choosing PATERSON-MD — Let the automation begin!_ ✨`;
 
-                    await PATERSON.sendMessage(PATERSON.user.id, { text: PATERSON_TEXT });
+                    await paterson.sendMessage(paterson.user.id, { text: PATERSON_TEXT });
                     
                     await delay(100);
                     // Keep the connection open for ongoing use
