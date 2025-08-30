@@ -1,23 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content="PATERSON-SESSION HACKER TERMINAL">
-  <meta property="og:description" content="Secure terminal for PATERSON-MD WhatsApp bot pairing.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://github.com/PATERSON-MD/PATERSON-MD">
-  <meta property="og:image" content="https://files.catbox.moe/grrevg.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="PATERSON-SESSION HACKER TERMINAL">
-  <meta name="twitter:description" content="Secure terminal for PATERSON-MD WhatsApp bot pairing.">
-  <meta name="twitter:image" content="https://files.catbox.moe/grrevg.jpg">
+  <title>PATERSON-MD WhatsApp Connection</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="shortcut icon" href="https://files.catbox.moe/usgvo9.jpg" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -26,297 +16,374 @@
     }
     
     body {
-      background-color: #0a0a0a;
-      color: #00ff41;
-      font-family: 'Share Tech Mono', monospace;
-      height: 100vh;
-      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      color: #fff;
+      padding: 20px;
       position: relative;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 100%);
     }
-
-    /* Effet de scanline */
-    body::after {
-      content: "";
-    i  position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(transparent 50%, rgba(0, 255, 65, 0.05) 50%);
-      background-size: 100% 4px;
-      z-index: 999;
-      pointer-events: none;
-      opacity: 0.3;
-      animation: scanline 10s linear infinite;
-    }
-
-    @keyframes scanline {
-      0% { background-position: 0 0; }
-      100% { background-position: 0 100%; }
-    }
-
-    /* Animation de code qui tombe (style Matrix) */
-    .matrix-rain {
+    
+    body::before {
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      background-image: url('https://files.catbox.moe/grrevg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -2;
+      opacity: 0.9;
+    }
+    
+    body::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(106, 17, 203, 0.8) 0%, rgba(37, 117, 252, 0.8) 100%);
       z-index: -1;
+    }
+    
+    .datetime-container {
+      margin-bottom: 30px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 20px 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+    
+    #currentDate {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      font-family: 'Playfair Display', serif;
+    }
+    
+    #currentTime {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    
+    .container {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(15px);
+      border-radius: 25px;
+      padding: 40px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+      max-width: 550px;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      position: relative;
       overflow: hidden;
     }
-
-    .matrix-column {
+    
+    .container::before {
+      content: '';
       position: absolute;
-      top: -100px;
-      width: 14px;
-      font-size: 18px;
-      text-align: center;
-      color: #00ff41;
-      animation: matrix-rain 15s infinite linear;
-      opacity: 0.7;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      transform: rotate(45deg);
+      z-index: 0;
     }
-
-    @keyframes matrix-rain {
-      0% { transform: translateY(-100px); }
-      100% { transform: translateY(calc(100vh + 100px)); }
-    }
-
-    .container {
+    
+    .header {
       text-align: center;
-      background: rgba(10, 10, 10, 0.8);
-      padding: 30px;
-      border-radius: 5px;
-      box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
-      max-width: 500px;
-      width: 100%;
-      border: 1px solid #00ff41;
+      margin-bottom: 30px;
       position: relative;
       z-index: 1;
     }
-
-    .container::before {
-      content: ">";
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      color: #00ff41;
-      animation: blink 1s infinite;
+    
+    .logo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      animation: pulse 3s infinite;
+      overflow: hidden;
     }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+    
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
-
-    h3 {
-      margin-top: 0;
-      margin-bottom: 20px;
-      font-size: 1.8rem;
-      text-shadow: 0 0 10px #00ff41;
-      letter-spacing: 2px;
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
-
+    
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      background: linear-gradient(45deg, #fff, #e0e0e0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
     .subtitle {
-      color: #00b32c;
-      margin-bottom: 25px;
       font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 15px;
+      font-weight: 500;
     }
-
+    
+    .description {
+      font-size: 1rem;
+      opacity: 0.8;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+    
     .input-container {
       display: flex;
-      background: #001a00;
-      border: 1px solid #00ff41;
-      border-radius: 0;
-      padding: 5px;
-      gap: 5px;
-      max-width: 350px;
-      width: 100%;
-      margin: 0 auto 20px;
-      box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 8px;
+      margin: 25px 0;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+      z-index: 1;
     }
-
+    
     .input-container input {
+      flex: 1;
       border: none;
-      background: #001a00;
-      width: 70%;
-      padding: 12px;
-      color: #00ff41;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 16px;
+      background: transparent;
+      padding: 18px 20px;
+      color: #fff;
+      font-size: 1.1rem;
       outline: none;
     }
-
+    
     .input-container input::placeholder {
-      color: #007a29;
+      color: rgba(255, 255, 255, 0.6);
     }
-
+    
     .input-container button {
-      width: 30%;
-      padding: 12px;
-      background: #001a00;
-      color: #00ff41;
-      border: 1px solid #00ff41;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 16px;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+      color: white;
+      border: none;
+      padding: 18px 30px;
+      border-radius: 12px;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-
+    
     .input-container button:hover {
-      background: #00ff41;
-      color: #001a00;
-      box-shadow: 0 0 15px #00ff41;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
     }
-
+    
+    .input-container button:active {
+      transform: translateY(1px);
+    }
+    
     #loading-spinner {
       display: none;
-      color: #00ff41;
-      margin: 15px 0;
+      text-align: center;
+      margin: 25px 0;
+      position: relative;
+      z-index: 1;
     }
-
+    
     .fa-spinner {
-      animation: spin 2s linear infinite;
+      animation: spin 1.5s linear infinite;
+      font-size: 1.8rem;
+      color: #ffd700;
     }
-
+    
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
+    
     #pair {
-      min-height: 60px;
-      margin: 15px 0;
-      padding: 10px;
-      border: 1px solid #00ff41;
-      background: rgba(0, 26, 0, 0.3);
-    }
-
-    #copy {
-      cursor: pointer;
-      transition: all 0.3s;
-      display: inline-block;
-      padding: 5px 10px;
-    }
-
-    #copy:hover {
-      background: #00ff41;
-      color: #001a00;
-    }
-
-    footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      color: #00b32c;
-      padding: 10px 0;
+      min-height: 100px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 25px;
+      margin: 25px 0;
       text-align: center;
-      font-size: 14px;
-      border-top: 1px solid #00ff41;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      position: relative;
       z-index: 1;
     }
-
-    .typewriter {
-      overflow: hidden;
-      border-right: 2px solid #00ff41;
-      white-space: nowrap;
-      margin: 0 auto;
-      letter-spacing: 2px;
-      animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
-    }
-
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-
-    @keyframes blink-caret {
-      from, to { border-color: transparent; }
-      50% { border-color: #00ff41; }
-    }
-
-    .glitch {
+    
+    .status-container {
+      text-align: center;
+      margin: 25px 0;
+      padding: 20px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       position: relative;
-      animation: glitch 5s infinite;
+      z-index: 1;
     }
-
-    @keyframes glitch {
-      0% { text-shadow: 0 0 5px #00ff41; }
-      95% { text-shadow: 0 0 5px #00ff41; }
-      96% { text-shadow: -2px 0 red, 2px 0 blue; transform: translate(2px); }
-      97% { text-shadow: 2px 0 blue, -2px 0 red; transform: translate(-2px); }
-      98% { text-shadow: -2px 0 red, 2px 0 blue; transform: translate(2px); }
-      99% { text-shadow: 2px 0 blue, -2px 0 red; transform: translate(-2px); }
-      100% { text-shadow: 0 0 5px #00ff41; }
+    
+    #status {
+      font-weight: 600;
+      font-size: 1.2rem;
     }
-
-    /* Media controls */
+    
+    .instructions {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 25px;
+      margin-top: 30px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .instructions h3 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+    }
+    
+    .step {
+      display: flex;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+    
+    .step-number {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      margin-right: 15px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .step-content {
+      flex: 1;
+    }
+    
+    .step-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+      font-size: 1.1rem;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 1rem;
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+    
     .media-controls {
       position: fixed;
-      top: 20px;
+      bottom: 20px;
       right: 20px;
       display: flex;
       gap: 10px;
       z-index: 1000;
     }
-
+    
     .media-btn {
-      background: rgba(0, 0, 0, 0.7);
-      border: 1px solid #00ff41;
-      color: #00ff41;
-      padding: 8px 12px;
-      cursor: pointer;
-      font-family: 'Share Tech Mono', monospace;
-      transition: all 0.3s;
-    }
-
-    .media-btn:hover {
-      background: #00ff41;
-      color: #000;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    /* Media containers */
-    #video-container, #image-container {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 900;
-      background: rgba(0, 0, 0, 0.9);
-      padding: 10px;
-      border: 2px solid #00ff41;
-      max-width: 90%;
-      max-height: 80vh;
-    }
-
-    #media-video, #media-image {
-      max-width: 100%;
-      max-height: 70vh;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: -15px;
-      right: -15px;
-      background: #ff0033;
-      color: white;
-      border: none;
-      width: 30px;
-      height: 30px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .media-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px);
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px;
+      }
+      
+      h1 {
+        font-size: 2.2rem;
+      }
+      
+      .input-container {
+        flex-direction: column;
+      }
+      
+      .input-container input {
+        margin-bottom: 10px;
+        text-align: center;
+      }
+      
+      .input-container button {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .datetime-container {
+        padding: 15px 20px;
+      }
+      
+      #currentTime {
+        font-size: 2rem;
+      }
     }
   </style>
 </head>
@@ -326,52 +393,77 @@
     <source src="https://files.catbox.moe/vkvci3.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Animation Matrix -->
-  <div class="matrix-rain" id="matrixRain"></div>
-
-  <!-- Contrôles média -->
-  <div class="media-controls">
-    <button class="media-btn" onclick="toggleAudio()" id="audioBtn">🔊 ON</button>
-    <button class="media-btn" onclick="showVideo()">🎥 VIDEO</button>
-    <button class="media-btn" onclick="showImage()">🖼 IMAGE</button>
-  </div>
-
-  <!-- Conteneurs média -->
-  <div id="video-container" class="hidden">
-    <button class="close-btn" onclick="closeMedia()">X</button>
-    <video id="media-video" controls>
-      <source src="https://files.catbox.moe/ygv1dq.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <div id="image-container" class="hidden">
-    <button class="close-btn" onclick="closeMedia()">X</button>
-    <img id="media-image" src="https://files.catbox.moe/grrevg.jpg" alt="PATERSON-MD">
+  <div class="datetime-container">
+    <div id="currentDate">Chargement...</div>
+    <div id="currentTime">--:--:--</div>
   </div>
 
   <div class="container">
-    <h3 class="glitch">PATERSON-SESSION TERMINAL</h3>
-    
-    <div class="subtitle">
-      <div class="typewriter">INITIALIZING SECURE CONNECTION...</div>
+    <div class="header">
+      <div class="logo">
+        <img src="https://files.catbox.moe/usgvo9.jpg" alt="PATERSON-MD Logo">
+      </div>
+      <h1>PATERSON-MD</h1>
+      <div class="subtitle">WhatsApp Connection Portal</div>
+      <div class="description">Connect your WhatsApp account to access the powerful features of PATERSON-MD</div>
     </div>
     
-    <p>ENTER WHATSAPP NUMBER WITH COUNTRY CODE</p>
-    <br>
     <div class="input-container">
-      <input placeholder="509xxxxxx" type="number" id="number" name="">
-      <button id="submit">GENERATE</button>
+      <input placeholder="Enter your WhatsApp number with country code" type="number" id="number" name="">
+      <button id="submit">
+        <i class="fas fa-key"></i> GENERATE CODE
+      </button>
     </div>
+    
     <div id="loading-spinner">
-      <i class="fas fa-spinner fa-spin"></i> PROCESSING...
+      <i class="fas fa-spinner fa-spin"></i>
+      <div>Processing your request...</div>
     </div>
-    <br>
-    <main id="pair">AWAITING INPUT...</main>
+    
+    <div class="status-container">
+      <p>Connection Status:</p>
+      <p id="status">Waiting for input</p>
+    </div>
+    
+    <main id="pair"></main>
+    
+    <div class="instructions">
+      <h3>How to Connect Your WhatsApp</h3>
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <div class="step-title">Open WhatsApp on Your Phone</div>
+          <p>Launch the WhatsApp application on your mobile device</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <div class="step-title">Go to Linked Devices</div>
+          <p>Tap on the three dots (⋮) → Linked devices</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <div class="step-title">Link a Device</div>
+          <p>Select "Link a device" and enter the code generated above</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <footer>
-    KERVENS AUBOURG &copy; <span id="currentYear"></span> | SYSTEM SECURE
+    <p>Created with ❤️ by Kervens Aubourg &copy; <span id="currentYear"></span></p>
+    <p>PATERSON-MD WhatsApp Bot Solution</p>
   </footer>
+
+  <!-- Contrôles média -->
+  <div class="media-controls">
+    <button class="media-btn" onclick="toggleAudio()" id="audioBtn">
+      <i class="fas fa-volume-up"></i>
+    </button>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
   <script>
@@ -380,120 +472,46 @@
     const bgAudio = document.getElementById('bgAudio');
     const audioBtn = document.getElementById('audioBtn');
 
-    // Créer l'animation Matrix
-    function createMatrixRain() {
-      const matrixRain = document.getElementById('matrixRain');
-      const characters = '01010101PATERSON1010101010MD10101010';
+    // Mise à jour de la date et l'heure
+    function updateDateTime() {
+      const now = new Date();
       
-      for (let i = 0; i < 50; i++) {
-        const column = document.createElement('div');
-        column.className = 'matrix-column';
-        column.style.left = `${Math.random() * 100}%`;
-        column.style.animationDelay = `${Math.random() * 15}s`;
-        column.style.animationDuration = `${10 + Math.random() * 20}s`;
-        
-        let content = '';
-        for (let j = 0; j < 20; j++) {
-          content += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        
-        column.textContent = content;
-        matrixRain.appendChild(column);
-      }
+      // Formater la date
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const dateString = now.toLocaleDateString('en-US', options);
+      
+      // Formater l'heure
+      const timeString = now.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit',
+        hour12: true 
+      });
+      
+      document.getElementById('currentDate').textContent = dateString;
+      document.getElementById('currentTime').textContent = timeString;
     }
-
+    
+    // Mettre à jour immédiatement et ensuite toutes les secondes
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+    
+    // Définir l'année en cours dans le footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
     // Contrôle audio
     function toggleAudio() {
       if (audioPlaying) {
         bgAudio.pause();
-        audioBtn.textContent = '🔊 ON';
+        audioBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
       } else {
         bgAudio.play().catch(e => {
           console.log("Audio playback failed:", e);
-          alert("Click anywhere on the page to enable audio playback");
         });
-        audioBtn.textContent = '🔇 OFF';
+        audioBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
       }
       audioPlaying = !audioPlaying;
     }
-
-    // Afficher la vidéo
-    function showVideo() {
-      document.getElementById('video-container').classList.remove('hidden');
-      document.getElementById('media-video').play();
-    }
-
-    // Afficher l'image
-    function showImage() {
-      document.getElementById('image-container').classList.remove('hidden');
-    }
-
-    // Fermer les médias
-    function closeMedia() {
-      document.getElementById('video-container').classList.add('hidden');
-      document.getElementById('image-container').classList.add('hidden');
-      document.getElementById('media-video').pause();
-    }
-
-    // Interaction avec le formulaire
-    let a = document.getElementById("pair");
-    let b = document.getElementById("submit");
-    let c = document.getElementById("number");
-
-    async function Copy() {
-      let text = document.getElementById("copy").innerText;
-      let obj = document.getElementById("copy");
-      await navigator.clipboard.writeText(obj.innerText.replace('ACCESS_CODE: ', ''));
-      obj.innerText = "✔️ CODE COPIED TO CLIPBOARD";
-      obj.style = "color:#00ff41;font-weight:bold;background:#001a00";
-      setTimeout(() => {
-        obj.innerText = text;
-        obj.style = "color:#00ff41;font-weight:bold";
-      }, 1500);
-    }
-
-    b.addEventListener("click", async (e) => {
-      e.preventDefault();
-      if (!c.value) {
-        a.innerHTML = '<span style="color:#ff0033;">❗ ERROR: ENTER WHATSAPP NUMBER</span>';
-      } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
-        a.innerHTML = '<span style="color:#ff0033;">❗ ERROR: INVALID NUMBER FORMAT</span>';
-      } else {
-        const bc = c.value.replace(/[^0-9]/g, "");
-        let bb = "";
-        let bbc = "";
-        const cc = bc.split('');
-        cc.map(a => {
-          bbc += a;
-          if (bbc.length == 3) {
-            bb += " " + a;
-          } else if (bbc.length == 8) {
-            bb += " " + a;
-          } else {
-            bb += a;
-          }
-        });
-        c.type = "text";
-        c.value = "+" + bb;
-        c.style = "color:#00ff41;font-size:16px";
-        document.getElementById("loading-spinner").style.display = "block";
-        a.innerHTML = 'CONNECTING TO SERVER...';
-        
-        try {
-          let { data } = await axios(`/code?number=${bc}`);
-          let code = data.code || "❗ SERVICE UNAVAILABLE";
-          a.innerHTML = '<span id="copy" onclick="Copy()" style="color:#00ff41;font-weight:bold;cursor:pointer;">ACCESS_CODE: <span style="color:#ffffff;">' + code + '</span></span>';
-        } catch (error) {
-          a.innerHTML = '<span style="color:#ff0033;">❗ CONNECTION FAILED</span>';
-        }
-        
-        document.getElementById("loading-spinner").style.display = "none";
-      }
-    });
-
-    // Initialisation
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-    window.addEventListener('load', createMatrixRain);
     
     // Activer l'audio au premier clic utilisateur
     document.body.addEventListener('click', function() {
@@ -501,6 +519,87 @@
         toggleAudio();
       }
     }, { once: true });
+    
+    // Gestion de la soumission du formulaire
+    let a = document.getElementById("pair");
+    let b = document.getElementById("submit");
+    let c = document.getElementById("number");
+    let statusElement = document.getElementById("status");
+
+    async function Copy() {
+      let text = document.getElementById("copy").innerText;
+      let obj = document.getElementById("copy");
+      await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
+      obj.innerText = "✔️ COPIED!";
+      obj.style = "color:#4cd964;font-weight:bold";
+      setTimeout(() => {
+        obj.innerText = text;
+        obj.style = "color:#007bff;font-weight:bold";
+      }, 2000);
+    }
+
+    b.addEventListener("click", async (e) => {
+      e.preventDefault();
+      if (!c.value) {
+        statusElement.textContent = "Please enter a WhatsApp number";
+        statusElement.style.color = "#ff6b6b";
+        return;
+      }
+      
+      if (c.value.replace(/[^0-9]/g, "").length < 11) {
+        statusElement.textContent = "Invalid number format";
+        statusElement.style.color = "#ff6b6b";
+        return;
+      }
+      
+      const bc = c.value.replace(/[^0-9]/g, "");
+      let formattedNumber = "";
+      let temp = "";
+      
+      for (let i = 0; i < bc.length; i++) {
+        temp += bc[i];
+        if (temp.length === 3) {
+          formattedNumber += " " + bc[i];
+        } else if (temp.length === 8) {
+          formattedNumber += " " + bc[i];
+        } else {
+          formattedNumber += bc[i];
+        }
+      }
+      
+      c.type = "text";
+      c.value = "+" + formattedNumber;
+      document.getElementById("loading-spinner").style.display = "block";
+      statusElement.textContent = "Connecting to server...";
+      statusElement.style.color = "#ffd700";
+      a.innerHTML = '';
+      
+      try {
+        // Utiliser /paterson au lieu de /code
+        let { data } = await axios.get(`/paterson?number=${bc}`);
+        let code = data.code || "Service unavailable";
+        
+        a.innerHTML = `
+          <div style="text-align: center;">
+            <p style="margin-bottom: 15px; font-weight: 500; font-size: 1.2rem;">Your pairing code:</p>
+            <span id="copy" onclick="Copy()" style="color:#007bff;font-weight:bold;cursor:pointer;font-size:1.6rem;padding:15px 25px;background:rgba(255,255,255,0.1);border-radius:12px;display:inline-block;border:2px solid rgba(255,255,255,0.2);">
+              ${code}
+            </span>
+            <p style="margin-top: 15px; font-size: 1rem;">Click the code to copy it</p>
+          </div>
+        `;
+        
+        statusElement.textContent = "Connection successful!";
+        statusElement.style.color = "#4cd964";
+      } catch (error) {
+        console.error("Connection error:", error);
+        a.innerHTML = '<div style="color:#ff6b6b;text-align:center;font-size:1.1rem;">Connection failed. Please try again.</div>';
+        statusElement.textContent = "Connection failed";
+        statusElement.style.color = "#ff6b6b";
+      }
+      
+      document.getElementById("loading-spinner").style.display = "none";
+    });
   </script>
 </body>
-</html>
+  </html>
