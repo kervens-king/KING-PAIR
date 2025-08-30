@@ -1,6 +1,14 @@
 services:
   - type: web
-    name: Malvin
+    name: PATERSON-MD
     env: docker
-    region: HAÏTI
+    region: us-east  # Render ne propose pas de région en Haïti
     plan: free
+    docker:
+      dockerfile: Dockerfile  # Si tu utilises un Dockerfile
+      # ou image: node:18-alpine  # Si tu utilises une image directement
+    envVars:
+      - key: NODE_ENV
+        value: production
+    healthCheckPath: /health  # Optionnel (adapte selon ton bot)
+    autoDeploy: true
