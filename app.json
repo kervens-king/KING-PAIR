@@ -1,24 +1,43 @@
-
 {
-    "name": "PATERSON-SESSION",
-    "description": "Web Session Generator",
-    "logo": "IMG_20250728_152250_066",
-    "repository": "https://github.com/PATERSON/PATERSON-SESSION",
-    "keywords": ["PATER-SON"],
-    "success_url": "/", 
-    "buildpacks": [{ "url": "https://github.com/heroku/heroku-buildpack-nodejs#latest" } ],
-    "env": {      
-      "PORT": {
-        "description": "Port for web app.4000,5000,3000... any!",
-        "value": "5000",
-        "required": false 
-      },
-      "MESSAGE": {
-        "description": "Just Leave This Blank",
-        "value": "",
-        "required": false 
-      }
-    }   
-
-    
+    "name": "PATERSON-MD",
+    "description": "WhatsApp Bot by Kervens Aubourg",
+    "logo": "https://raw.githubusercontent.com/PATERSON/PATERSON-MD/main/IMG_20250728_152250_066.jpg",
+    "repository": "https://github.com/PATERSON/PATERSON-MD",
+    "keywords": ["whatsapp", "bot", "md", "PATERSON"],
+    "success_url": "/",
+    "buildpacks": [
+        {
+            "url": "heroku/nodejs"
+        },
+        {
+            "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
+        }
+    ],
+    "env": {
+        "PORT": {
+            "description": "Port for the web server",
+            "value": "5000",
+            "required": false
+        },
+        "SESSION_ID": {
+            "description": "Session ID for the bot",
+            "value": "PATERSON-MD",
+            "required": true
+        },
+        "PREFIX": {
+            "description": "Command prefix for the bot",
+            "value": ".",
+            "required": false
+        },
+        "MODS": {
+            "description": "Bot moderators numbers (comma separated)",
+            "value": "1234567890",
+            "required": false
+        },
+        "MONGODB": {
+            "description": "MongoDB connection string",
+            "value": "",
+            "required": false
+        }
+    }
 }
