@@ -330,7 +330,7 @@
         <div class="countdown" id="countdown">Le QR Code expire dans: 02:00</div>
         
         <button class="btn" id="generateBtn">
-          <i class="fas fa-sync-alt"></i> Générer un Nouveau QR Code
+          <i class="fas fa-sync-alt"></i> Actualiser le QR Code
         </button>
         
         <div class="status-container">
@@ -397,21 +397,45 @@
       // Set current year in footer
       document.getElementById('currentYear').textContent = new Date().getFullYear();
       
-      // Fonction pour générer un QR code
-      function generateQRCode() {
-        // Masquer le QR code précédent et afficher le loader
-        qrcodeDiv.innerHTML = '';
-        loadingElement.style.display = 'flex';
-        statusElement.textContent = 'Génération en cours...';
-        
-        // Simuler un délai de génération
-        setTimeout(() => {
-          // Générer une chaîne aléatoire pour le QR code
-          const randomString = Math.random().toString(36).substring(2, 15) + 
-                              Math.random().toString(36).substring(2, 15);
+      let countdownInterval;
+      let timeLeft = 120; // 2 minutes en secondes
+
+      // Fonction pour récupérer le QR code depuis le serveur
+      async function fetchQRCode() {
+        try {
+          loadingElement.style.display = 'flex';
+          statusElement.textContent = 'Connexion au serveur...';
           
-          // Générer le QR code
-          QRCode.toDataURL(randomString, {
+          const response = await fetch('/qr');
+          if (!response.ok) {
+            throw new Error('Erreur de récupération du QR code');
+          }
+          
+          const qrData = await response.text();
+          if (!qrData) {
+            throw new Error('Données QR code vides');
+          }
+          
+          // Générer le QR code à partir des données reçues
+          generateQRCode(qrData);
+        } catch (error) {
+          console.error('Erreur:', error);
+          statusElement.textContent = 'Erreur de connexion au serveur';
+          loadingElement.style.display = 'none';
+          
+          // Réessayer après 5 secondes
+          setTimeout(fetchQRCode, 5000);
+        }
+      }
+
+      // Fonction pour générer le QR code
+      function generateQRCode(qrData) {
+        try {
+          // Nettoyer le contenu précédent
+          qrcodeDiv.innerHTML = '';
+          
+          // Générer le QR code avec la bibliothèque
+          QRCode.toDataURL(qrData, {
             errorCorrectionLevel: 'H',
             width: 500,
             margin: 1,
@@ -422,7 +446,7 @@
           }, function(err, url) {
             if (err) {
               console.error(err);
-              statusElement.textContent = 'Erreur de génération';
+              statusElement.textContent = 'Erreur de génération du QR code';
               loadingElement.style.display = 'none';
               return;
             }
@@ -443,19 +467,27 @@
             // Démarrer le compte à rebours
             startCountdown();
           });
-        }, 1500);
+        } catch (error) {
+          console.error('Erreur génération QR:', error);
+          statusElement.textContent = 'Erreur de génération';
+          loadingElement.style.display = 'none';
+        }
       }
       
       // Compte à rebours
       function startCountdown() {
-        let timeLeft = 120; // 2 minutes en secondes
+        clearInterval(countdownInterval);
+        timeLeft = 120;
         
-        const countdownInterval = setInterval(() => {
+        countdownInterval = setInterval(() => {
           if (timeLeft <= 0) {
             clearInterval(countdownInterval);
             countdownElement.textContent = 'QR code expiré!';
-            statusElement.textContent = 'QR code expiré - Veuillez en générer un nouveau';
+            statusElement.textContent = 'QR code expiré - Actualisation en cours...';
             statusElement.style.color = '#ff6b6b';
+            
+            // Régénérer le QR code
+            fetchQRCode();
           } else {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
@@ -465,38 +497,11 @@
         }, 1000);
       }
       
-      // Simuler la connexion après le scan
-      function simulateConnection() {
-        if (statusElement.textContent !== 'En attente de scan...') return;
-        
-        statusElement.textContent = 'Détection du scan...';
-        
-        setTimeout(() => {
-          // 20% de chance que le scan échoue
-          if (Math.random() < 0.2) {
-            statusElement.textContent = 'Échec du scan - Veuillez réessayer';
-            statusElement.style.color = '#ff6b6b';
-          } else {
-            statusElement.textContent = 'Connexion réussie! ✅';
-            statusElement.style.color = '#4cd964';
-            countdownElement.textContent = 'Connexion établie avec succès';
-            
-            // Afficher un message de succès
-            setTimeout(() => {
-              alert('Connexion WhatsApp réussie! Vous pouvez maintenant utiliser PATERSON-MD.');
-            }, 500);
-          }
-        }, 3000); // Simuler un délai de scan
-      }
-      
       // Gestionnaire d'événement pour le bouton de génération
-      generateBtn.addEventListener('click', generateQRCode);
+      generateBtn.addEventListener('click', fetchQRCode);
       
-      // Simuler un scan lorsqu'on clique sur le QR code
-      qrcodeDiv.addEventListener('click', simulateConnection);
-      
-      // Générer le premier QR code au chargement
-      generateQRCode();
+      // Démarrer la récupération du QR code au chargement
+      fetchQRCode();
     });
   </script>
 </body>
