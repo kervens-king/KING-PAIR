@@ -4,140 +4,181 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content=" PAIR CODE">
-  <meta property="og:description" content="Pair-code linker for WhatsApp bot.">
+  <meta property="og:title" content="PATERSON-SESSION HACKER TERMINAL">
+  <meta property="og:description" content="Secure terminal for PATERSON-MD WhatsApp bot pairing.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://github.com/PATERSON-MD/PATERSON-MD">
-  <meta property="og:image" content="https://files.catbox.moe/y65ffs.jpg">
+  <meta property="og:image" content="https://files.catbox.moe/grrevg.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content=" PAIR CODE">
-  <meta name="twitter:description" content="Pair-code linker for  WhatsApp bot.">
-  <meta name="twitter:image" content="https://files.catbox.moe/y65ffs.jpg">
-  <link rel="shortcut icon" href="" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Graduate&display=swap" rel="stylesheet">
+  <meta name="twitter:title" content="PATERSON-SESSION HACKER TERMINAL">
+  <meta name="twitter:description" content="Secure terminal for PATERSON-MD WhatsApp bot pairing.">
+  <meta name="twitter:image" content="https://files.catbox.moe/grrevg.jpg">
+  <link rel="shortcut icon" href="https://files.catbox.moe/usgvo9.jpg" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
     body {
-      background: linear-gradient(to bottom, #a8dff0, #001f33);
+      background-color: #0a0a0a;
+      color: #00ff41;
+      font-family: 'Share Tech Mono', monospace;
       height: 100vh;
       margin: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      color: white;
-      font-family: 'Graduate', sans-serif;
+      position: relative;
     }
 
-    @keyframes snow {
-      0% { transform: translateY(0px); opacity: 1; }
-      100% { transform: translateY(100vh); opacity: 0; }
+    /* Effet de scanline */
+    body::after {
+      content: "";
+    i  position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(transparent 50%, rgba(0, 255, 65, 0.05) 50%);
+      background-size: 100% 4px;
+      z-index: 999;
+      pointer-events: none;
+      opacity: 0.3;
+      animation: scanline 10s linear infinite;
     }
 
-    .snowflake {
+    @keyframes scanline {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 100%; }
+    }
+
+    /* Animation de code qui tombe (style Matrix) */
+    .matrix-rain {
       position: absolute;
-      top: -10px;
-      width: 10px;
-      height: 10px;
-      background: white;
-      border-radius: 50%;
-      opacity: 0.8;
-      animation: snow linear infinite;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
     }
 
-    .snowflake:nth-child(1) { left: 10%; animation-duration: 8s; animation-delay: 0s; }
-    .snowflake:nth-child(2) { left: 20%; animation-duration: 5s; animation-delay: 1s; }
-    .snowflake:nth-child(3) { left: 30%; animation-duration: 6s; animation-delay: 2s; }
-    .snowflake:nth-child(4) { left: 40%; animation-duration: 7s; animation-delay: 3s; }
-    .snowflake:nth-child(5) { left: 50%; animation-duration: 9s; animation-delay: 4s; }
-    .snowflake:nth-child(6) { left: 60%; animation-duration: 5s; animation-delay: 2s; }
-    .snowflake:nth-child(7) { left: 70%; animation-duration: 6s; animation-delay: 1s; }
-    .snowflake:nth-child(8) { left: 80%; animation-duration: 8s; animation-delay: 0s; }
-    .snowflake:nth-child(9) { left: 90%; animation-duration: 7s; animation-delay: 3s; }
-    .snowflake:nth-child(10) { left: 95%; animation-duration: 6s; animation-delay: 4s; }
+    .matrix-column {
+      position: absolute;
+      top: -100px;
+      width: 14px;
+      font-size: 18px;
+      text-align: center;
+      color: #00ff41;
+      animation: matrix-rain 15s infinite linear;
+      opacity: 0.7;
+    }
+
+    @keyframes matrix-rain {
+      0% { transform: translateY(-100px); }
+      100% { transform: translateY(calc(100vh + 100px)); }
+    }
 
     .container {
       text-align: center;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      max-width: 400px;
+      background: rgba(10, 10, 10, 0.8);
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+      max-width: 500px;
       width: 100%;
+      border: 1px solid #00ff41;
+      position: relative;
+      z-index: 1;
+    }
+
+    .container::before {
+      content: ">";
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      color: #00ff41;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
     }
 
     h3 {
       margin-top: 0;
-      opacity: 0;
-      transform: translateY(-100px);
-      animation: slideIn 2s ease-out forwards, fadeIn 2s ease-out forwards;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      text-shadow: 0 0 10px #00ff41;
+      letter-spacing: 2px;
     }
 
-    @keyframes slideIn {
-      to {
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+    .subtitle {
+      color: #00b32c;
+      margin-bottom: 25px;
+      font-size: 1.2rem;
     }
 
     .input-container {
       display: flex;
-      background: #ffffff;
-      border-radius: 1rem;
-      padding: 0.3rem;
-      gap: 0.3rem;
-      max-width: 300px;
+      background: #001a00;
+      border: 1px solid #00ff41;
+      border-radius: 0;
+      padding: 5px;
+      gap: 5px;
+      max-width: 350px;
       width: 100%;
-      margin: 0 auto;
+      margin: 0 auto 20px;
+      box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
     }
 
     .input-container input {
-      border-radius: 0.8rem 0 0 0.8rem;
-      background: #000000;
-      width: 89%;
-      flex-basis: 75%;
-      padding: 1rem;
       border: none;
-      border-left: 2px solid #075e54;
-      color: #ecf0f1;
-      transition: all 0.2s ease-in-out;
+      background: #001a00;
+      width: 70%;
+      padding: 12px;
+      color: #00ff41;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 16px;
+      outline: none;
     }
 
-    .input-container input:focus {
-      border-left: 2px solid #075e54;
-      outline: none;
-      box-shadow: inset 13px 13px 10px #075e54, inset -13px -13px 10px #2c3e50;
+    .input-container input::placeholder {
+      color: #007a29;
     }
 
     .input-container button {
-      flex-basis: 25%;
-      padding: 1rem;
-      background: #25d366;
-      font-weight: 900;
-      letter-spacing: 0.3rem;
+      width: 30%;
+      padding: 12px;
+      background: #001a00;
+      color: #00ff41;
+      border: 1px solid #00ff41;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
       text-transform: uppercase;
-      color: white;
-      border: none;
-      width: 100%;
-      border-radius: 0 1rem 1rem 0;
-      transition: all 0.2s ease-in-out;
+      letter-spacing: 1px;
     }
 
     .input-container button:hover {
-      background: #2980b9;
+      background: #00ff41;
+      color: #001a00;
+      box-shadow: 0 0 15px #00ff41;
     }
 
     #loading-spinner {
       display: none;
-      color: white;
-      margin-top: 10px;
+      color: #00ff41;
+      margin: 15px 0;
     }
 
     .fa-spinner {
@@ -149,57 +190,252 @@
       100% { transform: rotate(360deg); }
     }
 
+    #pair {
+      min-height: 60px;
+      margin: 15px 0;
+      padding: 10px;
+      border: 1px solid #00ff41;
+      background: rgba(0, 26, 0, 0.3);
+    }
+
+    #copy {
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-block;
+      padding: 5px 10px;
+    }
+
+    #copy:hover {
+      background: #00ff41;
+      color: #001a00;
+    }
+
     footer {
       position: fixed;
       bottom: 0;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: #fff;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #00b32c;
       padding: 10px 0;
       text-align: center;
       font-size: 14px;
+      border-top: 1px solid #00ff41;
+      z-index: 1;
+    }
+
+    .typewriter {
+      overflow: hidden;
+      border-right: 2px solid #00ff41;
+      white-space: nowrap;
+      margin: 0 auto;
+      letter-spacing: 2px;
+      animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink-caret {
+      from, to { border-color: transparent; }
+      50% { border-color: #00ff41; }
+    }
+
+    .glitch {
+      position: relative;
+      animation: glitch 5s infinite;
+    }
+
+    @keyframes glitch {
+      0% { text-shadow: 0 0 5px #00ff41; }
+      95% { text-shadow: 0 0 5px #00ff41; }
+      96% { text-shadow: -2px 0 red, 2px 0 blue; transform: translate(2px); }
+      97% { text-shadow: 2px 0 blue, -2px 0 red; transform: translate(-2px); }
+      98% { text-shadow: -2px 0 red, 2px 0 blue; transform: translate(2px); }
+      99% { text-shadow: 2px 0 blue, -2px 0 red; transform: translate(-2px); }
+      100% { text-shadow: 0 0 5px #00ff41; }
+    }
+
+    /* Media controls */
+    .media-controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .media-btn {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid #00ff41;
+      color: #00ff41;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-family: 'Share Tech Mono', monospace;
+      transition: all 0.3s;
+    }
+
+    .media-btn:hover {
+      background: #00ff41;
+      color: #000;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Media containers */
+    #video-container, #image-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 900;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 10px;
+      border: 2px solid #00ff41;
+      max-width: 90%;
+      max-height: 80vh;
+    }
+
+    #media-video, #media-image {
+      max-width: 100%;
+      max-height: 70vh;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      background: #ff0033;
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <!-- Snowflakes -->
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
+  <!-- Audio de fond -->
+  <audio id="bgAudio" loop>
+    <source src="https://files.catbox.moe/vkvci3.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Animation Matrix -->
+  <div class="matrix-rain" id="matrixRain"></div>
+
+  <!-- Contrôles média -->
+  <div class="media-controls">
+    <button class="media-btn" onclick="toggleAudio()" id="audioBtn">🔊 ON</button>
+    <button class="media-btn" onclick="showVideo()">🎥 VIDEO</button>
+    <button class="media-btn" onclick="showImage()">🖼 IMAGE</button>
+  </div>
+
+  <!-- Conteneurs média -->
+  <div id="video-container" class="hidden">
+    <button class="close-btn" onclick="closeMedia()">X</button>
+    <video id="media-video" controls>
+      <source src="https://files.catbox.moe/ygv1dq.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div id="image-container" class="hidden">
+    <button class="close-btn" onclick="closeMedia()">X</button>
+    <img id="media-image" src="https://files.catbox.moe/grrevg.jpg" alt="PATERSON-MD">
+  </div>
 
   <div class="container">
-      
-    <h3>❄️ PATERSON-SESSION 🪀</h3>
+    <h3 class="glitch">PATERSON-SESSION TERMINAL</h3>
     
-    <br>
-    <h3> 𝐑𝐞𝐠𝐚𝐫𝐝𝐬 Kervens 🎗</h3>
+    <div class="subtitle">
+      <div class="typewriter">INITIALIZING SECURE CONNECTION...</div>
+    </div>
     
-    <p>🔢Enter Your WhatsApp Number with Country Code.</p>
+    <p>ENTER WHATSAPP NUMBER WITH COUNTRY CODE</p>
     <br>
     <div class="input-container">
       <input placeholder="509xxxxxx" type="number" id="number" name="">
-      <button id="submit">Code</button>
+      <button id="submit">GENERATE</button>
     </div>
     <div id="loading-spinner">
-      <i class="fas fa-spinner fa-spin"></i>
+      <i class="fas fa-spinner fa-spin"></i> PROCESSING...
     </div>
     <br>
-    <main id="pair"></main>
+    <main id="pair">AWAITING INPUT...</main>
   </div>
 
   <footer>
-    KERVENS AUBOURG &copy <span id="currentYear"></span>
+    KERVENS AUBOURG &copy; <span id="currentYear"></span> | SYSTEM SECURE
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
   <script>
+    // Variables pour le contrôle audio
+    let audioPlaying = false;
+    const bgAudio = document.getElementById('bgAudio');
+    const audioBtn = document.getElementById('audioBtn');
+
+    // Créer l'animation Matrix
+    function createMatrixRain() {
+      const matrixRain = document.getElementById('matrixRain');
+      const characters = '01010101PATERSON1010101010MD10101010';
+      
+      for (let i = 0; i < 50; i++) {
+        const column = document.createElement('div');
+        column.className = 'matrix-column';
+        column.style.left = `${Math.random() * 100}%`;
+        column.style.animationDelay = `${Math.random() * 15}s`;
+        column.style.animationDuration = `${10 + Math.random() * 20}s`;
+        
+        let content = '';
+        for (let j = 0; j < 20; j++) {
+          content += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        
+        column.textContent = content;
+        matrixRain.appendChild(column);
+      }
+    }
+
+    // Contrôle audio
+    function toggleAudio() {
+      if (audioPlaying) {
+        bgAudio.pause();
+        audioBtn.textContent = '🔊 ON';
+      } else {
+        bgAudio.play().catch(e => {
+          console.log("Audio playback failed:", e);
+          alert("Click anywhere on the page to enable audio playback");
+        });
+        audioBtn.textContent = '🔇 OFF';
+      }
+      audioPlaying = !audioPlaying;
+    }
+
+    // Afficher la vidéo
+    function showVideo() {
+      document.getElementById('video-container').classList.remove('hidden');
+      document.getElementById('media-video').play();
+    }
+
+    // Afficher l'image
+    function showImage() {
+      document.getElementById('image-container').classList.remove('hidden');
+    }
+
+    // Fermer les médias
+    function closeMedia() {
+      document.getElementById('video-container').classList.add('hidden');
+      document.getElementById('image-container').classList.add('hidden');
+      document.getElementById('media-video').pause();
+    }
+
+    // Interaction avec le formulaire
     let a = document.getElementById("pair");
     let b = document.getElementById("submit");
     let c = document.getElementById("number");
@@ -207,23 +443,21 @@
     async function Copy() {
       let text = document.getElementById("copy").innerText;
       let obj = document.getElementById("copy");
-      await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
-      obj.innerText = "✔️ COPIED";
-      obj.style = "color:red;font-weight:bold";
-      obj.size = "5";
+      await navigator.clipboard.writeText(obj.innerText.replace('ACCESS_CODE: ', ''));
+      obj.innerText = "✔️ CODE COPIED TO CLIPBOARD";
+      obj.style = "color:#00ff41;font-weight:bold;background:#001a00";
       setTimeout(() => {
         obj.innerText = text;
-        obj.style = "color:white;font-weight-bold";
-        obj.size = "5";
-      }, 500);
+        obj.style = "color:#00ff41;font-weight:bold";
+      }, 1500);
     }
 
     b.addEventListener("click", async (e) => {
       e.preventDefault();
       if (!c.value) {
-        a.innerHTML = '<a style="color:red;font-weight:bold">❗ Enter your WhatsApp number with country code.</a><br><br>';
+        a.innerHTML = '<span style="color:#ff0033;">❗ ERROR: ENTER WHATSAPP NUMBER</span>';
       } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
-        a.innerHTML = '<a style="color:red;font-weight:bold">❗ Invalid number format. Please try again.</a><br><br>';
+        a.innerHTML = '<span style="color:#ff0033;">❗ ERROR: INVALID NUMBER FORMAT</span>';
       } else {
         const bc = c.value.replace(/[^0-9]/g, "");
         let bb = "";
@@ -241,18 +475,32 @@
         });
         c.type = "text";
         c.value = "+" + bb;
-        c.style = "color:white;font-size:20px";
+        c.style = "color:#00ff41;font-size:16px";
         document.getElementById("loading-spinner").style.display = "block";
-        a.innerHTML = '';
-        let { data } = await axios(`/code?number=${bc}`);
-        let code = data.code || "❗ Service Unavailable";
-        a.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">' + code + '</span></font><br><br><br>';
+        a.innerHTML = 'CONNECTING TO SERVER...';
+        
+        try {
+          let { data } = await axios(`/code?number=${bc}`);
+          let code = data.code || "❗ SERVICE UNAVAILABLE";
+          a.innerHTML = '<span id="copy" onclick="Copy()" style="color:#00ff41;font-weight:bold;cursor:pointer;">ACCESS_CODE: <span style="color:#ffffff;">' + code + '</span></span>';
+        } catch (error) {
+          a.innerHTML = '<span style="color:#ff0033;">❗ CONNECTION FAILED</span>';
+        }
+        
         document.getElementById("loading-spinner").style.display = "none";
       }
     });
 
+    // Initialisation
     document.getElementById('currentYear').textContent = new Date().getFullYear();
+    window.addEventListener('load', createMatrixRain);
+    
+    // Activer l'audio au premier clic utilisateur
+    document.body.addEventListener('click', function() {
+      if (!audioPlaying) {
+        toggleAudio();
+      }
+    }, { once: true });
   </script>
 </body>
-  </html>
-  
+</html>
