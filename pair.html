@@ -1,605 +1,242 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
+<!DOCTYPE html><html lang="en"><head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PATERSON-MD WhatsApp Connection</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="shortcut icon" href="https://files.catbox.moe/usgvo9.jpg" type="image/x-icon">
+  <title>PATERSON PAIR CODE</title>
+  <link rel="stylesheet" href="css/all.min.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
     body {
-      font-family: 'Montserrat', sans-serif;
-      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-image: url("https://files.catbox.moe/th4ctx.jpg"); /* Set the background image */
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      color: #fff;
+    }
+
+    .box {
+      width: 300px;
+      height: 330px;
       padding: 20px;
       position: relative;
-      overflow-x: hidden;
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 100%);
-    }
-    
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('https://files.catbox.moe/grrevg.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      z-index: -2;
-      opacity: 0.9;
-    }
-    
-    body::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(106, 17, 203, 0.8) 0%, rgba(37, 117, 252, 0.8) 100%);
-      z-index: -1;
-    }
-    
-    .datetime-container {
-      margin-bottom: 30px;
       text-align: center;
-      background: rgba(255, 255, 255, 0.15);
-      padding: 20px 30px;
-      border-radius: 20px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      width: 100%;
-      max-width: 400px;
-    }
-    
-    #currentDate {
-      font-size: 1.3rem;
-      font-weight: 500;
-      margin-bottom: 10px;
-      font-family: 'Playfair Display', serif;
-    }
-    
-    #currentTime {
-      font-size: 2.5rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-    }
-    
-    .container {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(15px);
-      border-radius: 25px;
-      padding: 40px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-      max-width: 550px;
-      width: 100%;
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      background-color: rgba(255,255,255,0.5);
+      border-radius: 10px;
+      transform: perspective(1000px) rotateY(0deg);
+      box-shadow: none; /* Removed box shadow */
       position: relative;
-      overflow: hidden;
     }
-    
-    .container::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-      transform: rotate(45deg);
-      z-index: 0;
+
+    #text {
+      color: #000; /* Set the text color to black (#000) */
     }
-    
-    .header {
-      text-align: center;
-      margin-bottom: 30px;
-      position: relative;
-      z-index: 1;
+
+    .input-container input {
+      color: #000; /* Set the text color to black (#000) */
     }
-    
-    .logo {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 20px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
-      border: 3px solid rgba(255, 255, 255, 0.3);
-      animation: pulse 3s infinite;
-      overflow: hidden;
+
+    .centered-text {
+      color: #000; /* Set the text color to black (#000) */
     }
-    
-    .logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-    
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.8rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      background: linear-gradient(45deg, #fff, #e0e0e0);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    }
-    
-    .subtitle {
-      font-size: 1.2rem;
-      opacity: 0.9;
-      margin-bottom: 15px;
-      font-weight: 500;
-    }
-    
-    .description {
-      font-size: 1rem;
-      opacity: 0.8;
-      margin-top: 20px;
-      line-height: 1.6;
-    }
-    
+
     .input-container {
       display: flex;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      padding: 8px;
-      margin: 25px 0;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      position: relative;
-      z-index: 1;
-    }
-    
-    .input-container input {
-      flex: 1;
-      border: none;
-      background: transparent;
-      padding: 18px 20px;
-      color: #fff;
-      font-size: 1.1rem;
-      outline: none;
-    }
-    
-    .input-container input::placeholder {
-      color: rgba(255, 255, 255, 0.6);
-    }
-    
-    .input-container button {
-      background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
-      color: white;
-      border: none;
-      padding: 18px 30px;
-      border-radius: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 1.1rem;
-      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .input-container button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
-    }
-    
-    .input-container button:active {
-      transform: translateY(1px);
-    }
-    
-    #loading-spinner {
-      display: none;
-      text-align: center;
-      margin: 25px 0;
-      position: relative;
-      z-index: 1;
-    }
-    
-    .fa-spinner {
-      animation: spin 1.5s linear infinite;
-      font-size: 1.8rem;
-      color: #ffd700;
-    }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    #pair {
-      min-height: 100px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      padding: 25px;
-      margin: 25px 0;
-      text-align: center;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      position: relative;
-      z-index: 1;
-    }
-    
-    .status-container {
-      text-align: center;
-      margin: 25px 0;
-      padding: 20px;
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      position: relative;
-      z-index: 1;
-    }
-    
-    #status {
-      font-weight: 600;
-      font-size: 1.2rem;
-    }
-    
-    .instructions {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      padding: 25px;
-      margin-top: 30px;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      position: relative;
-      z-index: 1;
-    }
-    
-    .instructions h3 {
-      font-size: 1.4rem;
-      margin-bottom: 20px;
-      text-align: center;
-      font-family: 'Playfair Display', serif;
-    }
-    
-    .step {
-      display: flex;
-      margin-bottom: 20px;
-      align-items: flex-start;
-    }
-    
-    .step-number {
-      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-      color: white;
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: bold;
-      margin-right: 15px;
-      flex-shrink: 0;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-    
-    .step-content {
-      flex: 1;
-    }
-    
-    .step-title {
-      font-weight: 600;
-      margin-bottom: 5px;
-      font-size: 1.1rem;
-    }
-    
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 1rem;
-      opacity: 0.9;
-      position: relative;
-      z-index: 1;
+      background: white;
+      border-radius: 1rem;
+      background: linear-gradient(45deg, #c5c5c5 0%, #ffffff 100%);
+      padding: 0.3rem;
+      gap: 0.3rem;
+      max-width: 300px; /* Set your desired maximum width */
       width: 100%;
     }
-    
-    .media-controls {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      gap: 10px;
-      z-index: 1000;
+
+    .input-container input {
+      border-radius: 0.8rem 0 0 0.8rem;
+      background: #e8e8e8;
+      width: 89%;
+      flex-basis: 75%;
+      padding: 1rem;
+      border: none;
+      border-left: 2px solid #ff9d9d;
+      color: #5e5e5e;
+      transition: all 0.2s ease-in-out;
     }
-    
-    .media-btn {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+    .input-container input:focus {
+      border-left: 2px solid #ff9d9d;
+      outline: none;
     }
-    
-    .media-btn:hover {
-      background: rgba(255, 255, 255, 0.25);
-      transform: translateY(-3px);
+
+    .input-container button {
+      flex-basis: 25%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #8a2be2 0%, #800080 100%); /* Purple background */
+      font-weight: 900;
+      letter-spacing: 0.3rem;
+      text-transform: uppercase;
+      color: white;
+      border: none;
+      width: 100%;
+      border-radius: 0 1rem 1rem 0;
+      transition: all 0.2s ease-in-out;
     }
-    
-    @media (max-width: 768px) {
-      .container {
-        padding: 30px;
-      }
-      
-      h1 {
-        font-size: 2.2rem;
-      }
-      
+
+    .input-container button:hover {
+      background: linear-gradient(135deg, #A8E4A0 0%, #32CD32 100%);
+      color: red; /* Change text color on hover to red */
+    }
+
+    @media (max-width: 500px) {
       .input-container {
         flex-direction: column;
       }
-      
+
       .input-container input {
-        margin-bottom: 10px;
-        text-align: center;
+        border-radius: 0.8rem;
       }
-      
+
       .input-container button {
-        width: 100%;
-        justify-content: center;
-      }
-      
-      .datetime-container {
-        padding: 15px 20px;
-      }
-      
-      #currentTime {
-        font-size: 2rem;
+        padding: 1rem;
+        border-radius: 0.8rem;
       }
     }
+
+    .centered-text {
+      text-align: center;
+    }
+    
+    /* Glowing Text */
+    .glowing-text {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 
+        0 0 5px #FF0000, 
+        0 0 10px #FF0000, 
+        0 0 15px #FF4500, 
+        0 0 20px #FF4500, 
+        0 0 25px #FF6347, 
+        0 0 30px #FF6347;
+      animation: glow 2s infinite;
+    }
+
+    @keyframes glow {
+      0% {
+        text-shadow: 
+          0 0 5px #FF0000, 
+          0 0 10px #FF0000, 
+          0 0 15px #FF4500, 
+          0 0 20px #FF4500, 
+          0 0 25px #FF6347, 
+          0 0 30px #FF6347;
+      }
+      50% {
+        text-shadow: 
+          0 0 5px #32CD32, 
+          0 0 10px #32CD32, 
+          0 0 15px #32CD32, 
+          0 0 20px #7CFC00, 
+          0 0 25px #ADFF2F, 
+          0 0 30px #ADFF2F;
+      }
+      100% {
+        text-shadow: 
+          0 0 5px #1E90FF, 
+          0 0 10px #1E90FF, 
+          0 0 15px #00BFFF, 
+          0 0 20px #00BFFF, 
+          0 0 25px #87CEFA, 
+          0 0 30px #87CEFA;
+      }
+    }    
+ 
   </style>
 </head>
 <body>
-  <!-- Audio de fond -->
-  <audio id="bgAudio" loop>
-    <source src="https://files.catbox.moe/vkvci3.mp3" type="audio/mpeg">
-  </audio>
-
-  <div class="datetime-container">
-    <div id="currentDate">Chargement...</div>
-    <div id="currentTime">--:--:--</div>
-  </div>
-
   <div class="container">
-    <div class="header">
-      <div class="logo">
-        <img src="https://files.catbox.moe/usgvo9.jpg" alt="PATERSON-MD Logo">
-      </div>
-      <h1>PATERSON-MD</h1>
-      <div class="subtitle">WhatsApp Connection Portal</div>
-      <div class="description">Connect your WhatsApp account to access the powerful features of PATERSON-MD</div>
-    </div>
-    
-    <div class="input-container">
-      <input placeholder="Enter your WhatsApp number with country code" type="number" id="number" name="">
-      <button id="submit">
-        <i class="fas fa-key"></i> GENERATE CODE
-      </button>
-    </div>
-    
-    <div id="loading-spinner">
-      <i class="fas fa-spinner fa-spin"></i>
-      <div>Processing your request...</div>
-    </div>
-    
-    <div class="status-container">
-      <p>Connection Status:</p>
-      <p id="status">Waiting for input</p>
-    </div>
-    
-    <main id="pair"></main>
-    
-    <div class="instructions">
-      <h3>How to Connect Your WhatsApp</h3>
-      <div class="step">
-        <div class="step-number">1</div>
-        <div class="step-content">
-          <div class="step-title">Open WhatsApp on Your Phone</div>
-          <p>Launch the WhatsApp application on your mobile device</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-number">2</div>
-        <div class="step-content">
-          <div class="step-title">Go to Linked Devices</div>
-          <p>Tap on the three dots (⋮) → Linked devices</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-number">3</div>
-        <div class="step-content">
-          <div class="step-title">Link a Device</div>
-          <p>Select "Link a device" and enter the code generated above</p>
+    <div class="main">
+      <div class="box" id="box">
+        <div id="text">
+          <i class="fa fa-user"></i>
+          <p>
+            <h2 class="centered-text">PATERSON PAIR</h2>           
+            <h6>⚙Enter your number with country code.⚙</h6>
+            <div class="input-container">
+              <input placeholder="2637147XX" type="number" id="number" placeholder="⚙enter your phone number with country code⚙" name="">
+              <button id="submit">enter</button>
+            </div>
+           
+            <a id="waiting-message" class="centered-text" style="display: none;">in process...</a>
+            <br>
+            <br>
+            <main id="pair"></main>
+          <p></p>
         </div>
       </div>
     </div>
+    <div class="glowing-text">Powered By Kervens king</div>
   </div>
-
-  <footer>
-    <p>Created with ❤️ by Kervens Aubourg &copy; <span id="currentYear"></span></p>
-    <p>PATERSON-MD WhatsApp Bot Solution</p>
-  </footer>
-
-  <!-- Contrôles média -->
-  <div class="media-controls">
-    <button class="media-btn" onclick="toggleAudio()" id="audioBtn">
-      <i class="fas fa-volume-up"></i>
-    </button>
-  </div>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
   <script>
-    // Variables pour le contrôle audio
-    let audioPlaying = false;
-    const bgAudio = document.getElementById('bgAudio');
-    const audioBtn = document.getElementById('audioBtn');
-
-    // Mise à jour de la date et l'heure
-    function updateDateTime() {
-      const now = new Date();
-      
-      // Formater la date
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      const dateString = now.toLocaleDateString('en-US', options);
-      
-      // Formater l'heure
-      const timeString = now.toLocaleTimeString('en-US', { 
-        hour: '2-digit', 
-        minute: '2-digit', 
-        second: '2-digit',
-        hour12: true 
-      });
-      
-      document.getElementById('currentDate').textContent = dateString;
-      document.getElementById('currentTime').textContent = timeString;
-    }
-    
-    // Mettre à jour immédiatement et ensuite toutes les secondes
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
-    
-    // Définir l'année en cours dans le footer
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-    
-    // Contrôle audio
-    function toggleAudio() {
-      if (audioPlaying) {
-        bgAudio.pause();
-        audioBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-      } else {
-        bgAudio.play().catch(e => {
-          console.log("Audio playback failed:", e);
-        });
-        audioBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-      }
-      audioPlaying = !audioPlaying;
-    }
-    
-    // Activer l'audio au premier clic utilisateur
-    document.body.addEventListener('click', function() {
-      if (!audioPlaying) {
-        toggleAudio();
-      }
-    }, { once: true });
-    
-    // Gestion de la soumission du formulaire
     let a = document.getElementById("pair");
     let b = document.getElementById("submit");
     let c = document.getElementById("number");
-    let statusElement = document.getElementById("status");
+    let box = document.getElementById("box");
 
     async function Copy() {
       let text = document.getElementById("copy").innerText;
       let obj = document.getElementById("copy");
       await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
-      obj.innerText = "✔️ COPIED!";
-      obj.style = "color:#4cd964;font-weight:bold";
+      obj.innerText = "COPIED";
+      obj.style = "color:blue;font-weight:bold";
+      obj.size = "5";
       setTimeout(() => {
         obj.innerText = text;
-        obj.style = "color:#007bff;font-weight:bold";
-      }, 2000);
+        obj.style = "color:black;font-weight-bold";
+        obj.size = "5";
+      }, 500);
     }
 
     b.addEventListener("click", async (e) => {
       e.preventDefault();
       if (!c.value) {
-        statusElement.textContent = "Please enter a WhatsApp number";
-        statusElement.style.color = "#ff6b6b";
-        return;
+        a.innerHTML = '<a style="color:black;font-weight:bold">❗Enter your whatsapp number with country code.</a><br><br>';
+      } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
+        a.innerHTML = '<a style="color:black;font-weight:bold">❌Invalid number format❌</a><br><br>';
+      } else {
+        const bc = c.value.replace(/[^0-9]/g, "");
+        let bb = "";
+        let bbc = "";
+        const cc = bc.split('');
+        cc.map(a => {
+          bbc += a;
+          if (bbc.length == 3) {
+            bb += " " + a;
+          } else if (bbc.length == 8) {
+            bb += " " + a;
+          } else {
+            bb += a;
+          }
+        });
+        c.type = "text";
+        c.value = "+" + bb;
+        c.style = "color:black;font-size:20px";
+        a.innerHTML = '<a style="color:black;font-weight:bold">Please wait🔎 </a><br><br>';
+        let { data } = await axios(`/code?number=${bc}`);
+        let code = data.code || "Service Unavailable";
+        a.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:black;font-weight:bold">' + code + '</span></font><br><br><br>';
       }
-      
-      if (c.value.replace(/[^0-9]/g, "").length < 11) {
-        statusElement.textContent = "Invalid number format";
-        statusElement.style.color = "#ff6b6b";
-        return;
-      }
-      
-      const bc = c.value.replace(/[^0-9]/g, "");
-      let formattedNumber = "";
-      let temp = "";
-      
-      for (let i = 0; i < bc.length; i++) {
-        temp += bc[i];
-        if (temp.length === 3) {
-          formattedNumber += " " + bc[i];
-        } else if (temp.length === 8) {
-          formattedNumber += " " + bc[i];
-        } else {
-          formattedNumber += bc[i];
-        }
-      }
-      
-      c.type = "text";
-      c.value = "+" + formattedNumber;
-      document.getElementById("loading-spinner").style.display = "block";
-      statusElement.textContent = "Connecting to server...";
-      statusElement.style.color = "#ffd700";
-      a.innerHTML = '';
-      
-      try {
-        // Utiliser /paterson au lieu de /code
-        let { data } = await axios.get(`/paterson?number=${bc}`);
-        let code = data.code || "Service unavailable";
-        
-        a.innerHTML = `
-          <div style="text-align: center;">
-            <p style="margin-bottom: 15px; font-weight: 500; font-size: 1.2rem;">Your pairing code:</p>
-            <span id="copy" onclick="Copy()" style="color:#007bff;font-weight:bold;cursor:pointer;font-size:1.6rem;padding:15px 25px;background:rgba(255,255,255,0.1);border-radius:12px;display:inline-block;border:2px solid rgba(255,255,255,0.2);">
-              ${code}
-            </span>
-            <p style="margin-top: 15px; font-size: 1rem;">Click the code to copy it</p>
-          </div>
-        `;
-        
-        statusElement.textContent = "Connection successful!";
-        statusElement.style.color = "#4cd964";
-      } catch (error) {
-        console.error("Connection error:", error);
-        a.innerHTML = '<div style="color:#ff6b6b;text-align:center;font-size:1.1rem;">Connection failed. Please try again.</div>';
-        statusElement.textContent = "Connection failed";
-        statusElement.style.color = "#ff6b6b";
-      }
-      
-      document.getElementById("loading-spinner").style.display = "none";
     });
   </script>
 </body>
-  </html>
+</html>
