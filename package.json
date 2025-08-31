@@ -1,33 +1,20 @@
 {
   "name": "paterson-md",
   "version": "1.0.0",
-  "description": "PATERSON-MD WhatsApp Bot",
-  "main": "./kervens.js",
-  "type": "commonjs",
-  "engines": {
-    "node": ">=20.0.0"
-  },
+  "description": "WhatsApp Bot Solution",
+  "main": "server.js",
   "scripts": {
-    "start": "node kervens.js",
-    "pm2-start": "pm2 start kervens.js --name paterson-md",
-    "pm2-stop": "pm2 stop paterson-md",
-    "pm2-restart": "pm2 restart paterson-md",
-    "dev": "node kervens.js --trace-warnings"
+    "start": "node server.js",
+    "dev": "NODE_ENV=development node server.js"
   },
-  "author": "Kervens Aubourg",
-  "license": "GPL-3.0",
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.6.7",
-    "awesome-phonenumber": "^2.64.0",
-    "body-parser": "^1.20.1",
-    "express": "^4.18.1",
-    "megajs": "^1.1.0",
-    "path": "^0.12.7",
-    "phone": "^3.1.30",
-    "pino": "^8.1.0",
-    "qrcode": "^1.5.3"
+    "@whiskeysockets/baileys": "^6.2.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "pino": "^8.16.0",
+    "pino-pretty": "^10.2.3"
   },
-  "devDependencies": {
-    "pm2": "^5.2.0"
+  "engines": {
+    "node": ">=18.x"
   }
 }
