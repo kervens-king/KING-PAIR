@@ -1,19 +1,29 @@
-### DEPLOYMENT
+const express = require('express');
+const app = express();
+__path = process.cwd()
+const bodyParser = require("body-parser");
+const PORT = process.env.PORT || 8000;
+let server = require('./qr'),
+    code = require('./pair');
+require('events').EventEmitter.defaultMaxListeners = 500;
+app.use('/server', server);
+app.use('/code', code);
+app.use('/pair',async (req, res, next) => {
+res.sendFile(__path + '/pair.html')
+})
+app.use('/qr',async (req, res, next) => {
+res.sendFile(__path + '/qr.html')
+})
+app.use('/',async (req, res, next) => {
+res.sendFile(__path + '/main.html')
+})
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.listen(PORT, () => {
+    console.log(`
+Don't Forgot To Give Star PATERSON-MD
 
-<a href='https://dashboard.heroku.com/new?template=https://github.com/PATERSON-MD/PATERSON-MD' target="_blank">
-  <img alt='HEROKU DEPLOY' src='https://img.shields.io/badge/-HEROKU_DEPLOY-black?style=for-the-badge&logo=heroku&logoColor=white'/>
-</a>
-<br>
-<a href='https://render.com/deploy?repo=https://github.com/PATERSON-MD/PATERSON-MD' target="_blank">
-  <img alt='DEPLOY TO RENDER' src='https://img.shields.io/badge/-DEPLOY_TO_RENDER-black?style=for-the-badge&logo=render&logoColor=white'/>
-</a>
-<br>
-<a href='https://app.koyeb.com/deploy?type=git&repository=https://github.com/PATERSON-MD/PATERSON-MD' target="_blank">
-  <img alt='DEPLOY TO KOYEB' src='https://img.shields.io/badge/-DEPLOY_TO_KOYEB-black?style=for-the-badge&logo=koyeb&logoColor=white'/>
-</a>
+ Server running on http://localhost:` + PORT)
+})
 
-# `Owner`
-
-<a href="https://github.com/PATERSON-MD">
-  <img src="https://github.com/PATERSON-MD.png" width="250" height="250" alt="PATERSON-MD"/>
-</a>
+module.exports = app
