@@ -10,15 +10,18 @@ RUN apt-get update && \
   
 WORKDIR /usr/src/app
 
-COPY package.json .
+# Copier les fichiers de dépendances d'abord
+COPY package.json package-lock.json* ./
 
-RUN npm install && npm install -g qrcode-terminal pm2
+# Installer les dépendances (incluant maintenant qrcode)
+RUN npm install
 
+# Installer les packages globaux
+RUN npm install -g qrcode-terminal pm2
+
+# Copier le reste de l'application
 COPY . .
 
-# Ajoutez cette ligne pour vérifier si le fichier existe
-RUN ls -la routes/ || echo "Dossier routes/ non trouvé"
-
-EXPOSE 5000
+EXPOSE 10000
 
 CMD ["npm", "start"]
