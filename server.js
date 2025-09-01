@@ -17,6 +17,10 @@ try {
     const dotenv = require('dotenv');
     console.log('✅ Dotenv chargé');
     
+    // ⭐ AJOUTEZ CET IMPORT ⭐
+    const { makeid, makePatersonId, displayPatersonInfo } = require('./gen-id');
+    console.log('✅ Gen-ID chargé');
+    
     const app = express();
     console.log('✅ Application Express créée');
 
@@ -81,8 +85,15 @@ try {
     // Démarrer le serveur
     const PORT = process.env.PORT || 10000;
     app.listen(PORT, () => {
+        // ⭐ AJOUTEZ L'AFFICHAGE DES INFOS PATERSON ⭐
+        displayPatersonInfo();
+        
         console.log(`✅ Serveur démarré sur le port ${PORT}`);
         logger.info(`Serveur démarré sur le port ${PORT}`);
+        
+        // ⭐ EXEMPLE D'UTILISATION DES FONCTIONS ⭐
+        const sessionId = makePatersonId(8);
+        console.log(`🎯 Session ID généré: ${sessionId}`);
         
         // Nettoyer les anciennes sessions
         cleanupOldSessions();
