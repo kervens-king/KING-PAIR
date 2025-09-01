@@ -1,58 +1,108 @@
-const express = require('express');
-const app = express();
-const path = require('path');
-const fs = require('fs'); // ← AJOUTEZ CETTE LIGNE
-const logger = require('./logger');
+console.log('🚀 Démarrage de PATERSON-MD...');
+console.log('📦 Chargement des modules...');
 
-// Charger les variables d'environnement
-require('dotenv').config();
+try {
+    const express = require('express');
+    console.log('✅ Express chargé');
+    
+    const path = require('path');
+    console.log('✅ Path chargé');
+    
+    const fs = require('fs');
+    console.log('✅ FS chargé');
+    
+    const logger = require('./logger');
+    console.log('✅ Logger chargé');
+    
+    const dotenv = require('dotenv');
+    console.log('✅ Dotenv chargé');
+    
+    const app = express();
+    console.log('✅ Application Express créée');
 
-// Routes
-const pairRouter = require('./routes/pair');
-const qrRouter = require('./routes/qr');
-const mainRouter = require('./routes/main');
+    // Charger les variables d'environnement
+    dotenv.config();
+    console.log('✅ Variables d\'environnement chargées');
 
-// Middleware
-app.use(express.json());
-app.use(express.static('public'));
-app.use(logger);
+    // Routes
+    console.log('🔄 Chargement des routes...');
+    const pairRouter = require('./routes/pair');
+    console.log('✅ Routes pair chargées');
+    
+    const qrRouter = require('./routes/qr');
+    console.log('✅ Routes QR chargées');
+    
+    const mainRouter = require('./routes/main');
+    console.log('✅ Routes main chargées');
 
-// Routes
-app.use('/pair', pairRouter);
-app.use('/qr', qrRouter);
-app.use('/', mainRouter);
+    // Middleware
+    console.log('🔄 Configuration des middlewares...');
+    app.use(express.json());
+    app.use(express.static('public'));
+    app.use(logger);
+    console.log('✅ Middlewares configurés');
 
-// Gestion des erreurs
-app.use((err, req, res, next) => {
-  logger.error(err.stack);
-  res.status(500).send('Erreur serveur!');
-});
+    // Routes
+    app.use('/pair', pairRouter);
+    app.use('/qr', qrRouter);
+    app.use('/', mainRouter);
+    console.log('✅ Routes attachées');
 
-// Nettoyage au démarrage
-function cleanupOldSessions() {
-  const tempDir = path.join(__dirname, 'temp');
-  if (fs.existsSync(tempDir)) {
-    fs.readdirSync(tempDir).forEach(file => {
-      const filePath = path.join(tempDir, file);
-      const stat = fs.statSync(filePath);
-      
-      // Supprimer les sessions vieilles de plus d'1 heure
-      if (stat.isDirectory() && (Date.now() - stat.mtimeMs) > 3600000) {
-        fs.rmSync(filePath, { recursive: true, force: true });
-        logger.info(`Session ancienne supprimée: ${file}`);
-      }
+    // Gestion des erreurs
+    app.use((err, req, res, next) => {
+        logger.error(err.stack);
+        res.status(500).send('Erreur serveur!');
     });
-  }
+
+    // Nettoyage au démarrage
+    function cleanupOldSessions() {
+        console.log('🧹 Nettoyage des sessions...');
+        const tempDir = path.join(__dirname, 'temp');
+        if (fs.existsSync(tempDir)) {
+            fs.readdirSync(tempDir).forEach(file => {
+                const filePath = path.join(tempDir, file);
+                const stat = fs.statSync(filePath);
+                
+                // Supprimer les sessions vieilles de plus d'1 heure
+                if (stat.isDirectory() && (Date.now() - stat.mtimeMs) > 3600000) {
+                    fs.rmSync(filePath, { recursive: true, force: true });
+                    logger.info(`Session ancienne supprimée: ${file}`);
+                }
+            });
+        }
+    }
+
+    // Démarrer le serveur
+    const PORT = process.env.PORT || 10000;
+    app.listen(PORT, () => {
+        console.log(`✅ Serveur démarré sur le port ${PORT}`);
+        logger.info(`Serveur démarré sur le port ${PORT}`);
+        
+        // Nettoyer les anciennes sessions
+        cleanupOldSessions();
+        
+        // Planifier le nettoyage régulier
+        setInterval(cleanupOldSessions, 3600000); // Toutes les heures
+    });
+
+} catch (error) {
+    console.error('❌ ERREUR CRITIQUE:', error.message);
+    console.error('Stack:', error.stack);
+    process.exit(1);
 }
 
-// Démarrer le serveur
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  logger.info(`Serveur démarré sur le port ${PORT}`);
-  
-  // Nettoyer les anciennes sessions
-  cleanupOldSessions();
-  
-  // Planifier le nettoyage régulier
-  setInterval(cleanupOldSessions, 3600000); // Toutes les heures
+// Gestion propre de l'arrêt
+process.on('SIGINT', () => {
+    console.log('\n🛑 Arrêt du serveur...');
+    process.exit(0);
+});
+
+process.on('uncaughtException', (error) => {
+    console.error('❌ Exception non capturée:', error);
+    process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('❌ Rejet non géré:', reason);
+    process.exit(1);
 });
