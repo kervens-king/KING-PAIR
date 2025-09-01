@@ -1,557 +1,632 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion WhatsApp - QR Code</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            padding: 20px;
-            overflow-x: hidden;
-            position: relative;
-        }
-        
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(255,255,255,0.1) 0%, transparent 20%);
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 900px;
-            background: rgba(10, 15, 35, 0.85);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            position: relative;
-            z-index: 10;
-        }
-        
-        .header {
-            background: linear-gradient(90deg, #0f1b5f, #b21f1f);
-            padding: 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 40%);
-        }
-        
-        .logo {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-            color: #ffd700;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-        }
-        
-        h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .subtitle {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            margin-top: 10px;
-            max-width: 700px;
-            margin: 10px auto 0;
-            color: #e0e0ff;
-        }
-        
-        .content {
-            display: flex;
-            flex-wrap: wrap;
-            padding: 30px;
-            gap: 30px;
-        }
-        
-        .qr-panel {
-            flex: 1;
-            min-width: 300px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-        
-        .instructions-panel {
-            flex: 1;
-            min-width: 300px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            padding: 25px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-        
-        .panel-title {
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            color: #ffd700;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
-        }
-        
-        .panel-title i {
-            font-size: 2rem;
-        }
-        
-        .qr-container {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            padding: 15px 0;
-        }
-        
-        #qrcode {
-            width: 280px;
-            height: 280px;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            margin: 10px 0;
-        }
-        
-        #qrcode img {
-            max-width: 100%;
-            max-height: 100%;
-            border-radius: 8px;
-        }
-        
-        .countdown {
-            font-size: 1.7rem;
-            font-weight: bold;
-            color: #ffd700;
-            text-align: center;
-            margin: 15px 0;
-            padding: 10px 20px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 215, 0, 0.3);
-        }
-        
-        .btn {
-            background: linear-gradient(90deg, #1e3799, #0c2461);
-            color: white;
-            border: none;
-            padding: 16px 35px;
-            border-radius: 12px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 1px;
-            box-shadow: 0 6px 20px rgba(28, 55, 153, 0.5);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            margin-top: 15px;
-        }
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            background: linear-gradient(90deg, #0c2461, #1e3799);
-            box-shadow: 0 8px 25px rgba(28, 55, 153, 0.7);
-        }
-        
-        .btn:active {
-            transform: translateY(1px);
-        }
-        
-        .status-container {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            font-size: 1.2rem;
-            background: rgba(0, 0, 0, 0.4);
-            border: 2px dashed rgba(255, 215, 0, 0.3);
-            width: 100%;
-        }
-        
-        #status {
-            font-weight: bold;
-            color: #ffd700;
-            margin-top: 10px;
-            font-size: 1.4rem;
-        }
-        
-        .loading {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            min-height: 280px;
-        }
-        
-        .spinner {
-            width: 70px;
-            height: 70px;
-            border: 8px solid rgba(255, 215, 0, 0.2);
-            border-top: 8px solid #ffd700;
-            border-radius: 50%;
-            animation: spin 1.5s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .step {
-            display: flex;
-            margin-bottom: 25px;
-            align-items: flex-start;
-        }
-        
-        .step-number {
-            background: #ffd700;
-            color: #0c2461;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: 1.4rem;
-            margin-right: 20px;
-            flex-shrink: 0;
-        }
-        
-        .step-content {
-            flex: 1;
-        }
-        
-        .step-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #ffd700;
-            font-size: 1.3rem;
-        }
-        
-        .step-description {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #e0e0ff;
-        }
-        
-        .warning-box {
-            margin-top: 30px;
-            padding: 20px;
-            border-radius: 15px;
-            background: rgba(210, 16, 52, 0.25);
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            font-size: 1.1rem;
-        }
-        
-        .warning-box i {
-            color: #ffd700;
-            margin-right: 10px;
-            font-size: 1.3rem;
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 25px;
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.8);
-            border-top: 2px solid rgba(255, 255, 255, 0.15);
-            background: rgba(0, 0, 0, 0.3);
-        }
-        
-        @media (max-width: 768px) {
-            .content {
-                flex-direction: column;
-            }
-            
-            .header {
-                padding: 25px 20px;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .panel-title {
-                font-size: 1.6rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PATERSON-MD | QR Code Glacé</title>
+  <link rel="shortcut icon" href="https://files.catbox.moe/usgvo9.jpg" type="image/x-icon">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      color: #e6e6e6;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(41, 128, 185, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(52, 152, 219, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .container {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+      background: rgba(15, 15, 25, 0.95);
+      border-radius: 20px;
+      box-shadow: 
+        0 0 50px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      max-width: 500px;
+      width: 95%;
+      margin: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+      transform: rotate(45deg);
+      animation: shine 6s infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: rotate(45deg) translateX(-100%); }
+      100% { transform: rotate(45deg) translateX(100%); }
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 
+        0 0 30px rgba(52, 152, 219, 0.4),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(0.3) contrast(1.1);
+    }
+
+    .logo::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(52, 152, 219, 0.2), rgba(41, 128, 185, 0.1));
+      border-radius: 50%;
+    }
+
+    .welcome-message {
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .welcome-title {
+      font-size: 2.2rem;
+      font-weight: 300;
+      margin-bottom: 10px;
+      background: linear-gradient(45deg, #3498db, #2c3e50, #95a5a6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 10px rgba(52, 152, 219, 0.3);
+      letter-spacing: 1.5px;
+    }
+
+    .welcome-subtitle {
+      color: #bdc3c7;
+      font-size: 1.1rem;
+      font-weight: 300;
+      line-height: 1.6;
+      max-width: 400px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .qr-container {
+      width: 100%;
+      margin-bottom: 25px;
+    }
+
+    .qr-display {
+      width: 250px;
+      height: 250px;
+      margin: 0 auto;
+      background: white;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(52, 152, 219, 0.6);
+      border: 3px solid rgba(52, 152, 219, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-display img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 8px;
+    }
+
+    .qr-placeholder {
+      color: #7f8c8d;
+      font-size: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 15px;
+    }
+
+    .qr-icon {
+      font-size: 3rem;
+      opacity: 0.7;
+    }
+
+    .countdown {
+      font-size: 1.3rem;
+      color: #3498db;
+      font-weight: bold;
+      margin: 15px 0;
+      text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+    }
+
+    .btn-glacial {
+      background: linear-gradient(135deg, #2980b9, #2c3e50);
+      color: white;
+      border: none;
+      padding: 16px 30px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      letter-spacing: 1px;
+      box-shadow: 0 5px 25px rgba(41, 128, 185, 0.6);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-glacial:hover {
+      transform: translateY(-3px);
+      background: linear-gradient(135deg, #3498db, #34495e);
+      box-shadow: 0 8px 30px rgba(41, 128, 185, 0.8);
+    }
+
+    .btn-glacial:active {
+      transform: translateY(1px);
+    }
+
+    .btn-glacial:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .status-container {
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(41, 128, 185, 0.1);
+      border-radius: 12px;
+      border: 1px solid rgba(41, 128, 185, 0.3);
+      width: 100%;
+    }
+
+    .status-title {
+      color: #3498db;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .status-message {
+      color: #bdc3c7;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .instructions {
+      margin: 25px 0;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: left;
+    }
+
+    .instructions-title {
+      color: #3498db;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .step {
+      display: flex;
+      margin-bottom: 15px;
+      align-items: flex-start;
+    }
+
+    .step-number {
+      background: #3498db;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 15px;
+      flex-shrink: 0;
+      font-size: 0.9rem;
+    }
+
+    .step-content {
+      flex: 1;
+      color: #bdc3c7;
+      line-height: 1.5;
+    }
+
+    .loading {
+      display: none;
+      margin: 20px 0;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      color: #3498db;
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+
+    .back-button {
+      margin-top: 20px;
+      color: #3498db;
+      text-decoration: none;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      color: #2980b9;
+      transform: translateX(-5px);
+    }
+
+    footer {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      color: #7f8c8d;
+      font-weight: 300;
+      text-align: center;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .version-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(149, 165, 166, 0.2), rgba(127, 140, 141, 0.1));
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-top: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #bdc3c7;
+    }
+
+    /* Effet de particules glacées */
+    .snowflakes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .snowflake {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      opacity: 0;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+        margin: 15px;
+      }
+      
+      .welcome-title {
+        font-size: 1.8rem;
+      }
+      
+      .welcome-subtitle {
+        font-size: 1rem;
+      }
+      
+      .logo {
+        width: 80px;
+        height: 80px;
+      }
+      
+      .qr-display {
+        width: 200px;
+        height: 200px;
+      }
+      
+      .btn-glacial {
+        padding: 14px 25px;
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">
-                <i class="fas fa-qrcode"></i>
-            </div>
-            <h1>CONNEXION WHATSAPP</h1>
-            <div class="subtitle">
-                Scannez le QR Code ci-dessous pour connecter votre compte WhatsApp à votre bot
-            </div>
-        </div>
-        
-        <div class="content">
-            <div class="qr-panel">
-                <h2 class="panel-title"><i class="fas fa-mobile-alt"></i> Scanner le QR Code</h2>
-                
-                <div class="qr-container">
-                    <div class="loading" id="loading">
-                        <div class="spinner"></div>
-                        <p>Création du QR Code en cours...</p>
-                    </div>
-                    <div id="qrcode"></div>
-                    
-                    <div class="countdown" id="countdown">Expiration: 02:00</div>
-                    
-                    <button class="btn" id="generateBtn">
-                        <i class="fas fa-sync-alt"></i> Générer un Nouveau QR Code
-                    </button>
-                    
-                    <div class="status-container">
-                        <p>Statut de connexion:</p>
-                        <p id="status">En attente de scan...</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="instructions-panel">
-                <h2 class="panel-title"><i class="fas fa-info-circle"></i> Instructions</h2>
-                
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <div class="step-title">Ouvrez WhatsApp sur votre téléphone</div>
-                        <div class="step-description">
-                            Assurez-vous d'utiliser la version la plus récente de l'application WhatsApp.
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <div class="step-title">Accédez aux appareils connectés</div>
-                        <div class="step-description">
-                            Allez dans Paramètres → Appareils connectés → Appuyez sur "Lier un appareil".
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <div class="step-title">Scannez le QR Code</div>
-                        <div class="step-description">
-                            Pointez la caméra de votre téléphone vers le QR Code affiché à gauche.
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <div class="step-title">Attendez la confirmation</div>
-                        <div class="step-description">
-                            Une fois le scan réussi, le statut deviendra "Connecté".
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">5</div>
-                    <div class="step-content">
-                        <div class="step-title">Commencez à utiliser le bot</div>
-                        <div class="step-description">
-                            Envoyez des commandes comme /menu pour voir les fonctionnalités disponibles.
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="warning-box">
-                    <p><i class="fas fa-exclamation-triangle"></i> Le QR Code expire après 2 minutes. Si vous n'arrivez pas à scanner à temps, générez-en un nouveau.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <p>PATERSON-SESSION &copy; <span id="currentYear"></span> | Développé par Kervens</p>
-            <p>Connexion sécurisée WhatsApp | v2.0</p>
-        </div>
+  <!-- Effet de neige / particules glacées -->
+  <div class="snowflakes" id="snowflakes"></div>
+
+  <div class="container">
+    <div class="logo">
+      <img src="https://files.catbox.moe/usgvo9.jpg" alt="PATERSON-MD Logo">
+    </div>
+    
+    <div class="welcome-message">
+      <h1 class="welcome-title">QR CODE GLACÉ</h1>
+      <p class="welcome-subtitle">
+        Scannez ce QR code élégant pour connecter votre WhatsApp 
+        à l'univers glacé de PATERSON-MD
+      </p>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const qrcodeDiv = document.getElementById('qrcode');
-            const generateBtn = document.getElementById('generateBtn');
-            const statusElement = document.getElementById('status');
-            const countdownElement = document.getElementById('countdown');
-            const loadingElement = document.getElementById('loading');
-            
-            // Set current year in footer
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
-            
-            // Fonction pour générer un QR code
-            function generateQRCode() {
-                // Masquer le QR code précédent et afficher le loader
-                qrcodeDiv.innerHTML = '';
-                loadingElement.style.display = 'flex';
-                statusElement.textContent = 'Génération en cours...';
-                statusElement.style.color = '#ffd700';
-                
-                // Simuler un délai de génération
-                setTimeout(() => {
-                    // Générer une chaîne aléatoire pour le QR code
-                    const randomString = Math.random().toString(36).substring(2, 15) + 
-                                        Math.random().toString(36).substring(2, 15);
-                    
-                    // Générer le QR code
-                    QRCode.toDataURL(randomString, {
-                        errorCorrectionLevel: 'H',
-                        width: 500,
-                        margin: 1,
-                        color: {
-                            dark: '#0c2461',
-                            light: '#ffffff'
-                        }
-                    }, function(err, url) {
-                        if (err) {
-                            console.error(err);
-                            statusElement.textContent = 'Erreur de génération';
-                            loadingElement.style.display = 'none';
-                            return;
-                        }
-                        
-                        // Afficher le QR code
-                        const img = document.createElement('img');
-                        img.src = url;
-                        img.alt = "QR Code de connexion WhatsApp";
-                        qrcodeDiv.appendChild(img);
-                        
-                        // Cacher le loader
-                        loadingElement.style.display = 'none';
-                        
-                        // Mettre à jour le statut
-                        statusElement.textContent = 'En attente de scan...';
-                        statusElement.style.color = '#ffd700';
-                        
-                        // Démarrer le compte à rebours
-                        startCountdown();
-                    });
-                }, 1500);
-            }
-            
-            // Compte à rebours
-            function startCountdown() {
-                let timeLeft = 120; // 2 minutes en secondes
-                
-                const countdownInterval = setInterval(() => {
-                    if (timeLeft <= 0) {
-                        clearInterval(countdownInterval);
-                        countdownElement.textContent = 'QR code expiré!';
-                        statusElement.textContent = 'QR code expiré - Veuillez en générer un nouveau';
-                        statusElement.style.color = '#ff6b6b';
-                    } else {
-                        const minutes = Math.floor(timeLeft / 60);
-                        const seconds = timeLeft % 60;
-                        countdownElement.textContent = `Expiration: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                        timeLeft--;
-                    }
-                }, 1000);
-            }
-            
-            // Simuler la connexion après le scan
-            function simulateConnection() {
-                if (statusElement.textContent !== 'En attente de scan...') return;
-                
-                statusElement.textContent = 'Détection du scan...';
-                
-                setTimeout(() => {
-                    // 20% de chance que le scan échoue
-                    if (Math.random() < 0.2) {
-                        statusElement.textContent = 'Échec du scan - Veuillez réessayer';
-                        statusElement.style.color = '#ff6b6b';
-                    } else {
-                        statusElement.textContent = 'Connexion réussie! ✅';
-                        statusElement.style.color = '#4cd964';
-                        countdownElement.textContent = 'Connexion établie avec succès';
-                        
-                        // Afficher un message de succès
-                        setTimeout(() => {
-                            alert('Connexion WhatsApp réussie! Vous pouvez maintenant utiliser le bot.');
-                        }, 500);
-                    }
-                }, 3000); // Simuler un délai de scan
-            }
-            
-            // Gestionnaire d'événement pour le bouton de génération
-            generateBtn.addEventListener('click', generateQRCode);
-            
-            // Simuler un scan lorsqu'on clique sur le QR code
-            qrcodeDiv.addEventListener('click', simulateConnection);
-            
-            // Générer le premier QR code au chargement
-            generateQRCode();
-        });
-    </script>
+    <div class="qr-container">
+      <div class="qr-display" id="qrDisplay">
+        <div class="qr-placeholder">
+          <div class="qr-icon">❄️</div>
+          <span>QR Code en attente de génération</span>
+        </div>
+      </div>
+
+      <div class="countdown" id="countdown">
+        ⏳ Expiration dans: 02:00
+      </div>
+
+      <button id="generateBtn" class="btn-glacial">
+        🔷 GÉNÉRER QR CODE
+      </button>
+    </div>
+
+    <div class="status-container">
+      <div class="status-title">Statut de connexion:</div>
+      <div class="status-message" id="statusMessage">🟡 En attente de scan...</div>
+    </div>
+
+    <div class="instructions">
+      <h3 class="instructions-title">📋 Instructions de Connexion</h3>
+      
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <strong>Ouvrez WhatsApp</strong> sur votre téléphone mobile
+        </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <strong>Allez dans Paramètres</strong> → Appareils connectés → Lier un appareil
+        </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <strong>Scannez le QR code</strong> affiché ci-dessus avec votre appareil
+        </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <strong>Confirmez la connexion</strong> et attendez la synchronisation
+        </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number">5</div>
+        <div class="step-content">
+          <strong>Profitez</strong> de l'expérience PATERSON-MD glacée
+        </div>
+      </div>
+    </div>
+
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p class="loading-text">Génération du QR code glacé...</p>
+    </div>
+
+    <a href="/" class="back-button">
+      ← Retour à l'accueil
+    </a>
+
+    <footer>
+      PATERSON-MD &copy; <span id="currentYear"></span> | 
+      <span style="color: #3498db;">Connexion Sécurisée SSL</span> | 
+      FROST EDITION
+    </footer>
+
+    <div class="version-badge">v3.6.0 | QR System</div>
+  </div>
+
+  <script>
+    // Initialisation
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // Effet de neige
+    function createSnowflakes() {
+      const container = document.getElementById('snowflakes');
+      const snowflakeCount = 40;
+      
+      for (let i = 0; i < snowflakeCount; i++) {
+        const snowflake = document.createElement('div');
+        snowflake.className = 'snowflake';
+        
+        const size = Math.random() * 4 + 2;
+        snowflake.style.width = `${size}px`;
+        snowflake.style.height = `${size}px`;
+        snowflake.style.left = `${Math.random() * 100}%`;
+        snowflake.style.top = `${Math.random() * 100}%`;
+        
+        const duration = Math.random() * 10 + 10;
+        const delay = Math.random() * 20;
+        snowflake.style.animationDuration = `${duration}s`;
+        snowflake.style.animationDelay = `${delay}s`;
+        
+        container.appendChild(snowflake);
+      }
+    }
+
+    // Compte à rebours
+    function startCountdown() {
+      let timeLeft = 120;
+      const countdownElement = document.getElementById('countdown');
+      const statusElement = document.getElementById('statusMessage');
+      
+      const countdownInterval = setInterval(() => {
+        if (timeLeft <= 0) {
+          clearInterval(countdownInterval);
+          countdownElement.textContent = '⏰ QR code expiré';
+          countdownElement.style.color = '#e74c3c';
+          statusElement.textContent = '🔴 QR code expiré - Régénérez-en un nouveau';
+          statusElement.style.color = '#e74c3c';
+        } else {
+          const minutes = Math.floor(timeLeft / 60);
+          const seconds = timeLeft % 60;
+          countdownElement.textContent = `⏳ Expiration dans: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+          timeLeft--;
+        }
+      }, 1000);
+    }
+
+    // Génération du QR code
+    document.getElementById('generateBtn').addEventListener('click', async function() {
+      const qrDisplay = document.getElementById('qrDisplay');
+      const loading = document.getElementById('loading');
+      const statusMessage = document.getElementById('statusMessage');
+      const btn = this;
+
+      // Masquer les précédents résultats
+      loading.style.display = 'block';
+      btn.disabled = true;
+      btn.innerHTML = '⏳ GÉNÉRATION EN COURS...';
+      statusMessage.textContent = '🟡 Génération en cours...';
+      statusMessage.style.color = '#f39c12';
+
+      try {
+        // Simulation de génération de QR code
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Ici vous intégrerez l'appel API réel vers /qr/generate
+        const qrCodeImage = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PATERSON-MD-' + Date.now();
+        
+        qrDisplay.innerHTML = `<img src="${qrCodeImage}" alt="QR Code PATERSON-MD">`;
+        statusMessage.textContent = '🟢 QR code généré - Scannez maintenant!';
+        statusMessage.style.color = '#2ecc71';
+        
+        // Démarrer le compte à rebours
+        startCountdown();
+
+      } catch (error) {
+        statusMessage.textContent = '🔴 Erreur de génération';
+        statusMessage.style.color = '#e74c3c';
+      } finally {
+        loading.style.display = 'none';
+        btn.disabled = false;
+        btn.innerHTML = '🔷 GÉNÉRER QR CODE';
+      }
+    });
+
+    // Simulation de scan réussi
+    document.getElementById('qrDisplay').addEventListener('click', function() {
+      const statusMessage = document.getElementById('statusMessage');
+      if (statusMessage.textContent.includes('Scannez')) {
+        statusMessage.textContent = '✅ Connexion réussie! Bienvenue dans PATERSON-MD';
+        statusMessage.style.color = '#2ecc71';
+        
+        // Animation de succès
+        this.style.boxShadow = '0 0 40px rgba(46, 204, 113, 0.8)';
+        setTimeout(() => {
+          this.style.boxShadow = '0 0 30px rgba(52, 152, 219, 0.6)';
+        }, 2000);
+      }
+    });
+
+    // Initialiser les effets
+    createSnowflakes();
+
+    // Animation des boutons
+    document.getElementById('generateBtn').addEventListener('mouseenter', function() {
+      this.style.transform = 'translateY(-3px) scale(1.05)';
+    });
+
+    document.getElementById('generateBtn').addEventListener('mouseleave', function() {
+      this.style.transform = 'translateY(0) scale(1)';
+    });
+  </script>
 </body>
-    </html>
+</html>
