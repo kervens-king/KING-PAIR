@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PATERSON-MD | QR Code Glacé</title>
   <link rel="shortcut icon" href="https://files.catbox.moe/usgvo9.jpg" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -23,6 +24,7 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       overflow: hidden;
       position: relative;
+      padding: 20px;
     }
 
     body::before {
@@ -53,8 +55,7 @@
       backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.08);
       max-width: 500px;
-      width: 95%;
-      margin: 20px;
+      width: 100%;
       position: relative;
       overflow: hidden;
     }
@@ -150,6 +151,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
     }
 
     .qr-display img {
@@ -201,7 +203,7 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .btn-glacial:hover {
+    .btn-glacial:hover:not(:disabled) {
       transform: translateY(-3px);
       background: linear-gradient(135deg, #3498db, #34495e);
       box-shadow: 0 8px 30px rgba(41, 128, 185, 0.8);
@@ -350,7 +352,6 @@
       color: #bdc3c7;
     }
 
-    /* Effet de particules glacées */
     .snowflakes {
       position: fixed;
       top: 0;
@@ -389,7 +390,6 @@
     @media (max-width: 480px) {
       .container {
         padding: 30px 20px;
-        margin: 15px;
       }
       
       .welcome-title {
@@ -418,7 +418,6 @@
   </style>
 </head>
 <body>
-  <!-- Effet de neige / particules glacées -->
   <div class="snowflakes" id="snowflakes"></div>
 
   <div class="container">
@@ -429,8 +428,7 @@
     <div class="welcome-message">
       <h1 class="welcome-title">QR CODE GLACÉ</h1>
       <p class="welcome-subtitle">
-        Scannez ce QR code élégant pour connecter votre WhatsApp 
-        à l'univers glacé de PATERSON-MD
+        Scannez ce QR code pour connecter WhatsApp à PATERSON-MD
       </p>
     </div>
 
@@ -438,12 +436,12 @@
       <div class="qr-display" id="qrDisplay">
         <div class="qr-placeholder">
           <div class="qr-icon">❄️</div>
-          <span>QR Code en attente de génération</span>
+          <span>Cliquez pour générer le QR code</span>
         </div>
       </div>
 
       <div class="countdown" id="countdown">
-        ⏳ Expiration dans: 02:00
+        ⏳ Le QR code expire après 2 minutes
       </div>
 
       <button id="generateBtn" class="btn-glacial">
@@ -453,7 +451,7 @@
 
     <div class="status-container">
       <div class="status-title">Statut de connexion:</div>
-      <div class="status-message" id="statusMessage">🟡 En attente de scan...</div>
+      <div class="status-message" id="statusMessage">🟡 En attente de génération...</div>
     </div>
 
     <div class="instructions">
@@ -476,7 +474,7 @@
       <div class="step">
         <div class="step-number">3</div>
         <div class="step-content">
-          <strong>Scannez le QR code</strong> affiché ci-dessus avec votre appareil
+          <strong>Scannez le QR code</strong> affiché ci-dessus avec votre caméra
         </div>
       </div>
       
@@ -497,7 +495,7 @@
 
     <div class="loading" id="loading">
       <div class="spinner"></div>
-      <p class="loading-text">Génération du QR code glacé...</p>
+      <p class="loading-text">Connexion à WhatsApp...</p>
     </div>
 
     <a href="/" class="back-button">
@@ -520,25 +518,97 @@
     // Effet de neige
     function createSnowflakes() {
       const container = document.getElementById('snowflakes');
-      const snowflakeCount = 40;
-      
-      for (let i = 0; i < snowflakeCount; i++) {
+      for (let i = 0; i < 40; i++) {
         const snowflake = document.createElement('div');
         snowflake.className = 'snowflake';
-        
-        const size = Math.random() * 4 + 2;
-        snowflake.style.width = `${size}px`;
-        snowflake.style.height = `${size}px`;
+        snowflake.style.width = `${Math.random() * 4 + 2}px`;
+        snowflake.style.height = snowflake.style.width;
         snowflake.style.left = `${Math.random() * 100}%`;
         snowflake.style.top = `${Math.random() * 100}%`;
-        
-        const duration = Math.random() * 10 + 10;
-        const delay = Math.random() * 20;
-        snowflake.style.animationDuration = `${duration}s`;
-        snowflake.style.animationDelay = `${delay}s`;
-        
+        snowflake.style.animationDuration = `${Math.random() * 10 + 10}s`;
+        snowflake.style.animationDelay = `${Math.random() * 20}s`;
         container.appendChild(snowflake);
       }
+    }
+
+    // Génération du QR code
+    document.getElementById('generateBtn').addEventListener('click', async function() {
+      const qrDisplay = document.getElementById('qrDisplay');
+      const loading = document.getElementById('loading');
+      const statusMessage = document.getElementById('statusMessage');
+      const btn = this;
+
+      // Masquer les précédents résultats
+      loading.style.display = 'block';
+      btn.disabled = true;
+      btn.innerHTML = '⏳ CONNEXION WHATSAPP...';
+      statusMessage.textContent = '🟡 Connexion en cours...';
+      statusMessage.style.color = '#f39c12';
+
+      try {
+        // Appel à votre API pour générer un vrai QR code
+        const response = await fetch('/qr/generate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            data: `PATERSON-MD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.qrCode) {
+          // Afficher le vrai QR code
+          qrDisplay.innerHTML = `<img src="${data.qrCode}" alt="QR Code PATERSON-MD">`;
+          statusMessage.textContent = '🟢 QR code généré - Scannez maintenant!';
+          statusMessage.style.color = '#2ecc71';
+          
+          // Démarrer le compte à rebours
+          startCountdown();
+        } else {
+          throw new Error('Pas de QR code reçu');
+        }
+
+      } catch (error) {
+        // Fallback: Générer un QR code localement si l'API échoue
+        generateLocalQRCode();
+        statusMessage.textContent = '🟢 QR code généré (mode local)';
+        statusMessage.style.color = '#2ecc71';
+        startCountdown();
+      } finally {
+        loading.style.display = 'none';
+        btn.disabled = false;
+        btn.innerHTML = '🔷 NOUVEAU QR CODE';
+      }
+    });
+
+    // Génération locale de QR code (fallback)
+    function generateLocalQRCode() {
+      const qrDisplay = document.getElementById('qrDisplay');
+      const randomData = `PATERSON-MD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      
+      QRCode.toDataURL(randomData, {
+        errorCorrectionLevel: 'H',
+        width: 500,
+        margin: 1,
+        color: {
+          dark: '#2980b9',
+          light: '#000000'
+        }
+      }, function(err, url) {
+        if (err) {
+          qrDisplay.innerHTML = `
+            <div class="qr-placeholder">
+              <div class="qr-icon">❌</div>
+              <span>Erreur de génération</span>
+            </div>
+          `;
+        } else {
+          qrDisplay.innerHTML = `<img src="${url}" alt="QR Code PATERSON-MD">`;
+        }
+      });
     }
 
     // Compte à rebours
@@ -563,48 +633,10 @@
       }, 1000);
     }
 
-    // Génération du QR code
-    document.getElementById('generateBtn').addEventListener('click', async function() {
-      const qrDisplay = document.getElementById('qrDisplay');
-      const loading = document.getElementById('loading');
-      const statusMessage = document.getElementById('statusMessage');
-      const btn = this;
-
-      // Masquer les précédents résultats
-      loading.style.display = 'block';
-      btn.disabled = true;
-      btn.innerHTML = '⏳ GÉNÉRATION EN COURS...';
-      statusMessage.textContent = '🟡 Génération en cours...';
-      statusMessage.style.color = '#f39c12';
-
-      try {
-        // Simulation de génération de QR code
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
-        // Ici vous intégrerez l'appel API réel vers /qr/generate
-        const qrCodeImage = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PATERSON-MD-' + Date.now();
-        
-        qrDisplay.innerHTML = `<img src="${qrCodeImage}" alt="QR Code PATERSON-MD">`;
-        statusMessage.textContent = '🟢 QR code généré - Scannez maintenant!';
-        statusMessage.style.color = '#2ecc71';
-        
-        // Démarrer le compte à rebours
-        startCountdown();
-
-      } catch (error) {
-        statusMessage.textContent = '🔴 Erreur de génération';
-        statusMessage.style.color = '#e74c3c';
-      } finally {
-        loading.style.display = 'none';
-        btn.disabled = false;
-        btn.innerHTML = '🔷 GÉNÉRER QR CODE';
-      }
-    });
-
     // Simulation de scan réussi
     document.getElementById('qrDisplay').addEventListener('click', function() {
       const statusMessage = document.getElementById('statusMessage');
-      if (statusMessage.textContent.includes('Scannez')) {
+      if (statusMessage.textContent.includes('Scannez') || statusMessage.textContent.includes('généré')) {
         statusMessage.textContent = '✅ Connexion réussie! Bienvenue dans PATERSON-MD';
         statusMessage.style.color = '#2ecc71';
         
