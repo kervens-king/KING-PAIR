@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const QRCode = require('qrcode');
 const router = express.Router();
 const logger = require('../logger');
 
@@ -16,7 +15,7 @@ router.get('/', (req, res) => {
     }
 });
 
-// API pour générer un QR code (optionnel)
+// API pour générer un QR code (version simplifiée sans dépendance)
 router.post('/generate', async (req, res) => {
     try {
         const { data } = req.body;
@@ -28,26 +27,22 @@ router.post('/generate', async (req, res) => {
             });
         }
 
-        logger.info(`Génération QR code pour: ${data.substring(0, 20)}...`);
+        logger.info(`Demande de génération QR code pour: ${data.substring(0, 20)}...`);
         
-        // Générer le QR code
-        const qrCodeDataURL = await QRCode.toDataURL(data, {
-            errorCorrectionLevel: 'H',
-            width: 500,
-            margin: 1
-        });
-
+        // Retourner une réponse simulée (pas de vraie génération QR)
         res.json({
             success: true,
-            qrCode: qrCodeDataURL,
-            timestamp: new Date().toISOString()
+            message: "Génération QR code demandée",
+            data_received: data.substring(0, 50) + (data.length > 50 ? '...' : ''),
+            timestamp: new Date().toISOString(),
+            note: "La génération réelle de QR code nécessite le module 'qrcode'"
         });
 
     } catch (error) {
         logger.error(`Erreur génération QR: ${error.message}`);
         res.status(500).json({
             error: 'Erreur de génération',
-            message: 'Impossible de générer le QR code'
+            message: 'Impossible de traiter la demande'
         });
     }
 });
