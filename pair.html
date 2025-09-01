@@ -1,249 +1,551 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PATERSON-MD | Pairing Code</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-            padding: 20px;
-        }
-        
-        .container {
-            background: rgba(15, 15, 25, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 0 50px rgba(41, 128, 185, 0.4);
-            text-align: center;
-            max-width: 500px;
-            width: 100%;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .logo {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 20px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid rgba(41, 128, 185, 0.5);
-        }
-        
-        .logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        h1 {
-            color: #2980b9;
-            margin-bottom: 10px;
-            font-size: 2.5rem;
-            text-shadow: 0 0 20px rgba(41, 128, 185, 0.7);
-        }
-        
-        .subtitle {
-            color: #bdc3c7;
-            margin-bottom: 30px;
-            font-size: 1.1rem;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        input[type="tel"] {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #2980b9;
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            color: white;
-            font-size: 1.1rem;
-            text-align: center;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-        
-        input[type="tel"]:focus {
-            border-color: #3498db;
-            box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
-            transform: scale(1.02);
-        }
-        
-        input[type="tel"]::placeholder {
-            color: #95a5a6;
-        }
-        
-        .btn-explosif {
-            background: linear-gradient(135deg, #2980b9, #2c3e50);
-            color: white;
-            border: none;
-            padding: 18px 35px;
-            border-radius: 12px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            box-shadow: 0 5px 25px rgba(41, 128, 185, 0.6);
-        }
-        
-        .btn-explosif:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 35px rgba(41, 128, 185, 0.8);
-            background: linear-gradient(135deg, #3498db, #34495e);
-        }
-        
-        .btn-explosif:active {
-            transform: translateY(1px);
-        }
-        
-        .example {
-            color: #7f8c8d;
-            font-size: 0.9rem;
-            margin-top: 10px;
-        }
-        
-        .result {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(41, 128, 185, 0.1);
-            border-radius: 10px;
-            border: 1px solid rgba(41, 128, 185, 0.3);
-        }
-        
-        .code {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #3498db;
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
-        }
-        
-        .error {
-            color: #e74c3c;
-            background: rgba(231, 76, 60, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid rgba(231, 76, 60, 0.3);
-            margin-top: 20px;
-        }
-        
-        .loading {
-            display: none;
-            margin-top: 20px;
-        }
-        
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PATERSON-MD | Pairing Code Glacé</title>
+  <link rel="shortcut icon" href="https://files.catbox.moe/usgvo9.jpg" type="image/x-icon">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      color: #e6e6e6;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(41, 128, 185, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(52, 152, 219, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .container {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+      background: rgba(15, 15, 25, 0.95);
+      border-radius: 20px;
+      box-shadow: 
+        0 0 50px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      max-width: 500px;
+      width: 95%;
+      margin: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+      transform: rotate(45deg);
+      animation: shine 6s infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: rotate(45deg) translateX(-100%); }
+      100% { transform: rotate(45deg) translateX(100%); }
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 
+        0 0 30px rgba(52, 152, 219, 0.4),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(0.3) contrast(1.1);
+    }
+
+    .logo::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(52, 152, 219, 0.2), rgba(41, 128, 185, 0.1));
+      border-radius: 50%;
+    }
+
+    .welcome-message {
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .welcome-title {
+      font-size: 2.2rem;
+      font-weight: 300;
+      margin-bottom: 10px;
+      background: linear-gradient(45deg, #3498db, #2c3e50, #95a5a6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 10px rgba(52, 152, 219, 0.3);
+      letter-spacing: 1.5px;
+    }
+
+    .welcome-subtitle {
+      color: #bdc3c7;
+      font-size: 1.1rem;
+      font-weight: 300;
+      line-height: 1.6;
+      max-width: 400px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      color: #3498db;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #2980b9;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+      font-size: 1.1rem;
+      text-align: center;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
+      transform: scale(1.02);
+    }
+
+    .form-input::placeholder {
+      color: #95a5a6;
+    }
+
+    .form-hint {
+      color: #7f8c8d;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .btn-explosif {
+      background: linear-gradient(135deg, #2980b9, #2c3e50);
+      color: white;
+      border: none;
+      padding: 18px 35px;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      box-shadow: 0 5px 25px rgba(41, 128, 185, 0.6);
+      width: 100%;
+    }
+
+    .btn-explosif:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 10px 35px rgba(41, 128, 185, 0.8);
+      background: linear-gradient(135deg, #3498db, #34495e);
+    }
+
+    .btn-explosif:active {
+      transform: translateY(1px);
+    }
+
+    .btn-explosif:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .result-container {
+      margin-top: 25px;
+      padding: 20px;
+      background: rgba(41, 128, 185, 0.1);
+      border-radius: 15px;
+      border: 1px solid rgba(41, 128, 185, 0.3);
+      width: 100%;
+      display: none;
+    }
+
+    .result-title {
+      color: #3498db;
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+
+    .pairing-code {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #3498db;
+      letter-spacing: 3px;
+      text-shadow: 0 0 15px rgba(52, 152, 219, 0.7);
+      margin: 15px 0;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      border: 2px solid rgba(52, 152, 219, 0.3);
+    }
+
+    .instructions {
+      color: #bdc3c7;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-top: 15px;
+    }
+
+    .loading {
+      display: none;
+      margin: 20px 0;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      color: #3498db;
+      margin-top: 15px;
+      font-size: 1.1rem;
+    }
+
+    .error-container {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(231, 76, 60, 0.1);
+      border-radius: 10px;
+      border: 1px solid rgba(231, 76, 60, 0.3);
+      color: #e74c3c;
+      display: none;
+    }
+
+    .back-button {
+      margin-top: 20px;
+      color: #3498db;
+      text-decoration: none;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      color: #2980b9;
+      transform: translateX(-5px);
+    }
+
+    footer {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      color: #7f8c8d;
+      font-weight: 300;
+      text-align: center;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .version-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(149, 165, 166, 0.2), rgba(127, 140, 141, 0.1));
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-top: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #bdc3c7;
+    }
+
+    /* Effet de particules glacées */
+    .snowflakes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .snowflake {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      opacity: 0;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+        margin: 15px;
+      }
+      
+      .welcome-title {
+        font-size: 1.8rem;
+      }
+      
+      .welcome-subtitle {
+        font-size: 1rem;
+      }
+      
+      .logo {
+        width: 80px;
+        height: 80px;
+      }
+      
+      .pairing-code {
+        font-size: 2rem;
+        padding: 10px;
+      }
+      
+      .btn-explosif {
+        padding: 15px 25px;
+        font-size: 1.1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <img src="https://files.catbox.moe/usgvo9.jpg" alt="PATERSON-MD Logo">
-        </div>
-        
-        <h1>CONNEXION WHATSAPP</h1>
-        <p class="subtitle">Entrez votre numéro WhatsApp pour générer un code de pairing</p>
-        
-        <form id="pairForm">
-            <div class="form-group">
-                <input 
-                    type="tel" 
-                    id="numberInput"
-                    name="number" 
-                    placeholder="Ex: 50942737567" 
-                    required
-                    pattern="[0-9]{8,15}"
-                    title="Numéro WhatsApp avec indicatif pays"
-                >
-                <p class="example">Format: 50942737567 (sans espaces ou caractères spéciaux)</p>
-            </div>
-            
-            <button type="submit" class="btn-explosif">
-                ⚡ GÉNÉRER LE CODE EXPLOSIF
-            </button>
-        </form>
+  <!-- Effet de neige / particules glacées -->
+  <div class="snowflakes" id="snowflakes"></div>
 
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Génération du code en cours...</p>
-        </div>
-
-        <div class="result" id="result" style="display: none;">
-            <h3>CODE DE PAIRING GÉNÉRÉ:</h3>
-            <div class="code" id="pairingCode"></div>
-            <p>Utilisez ce code dans WhatsApp > Paramètres > Appareils connectés</p>
-        </div>
-
-        <div class="error" id="error" style="display: none;"></div>
+  <div class="container">
+    <div class="logo">
+      <img src="https://files.catbox.moe/usgvo9.jpg" alt="PATERSON-MD Logo">
+    </div>
+    
+    <div class="welcome-message">
+      <h1 class="welcome-title">PAIRING CODE GLACÉ</h1>
+      <p class="welcome-subtitle">
+        Générez un code de pairing élégant pour connecter 
+        votre compte WhatsApp à l'univers PATERSON-MD
+      </p>
     </div>
 
-    <script>
-        document.getElementById('pairForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const number = document.getElementById('numberInput').value;
-            const loading = document.getElementById('loading');
-            const result = document.getElementById('result');
-            const error = document.getElementById('error');
-            const btn = this.querySelector('button');
-            
-            // Masquer les précédents résultats
-            result.style.display = 'none';
-            error.style.display = 'none';
-            loading.style.display = 'block';
-            btn.disabled = true;
-            btn.innerHTML = '⚡ GÉNÉRATION EN COURS...';
-            
-            try {
-                const response = await fetch(`/pair?number=${encodeURIComponent(number)}`);
-                const data = await response.json();
-                
-                if (data.code) {
-                    document.getElementById('pairingCode').textContent = data.code;
-                    result.style.display = 'block';
-                } else if (data.error) {
-                    error.textContent = data.error + ' - ' + (data.message || '');
-                    error.style.display = 'block';
-                }
-            } catch (err) {
-                error.textContent = 'Erreur de connexion au serveur';
-                error.style.display = 'block';
-            } finally {
-                loading.style.display = 'none';
-                btn.disabled = false;
-                btn.innerHTML = '⚡ GÉNÉRER LE CODE EXPLOSIF';
-            }
-        });
-    </script>
+    <div class="form-container">
+      <div class="form-group">
+        <label class="form-label">📱 Numéro WhatsApp</label>
+        <input 
+          type="tel" 
+          id="numberInput"
+          class="form-input"
+          placeholder="Ex: 50942737567" 
+          required
+          pattern="[0-9]{8,15}"
+          title="Numéro avec indicatif pays (sans espaces)"
+        >
+        <p class="form-hint">Format: 50942737567 (indicatif pays + numéro)</p>
+      </div>
+
+      <button id="generateBtn" class="btn-explosif">
+        ❄️ GÉNÉRER LE CODE GLACÉ
+      </button>
+    </div>
+
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p class="loading-text">Génération du code glacé...</p>
+    </div>
+
+    <div class="result-container" id="resultContainer">
+      <h3 class="result-title">✅ CODE DE PAIRING GÉNÉRÉ</h3>
+      <div class="pairing-code" id="pairingCode"></div>
+      <p class="instructions">
+        📝 <strong>Instructions:</strong><br>
+        1. Ouvrez WhatsApp sur votre téléphone<br>
+        2. Allez dans Paramètres → Appareils connectés<br>
+        3. Tapez ce code pour connecter votre compte<br>
+        4. Profitez de l'expérience PATERSON-MD glacée
+      </p>
+    </div>
+
+    <div class="error-container" id="errorContainer"></div>
+
+    <a href="/" class="back-button">
+      ← Retour à l'accueil
+    </a>
+
+    <footer>
+      PATERSON-MD &copy; <span id="currentYear"></span> | 
+      <span style="color: #3498db;">Connexion Sécurisée</span> | 
+      FROST EDITION
+    </footer>
+
+    <div class="version-badge">v3.6.0 | Pairing System</div>
+  </div>
+
+  <script>
+    // Initialisation
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // Effet de neige
+    function createSnowflakes() {
+      const container = document.getElementById('snowflakes');
+      const snowflakeCount = 40;
+      
+      for (let i = 0; i < snowflakeCount; i++) {
+        const snowflake = document.createElement('div');
+        snowflake.className = 'snowflake';
+        
+        const size = Math.random() * 4 + 2;
+        snowflake.style.width = `${size}px`;
+        snowflake.style.height = `${size}px`;
+        snowflake.style.left = `${Math.random() * 100}%`;
+        snowflake.style.top = `${Math.random() * 100}%`;
+        
+        const duration = Math.random() * 10 + 10;
+        const delay = Math.random() * 20;
+        snowflake.style.animationDuration = `${duration}s`;
+        snowflake.style.animationDelay = `${delay}s`;
+        
+        container.appendChild(snowflake);
+      }
+    }
+
+    // Génération du code de pairing
+    document.getElementById('generateBtn').addEventListener('click', async function() {
+      const number = document.getElementById('numberInput').value;
+      const loading = document.getElementById('loading');
+      const resultContainer = document.getElementById('resultContainer');
+      const errorContainer = document.getElementById('errorContainer');
+      const btn = this;
+
+      // Validation
+      if (!number || number.replace(/\D/g, '').length < 8) {
+        errorContainer.textContent = '❌ Veuillez entrer un numéro WhatsApp valide avec indicatif pays';
+        errorContainer.style.display = 'block';
+        return;
+      }
+
+      // Masquer les précédents résultats
+      resultContainer.style.display = 'none';
+      errorContainer.style.display = 'none';
+      loading.style.display = 'block';
+      btn.disabled = true;
+      btn.innerHTML = '⏳ GÉNÉRATION EN COURS...';
+
+      try {
+        const response = await fetch(`/pair?number=${encodeURIComponent(number)}`);
+        const data = await response.json();
+        
+        if (data.code) {
+          document.getElementById('pairingCode').textContent = data.code;
+          resultContainer.style.display = 'block';
+        } else if (data.error) {
+          errorContainer.textContent = `❌ ${data.error} - ${data.message || ''}`;
+          errorContainer.style.display = 'block';
+        }
+      } catch (err) {
+        errorContainer.textContent = '❌ Erreur de connexion au serveur glacé';
+        errorContainer.style.display = 'block';
+      } finally {
+        loading.style.display = 'none';
+        btn.disabled = false;
+        btn.innerHTML = '❄️ GÉNÉRER LE CODE GLACÉ';
+      }
+    });
+
+    // Initialiser les effets
+    createSnowflakes();
+
+    // Animation du bouton
+    document.getElementById('generateBtn').addEventListener('mouseenter', function() {
+      this.style.transform = 'translateY(-3px) scale(1.05)';
+    });
+
+    document.getElementById('generateBtn').addEventListener('mouseleave', function() {
+      this.style.transform = 'translateY(0) scale(1)';
+    });
+  </script>
 </body>
 </html>
