@@ -8,6 +8,13 @@ function makeid(num = 4) {
   return result;
 }
 
+// Fonction pour générer un ID avec le préfixe PATERSON
+function makePatersonId(num = 6) {
+  const prefix = "PATERSON-";
+  const randomPart = makeid(num);
+  return prefix + randomPart;
+}
+
 // Fonction pour afficher les informations PATERSON-MD
 function displayPatersonInfo() {
   console.log(`
@@ -19,8 +26,8 @@ function displayPatersonInfo() {
 ║  📢 Chaîne: https://whatsapp.com/channel/         ║
 ║       0029Vb6KikfLdQefJursHm20                    ║
 ║                                                   ║
-║  💡 Conseil: ${"Ne partage pas la session à ta".padEnd(43)}║
-║  ${"petite amie ok 😂".padEnd(47)}║
+║  💡 Conseil: Ne partage pas la session à ta       ║
+║              petite amie ok 😂                    ║
 ║                                                   ║
 ║  👨‍💻 Développeur: Kervens Aubourg                 ║
 ║  📞 Support: https://wa.me/50942737567            ║
@@ -28,15 +35,8 @@ function displayPatersonInfo() {
   `);
 }
 
-// Fonction pour générer un ID avec le préfixe PATERSON
-function makePatersonId(num = 6) {
-  const prefix = "PATERSON-";
-  const randomPart = makeid(num);
-  return prefix + randomPart;
-}
-
-// Afficher les informations au chargement
-displayPatersonInfo();
+// NE PAS appeler displayPatersonInfo() ici ❌
+// L'appeler dans server.js après l'importation ✅
 
 module.exports = {
   makeid,
