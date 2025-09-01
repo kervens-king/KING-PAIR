@@ -5,17 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PATERSON-MD | Pairing Code</title>
     <style>
-        /* Styles modernes et explosifs */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
         body {
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: white;
-            margin: 0;
-            padding: 20px;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
         }
         
         .container {
@@ -114,6 +118,51 @@
             font-size: 0.9rem;
             margin-top: 10px;
         }
+        
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(41, 128, 185, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(41, 128, 185, 0.3);
+        }
+        
+        .code {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3498db;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
+        }
+        
+        .error {
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            margin-top: 20px;
+        }
+        
+        .loading {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -125,23 +174,76 @@
         <h1>CONNEXION WHATSAPP</h1>
         <p class="subtitle">Entrez votre numéro WhatsApp pour générer un code de pairing</p>
         
-        <form action="/pair" method="GET">
+        <form id="pairForm">
             <div class="form-group">
                 <input 
                     type="tel" 
+                    id="numberInput"
                     name="number" 
-                    placeholder="Ex: 509xxxxxxxx" 
+                    placeholder="Ex: 50942737567" 
                     required
                     pattern="[0-9]{8,15}"
                     title="Numéro WhatsApp avec indicatif pays"
                 >
-                <p class="example">Format: 50912345678 (sans espaces ou caractères spéciaux)</p>
+                <p class="example">Format: 50942737567 (sans espaces ou caractères spéciaux)</p>
             </div>
             
             <button type="submit" class="btn-explosif">
                 ⚡ GÉNÉRER LE CODE EXPLOSIF
             </button>
         </form>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Génération du code en cours...</p>
+        </div>
+
+        <div class="result" id="result" style="display: none;">
+            <h3>CODE DE PAIRING GÉNÉRÉ:</h3>
+            <div class="code" id="pairingCode"></div>
+            <p>Utilisez ce code dans WhatsApp > Paramètres > Appareils connectés</p>
+        </div>
+
+        <div class="error" id="error" style="display: none;"></div>
     </div>
+
+    <script>
+        document.getElementById('pairForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const number = document.getElementById('numberInput').value;
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const error = document.getElementById('error');
+            const btn = this.querySelector('button');
+            
+            // Masquer les précédents résultats
+            result.style.display = 'none';
+            error.style.display = 'none';
+            loading.style.display = 'block';
+            btn.disabled = true;
+            btn.innerHTML = '⚡ GÉNÉRATION EN COURS...';
+            
+            try {
+                const response = await fetch(`/pair?number=${encodeURIComponent(number)}`);
+                const data = await response.json();
+                
+                if (data.code) {
+                    document.getElementById('pairingCode').textContent = data.code;
+                    result.style.display = 'block';
+                } else if (data.error) {
+                    error.textContent = data.error + ' - ' + (data.message || '');
+                    error.style.display = 'block';
+                }
+            } catch (err) {
+                error.textContent = 'Erreur de connexion au serveur';
+                error.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+                btn.disabled = false;
+                btn.innerHTML = '⚡ GÉNÉRER LE CODE EXPLOSIF';
+            }
+        });
+    </script>
 </body>
 </html>
