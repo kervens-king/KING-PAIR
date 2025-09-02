@@ -17,9 +17,35 @@ try {
     const dotenv = require('dotenv');
     console.log('✅ Dotenv chargé');
     
-    // ⭐ AJOUTEZ CET IMPORT ⭐
-    const { makeid, makePatersonId, displayPatersonInfo } = require('./gen-id');
-    console.log('✅ Gen-ID chargé');
+    // ⭐ FONCTIONS INTÉGRÉES DIRECTEMENT - SOLUTION DÉFINITIVE ⭐
+    function makeid(num = 4) {
+      return Math.random().toString(36).substring(2, 2 + num).toUpperCase();
+    }
+
+    function makePatersonId(num = 6) {
+      return "PATERSON-" + makeid(num);
+    }
+
+    function displayPatersonInfo() {
+      console.log(`
+╔═══════════════════════════════════════════════════╗
+║                  🚀 PATERSON-MD 🚀                ║
+║               Version 3.6.0 FROST EDITION         ║
+║                                                   ║
+║  📸 Photo: https://files.catbox.moe/usgvo9.jpg    ║
+║  📢 Chaîne: https://whatsapp.com/channel/         ║
+║       0029Vb6KikfLdQefJursHm20                    ║
+║                                                   ║
+║  💡 Conseil: Ne partage pas la session à ta       ║
+║              petite amie ok 😂                    ║
+║                                                   ║
+║  👨‍💻 Développeur: Kervens Aubourg                 ║
+║  📞 Support: https://wa.me/50942737567            ║
+╚═══════════════════════════════════════════════════╝
+      `);
+    }
+
+    console.log('✅ Fonctions Gen-ID intégrées directement');
     
     const app = express();
     console.log('✅ Application Express créée');
