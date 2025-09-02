@@ -39,31 +39,31 @@ function removeSessionFiles(sessionPath) {
 
 // Route principale pour la génération de pairing code
 router.get('/', async (req, res) => {
-    const sessionId = makeid();
-    const sessionPath = path.join(TEMP_DIR, sessionId);
-    let num = req.query.number;
-    
-    // Vérification du numéro
-    if (!num) {
-        return res.status(400).json({ 
-            error: "Numéro manquant", 
-            message: "Le paramètre 'number' est requis (ex: ?number=50942737567)" 
-        });
-    }
-
-    // Nettoyage du numéro
-    num = num.replace(/\D/g, '');
-    
-    if (num.length < 8) {
-        return res.status(400).json({ 
-            error: "Numéro invalide", 
-            message: "Le numéro doit contenir au moins 8 chiffres (incluant l'indicatif pays)" 
-        });
-    }
-
-    logger.info(`🔗 Tentative de pairing pour: ${num}`);
-
     try {
+        const sessionId = makeid();
+        const sessionPath = path.join(TEMP_DIR, sessionId);
+        let num = req.query.number;
+        
+        // Vérification du numéro
+        if (!num) {
+            return res.status(400).json({ 
+                error: "Numéro manquant", 
+                message: "Le paramètre 'number' est requis (ex: ?number=50942737567)" 
+            });
+        }
+
+        // Nettoyage du numéro
+        num = num.replace(/\D/g, '');
+        
+        if (num.length < 8) {
+            return res.status(400).json({ 
+                error: "Numéro invalide", 
+                message: "Le numéro doit contenir au moins 8 chiffres (incluant l'indicatif pays)" 
+            });
+        }
+
+        logger.info(`🔗 Tentative de pairing pour: ${num}`);
+
         // Création du répertoire de session
         if (!fs.existsSync(sessionPath)) {
             fs.mkdirSync(sessionPath, { recursive: true });
@@ -212,7 +212,9 @@ router.get('/', async (req, res) => {
         logger.error(`💥 Erreur principale: ${mainError.message}`);
         
         // Nettoyage en cas d'erreur
-        removeSessionFiles(sessionPath);
+        if (sessionPath) {
+            removeSessionFiles(sessionPath);
+        }
         
         if (!res.headersSent) {
             res.status(500).json({ 
@@ -226,7 +228,7 @@ router.get('/', async (req, res) => {
 
 // Middleware de gestion d'erreurs
 router.use((err, req, res, next) => {
-    logger.error(`💥 Erreur route pair: ${err.stack}`);
+    logger.error(`💥 Erreur route pair: ${err.stack});
     res.status(500).json({
         error: 'Erreur interne',
         message: 'Une erreur est survenue lors du pairing',
