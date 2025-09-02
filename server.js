@@ -57,6 +57,17 @@ try {
     dotenv.config();
     console.log('✅ Variables d\'environnement chargées');
 
+    // ⭐ AJOUT DE LA NOUVELLE ROUTE POUR pair.html ⭐
+    app.get('/pair-page', (req, res) => {
+        try {
+            console.log('📄 Servir la page pair.html');
+            res.sendFile(path.join(__dirname, 'pair.html'));
+        } catch (error) {
+            console.error('❌ Erreur chargement pair.html:', error);
+            res.status(500).send('Erreur de chargement de la page');
+        }
+    });
+
     // Routes
     console.log('🔄 Chargement des routes...');
     const pairRouter = require('./routes/pair');
