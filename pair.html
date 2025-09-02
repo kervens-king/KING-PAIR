@@ -2,526 +2,87 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PATERSON-MD | Pairing Code Glacé</title>
-  <link rel="shortcut icon" href="https://files.catbox.moe/usgvo9.jpg" type="image/x-icon">
+  <title>PATERSON-MD | Pairing Code</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
       background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       min-height: 100vh;
       margin: 0;
-      color: #e6e6e6;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      overflow: hidden;
-      position: relative;
-      padding: 20px;
     }
-
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 20%, rgba(41, 128, 185, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(52, 152, 219, 0.1) 0%, transparent 50%);
-      pointer-events: none;
-    }
-
+    
     .container {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px;
       background: rgba(15, 15, 25, 0.95);
-      border-radius: 20px;
-      box-shadow: 
-        0 0 50px rgba(0, 0, 0, 0.8),
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        inset 0 0 20px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      max-width: 500px;
-      width: 100%;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .container::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
-      transform: rotate(45deg);
-      animation: shine 6s infinite;
-    }
-
-    @keyframes shine {
-      0% { transform: rotate(45deg) translateX(-100%); }
-      100% { transform: rotate(45deg) translateX(100%); }
-    }
-
-    .logo {
-      width: 100px;
-      height: 100px;
-      margin-bottom: 20px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 
-        0 0 30px rgba(52, 152, 219, 0.4),
-        inset 0 0 20px rgba(0, 0, 0, 0.5);
-      position: relative;
-    }
-
-    .logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(0.3) contrast(1.1);
-    }
-
-    .welcome-message {
-      margin-bottom: 25px;
-      text-align: center;
-    }
-
-    .welcome-title {
-      font-size: 2.2rem;
-      font-weight: 300;
-      margin-bottom: 10px;
-      background: linear-gradient(45deg, #3498db, #2c3e50, #95a5a6);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 2px 10px rgba(52, 152, 219, 0.3);
-      letter-spacing: 1.5px;
-    }
-
-    .welcome-subtitle {
-      color: #bdc3c7;
-      font-size: 1.1rem;
-      font-weight: 300;
-      line-height: 1.6;
-      max-width: 400px;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-    }
-
-    .form-container {
-      width: 100%;
-      max-width: 400px;
-      margin-bottom: 25px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-      text-align: left;
-    }
-
-    .form-label {
-      display: block;
-      margin-bottom: 8px;
-      color: #3498db;
-      font-weight: 500;
-      font-size: 1.1rem;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 15px;
-      border: 2px solid #2980b9;
-      border-radius: 10px;
-      background: rgba(0, 0, 0, 0.3);
-      color: white;
-      font-size: 1.1rem;
-      text-align: center;
-      outline: none;
-      transition: all 0.3s ease;
-    }
-
-    .form-input:focus {
-      border-color: #3498db;
-      box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
-      transform: scale(1.02);
-    }
-
-    .form-input::placeholder {
-      color: #95a5a6;
-    }
-
-    .form-hint {
-      color: #7f8c8d;
-      font-size: 0.9rem;
-      margin-top: 8px;
-      text-align: center;
-    }
-
-    .btn-explosif {
-      background: linear-gradient(135deg, #2980b9, #2c3e50);
-      color: white;
-      border: none;
-      padding: 18px 35px;
-      border-radius: 12px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      box-shadow: 0 5px 25px rgba(41, 128, 185, 0.6);
-      width: 100%;
-    }
-
-    .btn-explosif:hover:not(:disabled) {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 10px 35px rgba(41, 128, 185, 0.8);
-      background: linear-gradient(135deg, #3498db, #34495e);
-    }
-
-    .btn-explosif:active {
-      transform: translateY(1px);
-    }
-
-    .btn-explosif:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .result-container {
-      margin-top: 25px;
-      padding: 20px;
-      background: rgba(41, 128, 185, 0.1);
+      padding: 30px;
       border-radius: 15px;
-      border: 1px solid rgba(41, 128, 185, 0.3);
-      width: 100%;
-      display: none;
-    }
-
-    .result-title {
-      color: #3498db;
-      font-size: 1.3rem;
-      margin-bottom: 15px;
-      font-weight: 500;
-    }
-
-    .pairing-code {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: #3498db;
-      letter-spacing: 3px;
-      text-shadow: 0 0 15px rgba(52, 152, 219, 0.7);
-      margin: 15px 0;
-      padding: 15px;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 10px;
-      border: 2px solid rgba(52, 152, 219, 0.3);
-    }
-
-    .instructions {
-      color: #bdc3c7;
-      font-size: 1rem;
-      line-height: 1.6;
-      margin-top: 15px;
-    }
-
-    .loading {
-      display: none;
-      margin: 20px 0;
-    }
-
-    .spinner {
-      width: 50px;
-      height: 50px;
-      border: 4px solid rgba(255, 255, 255, 0.3);
-      border-top: 4px solid #3498db;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .loading-text {
-      color: #3498db;
-      margin-top: 15px;
-      font-size: 1.1rem;
-    }
-
-    .error-container {
-      margin-top: 20px;
-      padding: 15px;
-      background: rgba(231, 76, 60, 0.1);
-      border-radius: 10px;
-      border: 1px solid rgba(231, 76, 60, 0.3);
-      color: #e74c3c;
-      display: none;
-    }
-
-    .back-button {
-      margin-top: 20px;
-      color: #3498db;
-      text-decoration: none;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.3s ease;
-    }
-
-    .back-button:hover {
-      color: #2980b9;
-      transform: translateX(-5px);
-    }
-
-    footer {
-      margin-top: 30px;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 12px;
-      color: #7f8c8d;
-      font-weight: 300;
       text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+    
+    input, button {
       width: 100%;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #3498db;
+      background: rgba(255,255,255,0.1);
+      color: white;
     }
-
-    .version-badge {
-      display: inline-block;
-      background: linear-gradient(135deg, rgba(149, 165, 166, 0.2), rgba(127, 140, 141, 0.1));
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      margin-top: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #bdc3c7;
-    }
-
-    .snowflakes {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .snowflake {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 50%;
-      opacity: 0;
-      animation: fall linear infinite;
-    }
-
-    @keyframes fall {
-      0% {
-        transform: translateY(-100px) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.6;
-      }
-      90% {
-        opacity: 0.6;
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .container {
-        padding: 30px 20px;
-      }
-      
-      .welcome-title {
-        font-size: 1.8rem;
-      }
-      
-      .welcome-subtitle {
-        font-size: 1rem;
-      }
-      
-      .logo {
-        width: 80px;
-        height: 80px;
-      }
-      
-      .pairing-code {
-        font-size: 2rem;
-        padding: 10px;
-      }
-      
-      .btn-explosif {
-        padding: 15px 25px;
-        font-size: 1.1rem;
-      }
+    
+    button {
+      background: #3498db;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="snowflakes" id="snowflakes"></div>
-
   <div class="container">
-    <div class="logo">
-      <img src="https://files.catbox.moe/usgvo9.jpg" alt="PATERSON-MD Logo">
-    </div>
-    
-    <div class="welcome-message">
-      <h1 class="welcome-title">PAIRING CODE GLACÉ</h1>
-      <p class="welcome-subtitle">
-        Entrez votre numéro WhatsApp pour générer un code de pairing
-      </p>
-    </div>
-
-    <div class="form-container">
-      <div class="form-group">
-        <label class="form-label">📱 Votre numéro WhatsApp</label>
-        <input 
-          type="tel" 
-          id="numberInput"
-          class="form-input"
-          placeholder="Ex: 50942737567" 
-          required
-          pattern="[0-9]{8,15}"
-          title="Numéro avec indicatif pays (sans espaces)"
-        >
-        <p class="form-hint">Format: indicatif pays + numéro (ex: 50942737567)</p>
-      </div>
-
-      <button id="generateBtn" class="btn-explosif">
-        ❄️ GÉNÉRER LE CODE
-      </button>
-    </div>
-
-    <div class="loading" id="loading">
-      <div class="spinner"></div>
-      <p class="loading-text">Connexion à WhatsApp...</p>
-    </div>
-
-    <div class="result-container" id="resultContainer">
-      <h3 class="result-title">✅ CODE DE PAIRING</h3>
-      <div class="pairing-code" id="pairingCode"></div>
-      <p class="instructions">
-        📝 <strong>Instructions:</strong><br>
-        1. Ouvrez WhatsApp → Paramètres → Appareils connectés<br>
-        2. Cliquez sur "Lier un appareil"<br>
-        3. Entrez ce code de 6 chiffres<br>
-        4. Validez la connexion
-      </p>
-    </div>
-
-    <div class="error-container" id="errorContainer"></div>
-
-    <a href="/" class="back-button">
-      ← Retour à l'accueil
-    </a>
-
-    <footer>
-      PATERSON-MD &copy; <span id="currentYear"></span> | Connexion Sécurisée
-    </footer>
+    <h2>🔗 Générer un Pairing Code</h2>
+    <form id="pairForm">
+      <input type="tel" name="number" placeholder="50912345678" required>
+      <button type="submit">Générer le Code</button>
+    </form>
+    <div id="result"></div>
   </div>
 
   <script>
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-    // Créer l'effet de neige
-    function createSnowflakes() {
-      const container = document.getElementById('snowflakes');
-      for (let i = 0; i < 40; i++) {
-        const snowflake = document.createElement('div');
-        snowflake.className = 'snowflake';
-        snowflake.style.width = `${Math.random() * 4 + 2}px`;
-        snowflake.style.height = snowflake.style.width;
-        snowflake.style.left = `${Math.random() * 100}%`;
-        snowflake.style.top = `${Math.random() * 100}%`;
-        snowflake.style.animationDuration = `${Math.random() * 10 + 10}s`;
-        snowflake.style.animationDelay = `${Math.random() * 20}s`;
-        container.appendChild(snowflake);
-      }
-    }
-
-    // Générateur de code de pairing
-    document.getElementById('generateBtn').addEventListener('click', async function() {
-      const number = document.getElementById('numberInput').value.trim();
-      const loading = document.getElementById('loading');
-      const resultContainer = document.getElementById('resultContainer');
-      const errorContainer = document.getElementById('errorContainer');
-      const btn = this;
-
-      // Validation du numéro
-      if (!number) {
-        showError('Veuillez entrer votre numéro WhatsApp');
-        return;
-      }
-
-      const cleanNumber = number.replace(/\D/g, '');
-      if (cleanNumber.length < 8) {
-        showError('Numéro invalide. Format: indicatif + numéro (ex: 50942737567)');
-        return;
-      }
-
-      // Masquer les précédents résultats
-      resultContainer.style.display = 'none';
-      errorContainer.style.display = 'none';
-      loading.style.display = 'block';
-      btn.disabled = true;
-      btn.innerHTML = '⏳ CONNEXION...';
-
+    document.getElementById('pairForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const number = document.querySelector('input[name="number"]').value;
+      
       try {
-        // Appel API vers votre serveur
-        const response = await fetch(`/pair?number=${encodeURIComponent(cleanNumber)}`);
+        const response = await fetch(`/pair?number=${number}`);
         const data = await response.json();
-
-        if (data.code) {
-          // Afficher le code de pairing
-          document.getElementById('pairingCode').textContent = data.code;
-          resultContainer.style.display = 'block';
-        } else if (data.error) {
-          showError(data.message || 'Erreur de génération du code');
+        
+        if (data.success) {
+          document.getElementById('result').innerHTML = `
+            <div style="margin-top: 20px; padding: 15px; background: #27ae60; border-radius: 8px;">
+              <h3>✅ Code généré : ${data.code}</h3>
+              <p>${data.message}</p>
+            </div>
+          `;
         } else {
-          showError('Réponse inattendue du serveur');
+          document.getElementById('result').innerHTML = `
+            <div style="margin-top: 20px; padding: 15px; background: #e74c3c; border-radius: 8px;">
+              <h3>❌ Erreur</h3>
+              <p>${data.message || data.error}</p>
+            </div>
+          `;
         }
       } catch (error) {
-        showError('Erreur de connexion au serveur');
-      } finally {
-        loading.style.display = 'none';
-        btn.disabled = false;
-        btn.innerHTML = '❄️ GÉNÉRER LE CODE';
+        document.getElementById('result').innerHTML = `
+          <div style="margin-top: 20px; padding: 15px; background: #e74c3c; border-radius: 8px;">
+            <h3>❌ Erreur de connexion</h3>
+            <p>Impossible de se connecter au serveur</p>
+          </div>
+        `;
       }
     });
-
-    function showError(message) {
-      const errorContainer = document.getElementById('errorContainer');
-      errorContainer.textContent = message;
-      errorContainer.style.display = 'block';
-    }
-
-    // Initialisation
-    createSnowflakes();
   </script>
 </body>
 </html>
