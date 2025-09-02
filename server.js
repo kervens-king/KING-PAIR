@@ -1,3 +1,8 @@
+console.log('🔍 Debug: Démarrage...');
+console.log('🔍 NODE_ENV:', process.env.NODE_ENV);
+console.log('🔍 PORT:', process.env.PORT);.log('🔍 Debug: Démarrage...');
+console.log('🔍 NODE_ENV:', process.env.NODE_ENV);
+console.log('🔍 PORT:', process.env.PORT);
 console.log('🚀 Démarrage de PATERSON-MD...');
 console.log('📦 Chargement des modules...');
 
