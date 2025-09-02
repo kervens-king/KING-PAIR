@@ -228,12 +228,12 @@ router.get('/', async (req, res) => {
 
 // Middleware de gestion d'erreurs
 router.use((err, req, res, next) => {
-    logger.error(`💥 Erreur route pair: ${err.stack});
+    logger.error(`💥 Erreur route pair: ${err.stack}`);
     res.status(500).json({
         error: 'Erreur interne',
         message: 'Une erreur est survenue lors du pairing',
         timestamp: new Date().toISOString()
     });
-});
+}); // ⭐ AJOUTEZ CETTE PARENTHÈSE FERMANTE ⭐
 
 module.exports = router;
