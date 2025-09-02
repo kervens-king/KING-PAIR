@@ -73,7 +73,7 @@ router.get('/status', (req, res) => {
         // Simulation réaliste d'état de connexion WhatsApp
         const statusOptions = [
             { status: 'pending', emoji: '⏳', message: 'En attente de connexion' },
-            { status: 'scanning', emoji: '📱', message: QR code détecté' },
+            { status: 'scanning', emoji: '📱', message: 'QR code détecté' },
             { status: 'connected', emoji: '✅', message: 'Connexion WhatsApp réussie' },
             { status: 'failed', emoji: '❌', message: 'Échec de connexion' },
             { status: 'timeout', emoji: '⏰', message: 'Session expirée' }
