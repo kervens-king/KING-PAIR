@@ -1,363 +1,174 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PATERSON-MD | WhatsApp Bot</title>
-  <link rel="shortcut icon" href="https://files.catbox.moe/usgvo9.jpg" type="image/x-icon">
+  <link rel="shortcut icon" href="" type="image/x-icon">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      background-color: black;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      height: 100vh;
       margin: 0;
-      color: #e6e6e6;
+      color: white;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      overflow: hidden;
-      position: relative;
+      background-image: linear-gradient(to bottom, #000000, #1a1a1a, #2d2d2d);
     }
 
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 20%, rgba(41, 128, 185, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(52, 152, 219, 0.1) 0%, transparent 50%);
-      pointer-events: none;
-    }
-
-    .container {
+    .button-container {
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 40px;
-      background: rgba(15, 15, 25, 0.95);
-      border-radius: 20px;
-      box-shadow: 
-        0 0 50px rgba(0, 0, 0, 0.8),
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        inset 0 0 20px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      max-width: 500px;
-      width: 95%;
-      margin: 20px;
-      position: relative;
-      overflow: hidden;
+      padding: 20px;
+      background: rgba(30, 30, 30, 0.8);
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
     }
 
-    .container::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
-      transform: rotate(45deg);
-      animation: shine 6s infinite;
-    }
-
-    @keyframes shine {
-      0% { transform: rotate(45deg) translateX(-100%); }
-      100% { transform: rotate(45deg) translateX(100%); }
-    }
-
-    .logo {
-      width: 120px;
-      height: 120px;
-      margin-bottom: 25px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 
-        0 0 30px rgba(52, 152, 219, 0.4),
-        inset 0 0 20px rgba(0, 0, 0, 0.5);
-      position: relative;
-    }
-
-    .logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(0.3) contrast(1.1);
-    }
-
-    .logo::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(45deg, rgba(52, 152, 219, 0.2), rgba(41, 128, 185, 0.1));
-      border-radius: 50%;
-    }
-
-    .welcome-message {
+    h3 {
+      margin-top: -20px;
       margin-bottom: 30px;
-      text-align: center;
-    }
-
-    .welcome-title {
-      font-size: 2.5rem;
-      font-weight: 300;
-      margin-bottom: 10px;
-      background: linear-gradient(45deg, #3498db, #2c3e50, #95a5a6);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 2px 10px rgba(52, 152, 219, 0.3);
-      letter-spacing: 2px;
-    }
-
-    .welcome-subtitle {
-      color: #bdc3c7;
-      font-size: 1.1rem;
-      font-weight: 300;
-      line-height: 1.6;
-      max-width: 400px;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-    }
-
-    .button-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-      width: 100%;
-      max-width: 320px;
-      margin-bottom: 30px;
+      opacity: 0;
+      animation: fadeIn 3s forwards;
+      color: #00ff00;
+      text-shadow: 0 0 10px #00ff00;
+      font-size: 1.8rem;
     }
 
     .button {
-      width: 100%;
-      height: 60px;
+      width: 220px;
+      height: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      padding: 0 25px;
-      background: linear-gradient(135deg, rgba(41, 128, 185, 0.2), rgba(52, 152, 219, 0.1));
-      border-radius: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #ecf0f1;
-      cursor: pointer;
-      font-weight: 500;
-      font-size: 1rem;
-      text-decoration: none;
-      transition: all 0.3s ease;
+      gap: 10px;
+      padding: 0px 15px;
+      background-color: red;
+      border-radius: 10px;
+      border: none;
+      color: white;
       position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(10px);
-    }
-
-    .button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-      transition: left 0.6s;
+      cursor: pointer;
+      font-weight: 900;
+      transition-duration: .2s;
+      background: linear-gradient(0deg, #000, #272727);
+      text-decoration: none;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
     }
 
     .button:hover {
-      transform: translateY(-2px);
-      background: linear-gradient(135deg, rgba(41, 128, 185, 0.3), rgba(52, 152, 219, 0.2));
-      border-color: rgba(255, 255, 255, 0.2);
-      box-shadow: 
-        0 5px 20px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(52, 152, 219, 0.3);
-    }
-
-    .button:hover::before {
-      left: 100%;
-    }
-
-    .button:active {
-      transform: translateY(0);
-    }
-
-    .button-icon {
-      font-size: 1.3rem;
-      opacity: 0.9;
-    }
-
-    .button-text {
-      flex: 1;
-      text-align: center;
-    }
-
-    .support-section {
-      margin: 20px 0;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .support-title {
-      color: #95a5a6;
-      margin-bottom: 10px;
-      font-size: 0.9rem;
-      font-weight: 300;
+      transform: translateY(-3px);
     }
 
     footer {
-      margin-top: 30px;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 12px;
-      color: #7f8c8d;
-      font-weight: 300;
-      text-align: center;
-      width: 100%;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .version-badge {
-      display: inline-block;
-      background: linear-gradient(135deg, rgba(149, 165, 166, 0.2), rgba(127, 140, 141, 0.1));
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      margin-top: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #bdc3c7;
-    }
-
-    /* Effet de particules glacées */
-    .snowflakes {
       position: fixed;
-      top: 0;
-      left: 0;
+      bottom: 0;
       width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
+      background-color: #111;
+      color: #00ff00;
+      padding: 15px 0;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      text-shadow: 0 0 5px #00ff00;
     }
-
-    .snowflake {
+    
+    .button:before, .button:after {
+      content: '';
       position: absolute;
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 50%;
-      opacity: 0;
-      animation: fall linear infinite;
+      left: -2px;
+      top: -2px;
+      border-radius: 10px;
+      background: linear-gradient(45deg, #48ff00, #15ff00, #000000,#000000, #ff0000);
+      background-size: 400%;
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      z-index: -1;
+      animation: steam 10s linear infinite;
     }
 
-    @keyframes fall {
+    @keyframes steam {
       0% {
-        transform: translateY(-100px) rotate(0deg);
-        opacity: 0;
+        background-position: 0 0;
       }
-      10% {
-        opacity: 0.6;
-      }
-      90% {
-        opacity: 0.6;
+      50% {
+        background-position: 400% 0;
       }
       100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
+        background-position: 0 0;
       }
     }
 
-    @media (max-width: 480px) {
-      .container {
-        padding: 30px 20px;
-        margin: 15px;
+    .button:after {
+      filter: blur(50px);
+    }
+
+    .button span {
+      z-index: 1;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
       }
-      
-      .welcome-title {
-        font-size: 2rem;
-      }
-      
-      .welcome-subtitle {
-        font-size: 1rem;
-      }
-      
-      .logo {
-        width: 100px;
-        height: 100px;
-      }
-      
-      .button {
-        height: 55px;
-        font-size: 0.9rem;
-      }
+    }
+    
+    .info-text {
+      margin: 15px 0;
+      color: #aaa;
+      font-size: 0.9rem;
+      text-align: center;
+      max-width: 300px;
+    }
+    
+    .logo {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00ff00, #008800);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: bold;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
     }
   </style>
 </head>
 <body>
-  <!-- Effet de neige / particules glacées -->
-  <div class="snowflakes" id="snowflakes"></div>
-
-  <div class="container">
-    <div class="logo">
-      <img src="https://files.catbox.moe/usgvo9.jpg" alt="PATERSON-MD Logo">
-    </div>
+  <div class="button-container">
+    <div class="logo">P</div>
+    <h3>KERVENS SESSION</h3>
     
-    <div class="welcome-message">
-      <h1 class="welcome-title">BIENVENUE DANS L'OMBRE</h1>
-      <p class="welcome-subtitle">
-        L'élégance du froid rencontre la puissance du digital. 
-        PATERSON-MD vous souhaite la bienvenue dans un univers où 
-        chaque interaction est une expérience glaciale et raffinée.
-      </p>
-    </div>
+    <a href="/qr" class="button" target="_blank"> 
+      <span>QR-CODE</span>
+    </a>
     
-    <div class="button-grid">
-      <a href="/qr" class="button" target="_blank">
-        <span class="button-icon">❄️</span>
-        <span class="button-text">QR CODE GLACÉ</span>
-      </a>
-      
-      <!-- ⭐ MODIFICATION IMPORTANTE ICI ⭐ -->
-      <a href="/pair-page" class="button" target="_blank">
-        <span class="button-icon">🔗</span>
-        <span class="button-text">PAIRING CODE</span>
-      </a>
-      
-      <a href="https://github.com/PATERSON-MD/PATERSON-MD" class="button" target="_blank">
-        <span class="button-icon">⚡</span>
-        <span class="button-text">CODE SOURCE</span>
-      </a>
-      
-      <a href="https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20" class="button" target="_blank">
-        <span class="button-icon">📢</span>
-        <span class="button-text">CHAÎNE OFFICIELLE</span>
-      </a>
-    </div>
+    <a href="/pair" class="button" target="_blank"> 
+      <span>PAIRING-CODE</span>
+    </a>
+    
+    <a href="https://github.com/PATERSON-MD/PATERSON-MD/fork" class="button" target="_blank"> 
+      <span>FORK PATERSON-MD</span>
+    </a>
+    
+    <a href="https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20" class="button" target="_blank"> 
+      <span>WHATSAPP CHANNEL</span>
+    </a>
 
-    <div class="support-section">
-      <p class="support-title">Support Technique Glacé</p>
-      <a href="https://wa.me/50942737567" class="button" target="_blank">
-        <span class="button-icon">💎</span>
-        <span class="button-text">CONTACTER LE SUPPORT</span>
-      </a>
-    </div>
-
-    <div class="version-badge">Version 3.6.0 | FROST EDITION</div>
+    <p class="info-text">Pour toute assistance technique, contactez-nous :</p>
+    
+    <a href="https://wa.me/50942737567" class="button" target="_blank"> 
+      <span>SUPPORT TECHNIQUE</span>
+    </a>
 
     <footer>
-      PATERSON-MD &copy; <span id="currentYear"></span> | 
-      <span style="color: #3498db;">Kervens Aubourg</span> | 
-      Tous droits réservés
+     PATERSON-MD &copy; <span id="currentYear"></span> | Créé par Kervens Aubourg
     </footer>
   </div>
   
@@ -365,47 +176,16 @@
     // Ajouter l'année actuelle dans le footer
     document.getElementById('currentYear').textContent = new Date().getFullYear();
     
-    // Créer l'effet de neige/particules glacées
-    function createSnowflakes() {
-      const container = document.getElementById('snowflakes');
-      const snowflakeCount = 40;
-      
-      for (let i = 0; i < snowflakeCount; i++) {
-        const snowflake = document.createElement('div');
-        snowflake.className = 'snowflake';
-        
-        // Taille aléatoire entre 2px et 6px
-        const size = Math.random() * 4 + 2;
-        snowflake.style.width = `${size}px`;
-        snowflake.style.height = `${size}px`;
-        
-        // Position aléatoire
-        snowflake.style.left = `${Math.random() * 100}%`;
-        snowflake.style.top = `${Math.random() * 100}%`;
-        
-        // Animation aléatoire
-        const duration = Math.random() * 10 + 10;
-        const delay = Math.random() * 20;
-        snowflake.style.animationDuration = `${duration}s`;
-        snowflake.style.animationDelay = `${delay}s`;
-        
-        container.appendChild(snowflake);
-      }
-    }
-    
-    // Animation des boutons
+    // Animation supplémentaire pour les boutons
     document.querySelectorAll('.button').forEach(button => {
       button.addEventListener('mouseenter', () => {
-        button.style.transform = 'translateY(-2px) scale(1.02)';
+        button.style.transform = 'scale(1.05)';
       });
       
       button.addEventListener('mouseleave', () => {
-        button.style.transform = 'translateY(0) scale(1)';
+        button.style.transform = 'scale(1)';
       });
     });
-    
-    // Initialiser les effets
-    createSnowflakes();
   </script>
 </body>
-</html>
+  </html>
