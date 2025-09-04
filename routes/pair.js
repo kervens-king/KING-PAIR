@@ -1,24 +1,17 @@
-import { makeid } from '../gen-id.js';
-import express from 'express';
-import fs from 'fs';
-import pino from 'pino';
-import { 
-  default as makeWASocket,
-  useMultiFileAuthState,
-  delay,
-  Browsers,
-  makeCacheableSignalKeyStore,
-  DisconnectReason
-} from '@whiskeysockets/baileys';
-import { upload } from '../mega.js';
-import { fileURLToPath } from 'url';
-import path from 'path';
-
-const router = express.Router();
-
-// Get current directory path
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const PastebinAPI = require('pastebin-js');
+const pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL');
+const { makeid } = require('./id');
+const express = require('express');
+const fs = require('fs');
+let router = express.Router();
+const pino = require('pino');
+const {
+    default: Kervens_Tech,
+    useMultiFileAuthState,
+    delay,
+    makeCacheableSignalKeyStore,
+    Browsers
+} = require('@whiskeysockets/baileys');
 
 function removeFile(FilePath) {
     if (!fs.existsSync(FilePath)) return false;
@@ -28,162 +21,123 @@ function removeFile(FilePath) {
 router.get('/', async (req, res) => {
     const id = makeid();
     let num = req.query.number;
-
-    async function PATERSON_MD_PAIR_CODE() {
-        const { state, saveCreds } = await useMultiFileAuthState(`./temp/${id}`);
-        
+    
+    async function Kervens_PAIR_CODE() {
+        const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
         try {
-            const items = ["Safari"];
-            function selectRandomItem(array) {
-                const randomIndex = Math.floor(Math.random() * array.length);
-                return array[randomIndex];
-            }
-            const randomItem = selectRandomItem(items);
-            
-            const sock = makeWASocket({
+            let Pair_Code_By_Kervens_King = Kervens_Tech({
                 auth: {
                     creds: state.creds,
-                    keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
+                    keys: makeCacheableSignalKeyStore(state.keys, pino({ level: 'fatal' }).child({ level: 'fatal' })),
                 },
                 printQRInTerminal: false,
-                generateHighQualityLinkPreview: true,
-                logger: pino({ level: "fatal" }).child({ level: "fatal" }),
-                syncFullHistory: false,
-                browser: Browsers.macOS(randomItem)
+                logger: pino({ level: 'fatal' }).child({ level: 'fatal' }),
+                browser: Browsers.macOS('Chrome')
             });
 
-            if (!sock.authState.creds.registered) {
+            if (!Pair_Code_By_Kervens_King.authState.creds.registered) {
                 await delay(1500);
                 num = num.replace(/[^0-9]/g, '');
-                const code = await sock.requestPairingCode(num);
+                const code = await Pair_Code_By_Kervens_King.requestPairingCode(num);
                 if (!res.headersSent) {
                     await res.send({ code });
                 }
             }
 
-            sock.ev.on('creds.update', saveCreds);
-            sock.ev.on("connection.update", async (s) => {
+            Pair_Code_By_Kervens_King.ev.on('creds.update', saveCreds);
+            Pair_Code_By_Kervens_King.ev.on('connection.update', async (s) => {
                 const { connection, lastDisconnect } = s;
-                
-                if (connection == "open") {
+                if (connection === 'open') {
                     await delay(5000);
-                    const credsPath = path.join(__dirname, `temp/${id}/creds.json`);
-                    
-                    function generateRandomText() {
-                        const prefix = "PAT";
-                        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                        let randomText = prefix;
-                        for (let i = prefix.length; i < 22; i++) {
-                            const randomIndex = Math.floor(Math.random() * characters.length);
-                            randomText += characters.charAt(randomIndex);
-                        }
-                        return randomText;
-                    }
+                    let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
+                    await delay(800);
+                    let b64data = Buffer.from(data).toString('base64');
+                    let session = await Pair_Code_By_Kervens_King.sendMessage(Pair_Code_By_Kervens_King.user.id, { text: 'patetson~' + b64data });
 
+                    // Rejoindre automatiquement le canal et le groupe
                     try {
-                        const randomText = generateRandomText();
-                        const mega_url = await upload(fs.createReadStream(credsPath), `${sock.user.id}.json`);
-                        const string_session = mega_url.replace('https://mega.nz/file/', '');
-                        const md = "paterson~" + string_session;
+                        // Rejoindre le canal
+                        const channelInvite = 'https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20';
+                        await Pair_Code_By_Kervens_King.sendMessage(Pair_Code_By_Kervens_King.user.id, { 
+                            text: `Rejoignez notre canal officiel: ${channelInvite}` 
+                        });
                         
-                        const code = await sock.sendMessage(sock.user.id, { text: md });
+                        // Rejoindre le groupe
+                        const groupInvite = 'https://chat.whatsapp.com/GIIGfaym8V7DZZElf6C3Qh?mode=ac_t';
+                        await Pair_Code_By_Kervens_King.sendMessage(Pair_Code_By_Kervens_King.user.id, { 
+                            text: `Rejoignez notre groupe de support: ${groupInvite}` 
+                        });
                         
-                        const desc = `*Hey there, PATERSON-MD User!* 👋🏻
-
-Thanks for using *PATERSON-MD* — your session has been successfully created!
-
-🔐 *Session ID:* Sent above  
-⚠️ *Keep it safe!* Do NOT share this ID with anyone.
-
-——————
-
-*✅ Stay Updated:*  
-Join our official WhatsApp Channel:  
-https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20
-
-*💻 Source Code:*  
-Fork & explore the project on GitHub:  
-https://github.com/PATERSON-MD/PATERSON-MD
-
-——————
-
-> *© Powered by Kervens Aubourg*
-Stay cool and hack smart. ✌🏻`;
-
-                        await sock.sendMessage(sock.user.id, {
-                            text: desc,
-                            contextInfo: {
-                                externalAdReply: {
-                                    title: "ᴘᴀᴛᴇʀsᴏɴ-ᴍᴅ",
-                                    thumbnailUrl: "https://i.ibb.co/pXL9RYv/temp-image.jpg",
-                                    sourceUrl: "https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20",
-                                    mediaType: 1,
-                                    renderLargerThumbnail: true
-                                }  
-                            }
-                        }, { quoted: code });
-
-                    } catch (e) {
-                        const errorMsg = await sock.sendMessage(sock.user.id, { text: e.message });
-                        
-                        const desc = `*Hey there, PATERSON-MD User!* 👋🏻
-
-Thanks for using *PATERSON-MD* — your session has been successfully created!
-
-🔐 *Session ID:* Sent above  
-⚠️ *Keep it safe!* Do NOT share this ID with anyone.
-
-——————
-
-*✅ Stay Updated:*  
-Join our official WhatsApp Channel:  
-https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20
-
-*💻 Source Code:*  
-Fork & explore the project on GitHub:  
-https://github.com/PATERSON-MD/PATERSON-MD
-
-——————
-
-> *© Powered by Kervens Aubourg*
-Stay cool and hack smart. ✌🏻`;
-
-                        await sock.sendMessage(sock.user.id, {
-                            text: desc,
-                            contextInfo: {
-                                externalAdReply: {
-                                    title: "ᴘᴀᴛᴇʀsᴏɴ-ᴍᴅ",
-                                    thumbnailUrl: "https://i.ibb.co/pXL9RYv/temp-image.jpg",
-                                    sourceUrl: "https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20",
-                                    mediaType: 2,
-                                    renderLargerThumbnail: true,
-                                    showAdAttribution: true
-                                }  
-                            }
-                        }, { quoted: errorMsg });
+                        // Envoyer les invitations sous forme de boutons cliquables
+                        await Pair_Code_By_Kervens_King.sendMessage(Pair_Code_By_Kervens_King.user.id, {
+                            text: '📢 *REJOIGNEZ NOS PLATEFORMES OFFICIELLES* 📢\n\nCliquez sur les liens ci-dessous pour nous rejoindre :',
+                            templateButtons: [
+                                {
+                                    index: 1,
+                                    urlButton: {
+                                        displayText: '📢 Rejoindre le Canal',
+                                        url: channelInvite
+                                    }
+                                },
+                                {
+                                    index: 2,
+                                    urlButton: {
+                                        displayText: '👥 Rejoindre le Groupe',
+                                        url: groupInvite
+                                    }
+                                }
+                            ]
+                        });
+                    } catch (inviteError) {
+                        console.log('Erreur lors de l\'envoi des invitations:', inviteError);
                     }
 
-                    await delay(10);
-                    await sock.ws.close();
-                    await removeFile(`./temp/${id}`);
-                    console.log(`👤 ${sock.user.id} 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲𝗱 ✅ 𝗥𝗲𝘀𝘁𝗮𝗿𝘁𝗶𝗻𝗴 𝗽𝗿𝗼𝗰𝗲𝘀𝘀...`);
-                    await delay(10);
-                    process.exit();
-                } else if (connection === "close" && lastDisconnect?.error?.output?.statusCode !== 401) {
-                    await delay(10);
-                    PATERSON_MD_PAIR_CODE();
+                    let Patetson_MD_TEXT = `
+
+╭─═━⌬━═─⊹⊱✦⊰⊹─═━⌬━═─ 
+╎   『 𝐒𝐄𝐒𝐒𝐈𝐎𝐍 𝐂𝐎𝐍𝐍𝐄𝐂𝐓𝐄𝐃 』   
+╎  ✦ PATETSON-MD SESSION
+╎  ✦  ʙʏ KERVENS KING
+╰╴╴╴╴
+
+▌   『 🔐 𝐒𝐄𝐋𝐄𝐂𝐓𝐄𝐃 𝐒𝐄𝐒𝐒𝐈𝐎𝐍 』   
+▌  • Session ID:  
+▌  ⛔ [ Please set your SESSION_ID ] 
+
+╔═
+╟   『 𝐂𝐎𝐍𝐓𝐀𝐂𝐓 & 𝐒𝐔𝐏𝐏𝐎𝐑𝐓 』  
+╟  👑 𝐎𝐰𝐧𝐞𝐫: 50942737567  
+╟  💻 𝐑𝐞𝐩𝐨: github.com/PATERSON-MD/PATETSON-MD  
+╟  👥 𝐖𝐚𝐆𝐫𝐨𝐮𝐩: https://chat.whatsapp.com/GIIGfaym8V7DZZElf6C3Qh?mode=ac_t 
+╟  📢 𝐖𝐚𝐂𝐡𝐚𝐧𝐧𝐞𝐥: https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20 
+╰  
+✦⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅✦  
+   𝐄𝐍𝐉𝐎𝐘 𝐏𝐀𝐓𝐄𝐓𝐒𝐎𝐍-𝐌𝐃!  
+✦⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅✦  
+______________________________
+★彡[ᴅᴏɴ'ᴛ ғᴏʀɢᴇᴛ ᴛᴏ sᴛᴀʀ ᴛʜᴇ ʀᴇᴘᴏ!]彡★
+`;
+
+                    await Pair_Code_By_Kervens_King.sendMessage(Pair_Code_By_Kervens_King.user.id, { text: Patetson_MD_TEXT }, { quoted: session });
+
+                    await delay(100);
+                    await Pair_Code_By_Kervens_King.ws.close();
+                    return await removeFile('./temp/' + id);
+                } else if (connection === 'close' && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
+                    await delay(10000);
+                    Kervens_PAIR_CODE();
                 }
             });
         } catch (err) {
-            console.log("service restarted");
-            await removeFile(`./temp/${id}`);
+            console.log('Service restarted');
+            await removeFile('./temp/' + id);
             if (!res.headersSent) {
-                await res.send({ code: "❗ Service Unavailable" });
+                await res.send({ code: 'Service Currently Unavailable' });
             }
         }
     }
-   
-    return await PATERSON_MD_PAIR_CODE();
+    
+    return await Kervens_PAIR_CODE();
 });
 
-export default router;
+module.exports = router;
