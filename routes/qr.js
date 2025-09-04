@@ -1,105 +1,108 @@
-import { makeid } from '../gen-id.js';
-import express from 'express';
-import QRCode from 'qrcode';
-import fs from 'fs';
-import pino from 'pino';
-import { 
-  default as makeWASocket,
-  useMultiFileAuthState,
-  delay,
-  Browsers
-} from "@whiskeysockets/baileys";
-import { upload } from '../mega.js';
-
-const router = express.Router();
+const PastebinAPI = require('pastebin-js'),
+pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL')
+const {makeid} = require('./id');
+const QRCode = require('qrcode');
+const express = require('express');
+const path = require('path');
+const fs = require('fs');
+let router = express.Router()
+const pino = require("pino");
+const {
+	default: PATERSON_MD,
+	useMultiFileAuthState,
+	jidNormalizedUser,
+	Browsers,
+	delay,
+	makeInMemoryStore,
+} = require("@whiskeysockets/baileys");
 
 function removeFile(FilePath) {
-    if (!fs.existsSync(FilePath)) return false;
-    fs.rmSync(FilePath, { recursive: true, force: true });
-}
-
+	if (!fs.existsSync(FilePath)) return false;
+	fs.rmSync(FilePath, {
+		recursive: true,
+		force: true
+	})
+};
+const {
+	readFile
+} = require("node:fs/promises")
 router.get('/', async (req, res) => {
-    const id = makeid();
-    let responseSent = false;
+	const id = makeid();
+	async function PATERSON_MD_QR_CODE() {
+		const {
+			state,
+			saveCreds
+		} = await useMultiFileAuthState('./temp/' + id)
+		try {
+			let Qr_Code_By_Kervens_King = PATERSON_MD({
+				auth: state,
+				printQRInTerminal: false,
+				logger: pino({
+					level: "silent"
+				}),
+				browser: Browsers.macOS("Desktop"),
+			});
 
-    async function PATERSON_MD_PAIR_CODE() {
-        const { state, saveCreds } = await useMultiFileAuthState(`./temp/${id}`);
-        
-        try {
-            const sock = makeWASocket({
-                auth: state,
-                printQRInTerminal: false,
-                logger: pino({ level: "silent" }),
-                browser: Browsers.macOS("Desktop"),
-            });
+			Qr_Code_By_Kervens_King.ev.on('creds.update', saveCreds)
+			Qr_Code_By_Kervens_King.ev.on("connection.update", async (s) => {
+				const {
+					connection,
+					lastDisconnect,
+					qr
+				} = s;
+				if (qr) await res.end(await QRCode.toBuffer(qr));
+				if (connection == "open") {
+					await delay(5000);
+					let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
+					await delay(800);
+				   let b64data = Buffer.from(data).toString('base64');
+				   let session = await Qr_Code_By_Kervens_King.sendMessage(Qr_Code_By_Kervens_King.user.id, { text: 'paterson~' + b64data });
+	
+				   let PATERSON_MD_TEXT = `
+╭─═━⌬━═─⊹⊱✦⊰⊹─═━⌬━═─ 
+╎   『 𝐒𝐄𝐒𝐒𝐈𝐎𝐍 𝐂𝐎𝐍𝐍𝐄𝐂𝐓𝐄𝐃 』   
+╎  ✦ PATERSON-MD SESSION
+╎  ✦  ʙʏ Kervens King
+╰╴╴╴╴
 
-            sock.ev.on('creds.update', saveCreds);
-            sock.ev.on("connection.update", async (update) => {
-                const { connection, lastDisconnect, qr } = update;
+▌   『 🔐 𝐒𝐄𝐋𝐄𝐂𝐓𝐄𝐃 𝐒𝐄𝐒𝐒𝐈𝐎𝐍 』   
+▌  • Session ID:  
+▌  ⛔ [ Please set your SESSION_ID ] 
 
-                if (qr && !responseSent) {
-                    try {
-                        const qrBuffer = await QRCode.toBuffer(qr);
-                        responseSent = true;
-                        res.setHeader('Content-Type', 'image/png');
-                        res.end(qrBuffer);
-                    } catch (e) {
-                        console.error("QR generation error:", e);
-                        if (!responseSent) {
-                            responseSent = true;
-                            res.status(500).json({ error: "QR generation failed" });
-                        }
-                    }
-                }
+╔═
+╟   『 𝐂𝐎𝐍𝐓𝐀𝐂𝐓 & 𝐒𝐔𝐏𝐏𝐎𝐑𝐓 』  
+╟  👑 𝐎𝐰𝐧𝐞𝐫: 50942737567 
+╟  💻 𝐑𝐞𝐩𝐨: github.com/PATERSON-MD/PATERSON-MD 
+╟  👥 𝐖𝐚𝐆𝐫𝐨𝐮𝐩: https://chat.whatsapp.com/YourGroupLink 
+╟  📢 𝐖𝐚𝐂𝐡𝐚𝐧𝐧𝐞𝐥: https://whatsapp.com/channel/YourChannelLink 
+╰  
+✦⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅✦  
+   𝐄𝐍𝐉𝐎𝐘 𝐏𝐀𝐓𝐄𝐑𝐒𝐎𝐍-𝐌𝐃!  
+✦⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅✦  
+______________________________
+★彡[ᴅᴏɴ'ᴛ ғᴏʀɢᴇᴛ ᴛᴏ sᴛᴀʀ ᴛʜᴇ ʀᴇᴘᴏ!]彡★`;
+	 await Qr_Code_By_Kervens_King.sendMessage(Qr_Code_By_Kervens_King.user.id,{text:PATERSON_MD_TEXT},{quoted:session})
 
-                if (connection === "open") {
-                    try {
-                        // Utilisation de import.meta.url pour __dirname
-                        const currentDir = new URL('.', import.meta.url).pathname;
-                        const credsPath = `${currentDir}temp/${id}/creds.json`;
-                        
-                        const megaUrl = await upload(fs.createReadStream(credsPath), `${sock.user.id}.json`);
-                        const sessionCode = `paterson~${megaUrl.replace('https://mega.nz/file/', '')}`;
 
-                        await sock.sendMessage(sock.user.id, { text: sessionCode });
 
-                        const successMessage = `*Hey there, PATERSON-MD User!* 👋🏻\n\nYour session is ready!\n🔐 *Session ID:* Sent above\n⚠️ *Keep it safe!*\n\nJoin our channel:\nhttps://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20`;
-                        
-                        await sock.sendMessage(sock.user.id, {
-                            text: successMessage,
-                            contextInfo: {
-                                externalAdReply: {
-                                    title: "PATERSON-MD Connected",
-                                    thumbnailUrl: "https://i.ibb.co/pXL9RYv/temp-image.jpg",
-                                    sourceUrl: "https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20",
-                                    mediaType: 1
-                                }
-                            }
-                        });
-
-                    } catch (e) {
-                        console.error("Session error:", e);
-                        await sock.sendMessage(sock.user.id, { 
-                            text: `Error: ${e.message}\n\nContact support if this persists.`
-                        });
-                    } finally {
-                        await delay(100);
-                        await sock.ws.close();
-                        removeFile(`./temp/${id}`);
-                    }
-                }
-            });
-        } catch (err) {
-            console.error("Setup error:", err);
-            if (!responseSent) {
-                responseSent = true;
-                res.status(500).json({ error: "Initialization failed" });
-            }
-            removeFile(`./temp/${id}`);
-        }
-    }
-
-    await PATERSON_MD_PAIR_CODE();
+					await delay(100);
+					await Qr_Code_By_Kervens_King.ws.close();
+					return await removeFile("temp/" + id);
+				} else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
+					await delay(10000);
+					PATERSON_MD_QR_CODE();
+				}
+			});
+		} catch (err) {
+			if (!res.headersSent) {
+				await res.json({
+					code: "Service is Currently Unavailable"
+				});
+			}
+			console.log(err);
+			await removeFile("temp/" + id);
+		}
+	}
+	return await PATERSON_MD_QR_CODE()
 });
-
-export default router;
+module.exports = router
