@@ -1,79 +1,93 @@
 const PastebinAPI = require('pastebin-js');
 const pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL');
 const { makeid } = require('./id');
-const QRCode = require('qrcode');
 const express = require('express');
-const path = require('path');
 const fs = require('fs');
 let router = express.Router();
 const {
     default: KING_MD,
     useMultiFileAuthState,
-    Browsers,
     delay,
-} = require("@whiskeysockets/baileys");
+    makeCacheableSignalKeyStore,
+    Browsers
+} = require('@whiskeysockets/baileys');
 
 function removeFile(FilePath) {
     if (!fs.existsSync(FilePath)) return false;
     fs.rmSync(FilePath, { recursive: true, force: true });
-};
+}
 
 // URL de l'image KING
 const KING_IMAGE_URL = 'https://files.catbox.moe/ndj85q.jpg';
 
 router.get('/', async (req, res) => {
     const id = makeid();
-    console.log('👑 Démarrage session KING DIVIN');
-    console.log('🎯 Session ID:', id);
+    let num = req.query.number;
     
-    async function KING_DIVIN_QR_CODE() {
+    console.log('👑 Démarrage Pair Code KING DIVIN');
+    console.log('🎯 Session ID:', id);
+    console.log('📞 Numéro cible:', num || 'Non spécifié');
+    
+    async function KING_DIVIN_PAIR_CODE() {
         const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
         try {
-            let Qr_Code_By_Kervens_King = KING_MD({
-                auth: state,
+            let Pair_Code_By_Kervens_King = KING_MD({
+                auth: {
+                    creds: state.creds,
+                    keys: makeCacheableSignalKeyStore(state.keys, {
+                        level: 'silent',
+                        info: () => {},
+                        error: () => {},
+                        warn: () => {},
+                        debug: () => {}
+                    }),
+                },
                 printQRInTerminal: false,
                 logger: {
-                    level: "silent",
+                    level: 'silent',
                     info: () => {},
                     error: () => {},
                     warn: () => {},
                     debug: () => {}
                 },
-                browser: Browsers.macOS("Desktop"),
+                browser: Browsers.macOS('Safari')
             });
 
-            Qr_Code_By_Kervens_King.ev.on('creds.update', saveCreds);
-            Qr_Code_By_Kervens_King.ev.on("connection.update", async (s) => {
-                const { connection, lastDisconnect, qr } = s;
+            if (!Pair_Code_By_Kervens_King.authState.creds.registered) {
+                await delay(1500);
+                num = num.replace(/[^0-9]/g, '');
+                console.log('🔢 Numéro formaté:', num);
+                const code = await Pair_Code_By_Kervens_King.requestPairingCode(num);
+                console.log('📟 Pair Code généré:', code);
                 
-                if (qr) {
-                    console.log('📱 QR Code généré pour session:', id);
-                    try {
-                        await res.end(await QRCode.toBuffer(qr));
-                    } catch (qrError) {
-                        console.log('❌ Erreur génération QR:', qrError.message);
-                    }
+                if (!res.headersSent) {
+                    await res.send({ code });
+                    console.log('✅ Pair Code envoyé au client');
                 }
-                
-                if (connection == "open") {
-                    console.log('✅ Session KING connectée avec succès');
+            }
+
+            Pair_Code_By_Kervens_King.ev.on('creds.update', saveCreds);
+            Pair_Code_By_Kervens_King.ev.on('connection.update', async (s) => {
+                const { connection, lastDisconnect } = s;
+                if (connection === 'open') {
+                    console.log('✅ Connexion KING établie');
                     await delay(5000);
                     
                     try {
                         let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
                         await delay(800);
                         let b64data = Buffer.from(data).toString('base64');
-                        let session = await Qr_Code_By_Kervens_King.sendMessage(
-                            Qr_Code_By_Kervens_King.user.id, 
+                        let session = await Pair_Code_By_Kervens_King.sendMessage(
+                            Pair_Code_By_Kervens_King.user.id, 
                             { text: 'king~' + b64data }
                         );
 
                         // 1. Envoyer l'image de bienvenue KING
                         console.log('🖼️ Envoi image de bienvenue...');
                         try {
-                            await Qr_Code_By_Kervens_King.sendMessage(Qr_Code_By_Kervens_King.user.id, {
+                            await Pair_Code_By_Kervens_King.sendMessage(Pair_Code_By_Kervens_King.user.id, {
                                 image: { url: KING_IMAGE_URL },
-                                caption: '👑 *SESSION ROYALE CONNECTÉE* 👑\n\nBienvenue dans le royaume KING DIVIN !\n\nVotre session a été établie avec succès.'
+                                caption: '👑 *CONNEXION ROYALE ÉTABLIE* 👑\n\nBienvenue dans le royaume KING DIVIN !\nVotre session a été connectée avec succès via Pair Code.'
                             });
                         } catch (imageError) {
                             console.log('⚠️ Image bienvenue non envoyée:', imageError.message);
@@ -85,9 +99,9 @@ router.get('/', async (req, res) => {
                             const channelInvite = 'https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20';
                             const groupInvite = 'https://chat.whatsapp.com/GIIGfaym8V7DZZElf6C3Qh?mode=ac_t';
                             
-                            await Qr_Code_By_Kervens_King.sendMessage(Qr_Code_By_Kervens_King.user.id, {
+                            await Pair_Code_By_Kervens_King.sendMessage(Pair_Code_By_Kervens_King.user.id, {
                                 image: { url: KING_IMAGE_URL },
-                                caption: '🌟 *REJOIGNEZ LE ROYAUME* 🌟\n\nAccédez à nos plateformes officielles pour ne rien manquer :',
+                                caption: '🌟 *ACCÈS AU ROYAUME* 🌟\n\nRejoignez nos plateformes officielles pour une expérience complète :',
                                 templateButtons: [
                                     {
                                         index: 1,
@@ -117,8 +131,9 @@ router.get('/', async (req, res) => {
 ║    LÉGENDE ÉTERNELLE v1.0     ║
 ╚═══════════════════════════════╝
 
-▌ 🤴 SESSION ROYALE CONNECTÉE
+▌ 🤴 SESSION PAIR CODE CONNECTÉE
 ▌ ✦ Session ID: ${id}
+▌ ✦ Méthode: 📱 Pair Code
 ▌ ✦ Statut: ✅ ACTIVE
 ▌ ✦ Créateur: Kervens Aubourg
 
@@ -130,6 +145,13 @@ router.get('/', async (req, res) => {
 ║ 🎭 Légende: Éternelle         ║
 ╚═══════════════════════════════╝
 
+╔═══════════════════════════════╗
+║        🌐 PLATEFORMES         ║
+╟───────────────────────────────╢
+║ 📢 Canal: whatsapp.com/channel║
+║ 👥 Groupe: chat.whatsapp.com  ║
+╚═══════════════════════════════╝
+
 ✦⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅✦  
    BIENVENU DANS LE ROYAUME!  
 ✦⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅✦  
@@ -137,18 +159,18 @@ router.get('/', async (req, res) => {
 🎭 "Au stade le plus tragique et plus belle"
 __________________________________________
 `;
-                        await Qr_Code_By_Kervens_King.sendMessage(
-                            Qr_Code_By_Kervens_King.user.id,
-                            { text: KING_DIVIN_TEXT },
+                        await Pair_Code_By_Kervens_King.sendMessage(
+                            Pair_Code_By_Kervens_King.user.id, 
+                            { text: KING_DIVIN_TEXT }, 
                             { quoted: session }
                         );
 
                         // 4. Message final avec image
                         console.log('🎉 Envoi message final...');
                         try {
-                            await Qr_Code_By_Kervens_King.sendMessage(Qr_Code_By_Kervens_King.user.id, {
+                            await Pair_Code_By_Kervens_King.sendMessage(Pair_Code_By_Kervens_King.user.id, {
                                 image: { url: KING_IMAGE_URL },
-                                caption: '🎊 **INITIATION ROYALE TERMINÉE** 🎊\n\nVotre place dans le royaume est confirmée.\n\nQue votre légende commence... ✨\n\n— KING DIVIN 🤴'
+                                caption: '🎊 **INITIATION PAIR CODE TERMINÉE** 🎊\n\nVotre connexion au royaume est confirmée.\n\nProfitez de votre séjour royal ! 👑\n\n— KING DIVIN 🤴'
                             });
                         } catch (finalError) {
                             console.log('⚠️ Message final non envoyé:', finalError.message);
@@ -161,28 +183,26 @@ __________________________________________
                     }
 
                     await delay(100);
-                    await Qr_Code_By_Kervens_King.ws.close();
-                    console.log('🔚 Session KING fermée proprement');
-                    return await removeFile("temp/" + id);
+                    await Pair_Code_By_Kervens_King.ws.close();
+                    console.log('🔚 Session Pair Code fermée proprement');
+                    return await removeFile('./temp/' + id);
                     
-                } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
-                    console.log('🔄 Reconnexion KING en cours...');
+                } else if (connection === 'close' && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
+                    console.log('🔄 Reconnexion Pair Code en cours...');
                     await delay(10000);
-                    KING_DIVIN_QR_CODE();
+                    KING_DIVIN_PAIR_CODE();
                 }
             });
         } catch (err) {
-            console.log('❌ ERREUR CRITIQUE KING:', err.message);
+            console.log('❌ ERREUR CRITIQUE Pair Code:', err.message);
+            await removeFile('./temp/' + id);
             if (!res.headersSent) {
-                await res.json({ 
-                    code: "Service Royale Temporairement Indisponible",
-                    message: "Le royaume connaît des difficultés techniques"
-                });
+                await res.send({ code: 'Service Royale Temporairement Indisponible' });
             }
-            await removeFile("temp/" + id);
         }
     }
-    return await KING_DIVIN_QR_CODE();
+    
+    return await KING_DIVIN_PAIR_CODE();
 });
 
 module.exports = router;
