@@ -1,0 +1,30 @@
+# =============================================
+# KING - Template .env pour contributeurs
+# Copiez en .env et modifiez les valeurs
+# =============================================
+
+# 🌍 ENVIRONNEMENT
+NODE_ENV=production
+LOG_LEVEL=info
+PORT=3000
+TIMEZONE=Africa/Porto-Novo
+
+# 👤 PROPRIÉTAIRE (À MODIFIER)
+OWNER_NUMBER=+22900000000
+OWNER_NAME=VotreNom
+BOT_NAME=KING
+PREFIX=.
+WORKTYPE=public
+
+# 🔧 CONFIGURATION
+SESSION_ID=king_session_pair
+SESSION_TYPE=pair
+LANG_CODE=fr
+
+# 🛡️ SÉCURITÉ
+ANTILINK=false
+REJECT_CALL=true
+
+# 🌐 SERVICES (Optionnel)
+MEGA_EMAIL=votre@email.com
+MEGA_PASSWORD=votre_mot_de_passe
