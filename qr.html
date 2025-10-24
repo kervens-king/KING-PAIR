@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PATERSON-MD | QR Code Glacé</title>
-  <link rel="shortcut icon" href="https://files.catbox.moe/usgvo9.jpg" type="image/x-icon">
+  <title>KING 🤴 - QR Code Royal</title>
+  <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=MedievalSharp&display=swap');
+    
     * {
       margin: 0;
       padding: 0;
@@ -21,7 +23,7 @@
       min-height: 100vh;
       margin: 0;
       color: #e6e6e6;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Cinzel', serif;
       overflow: hidden;
       position: relative;
       padding: 20px;
@@ -35,8 +37,8 @@
       width: 100%;
       height: 100%;
       background: 
-        radial-gradient(circle at 20% 20%, rgba(41, 128, 185, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(52, 152, 219, 0.1) 0%, transparent 50%);
+        radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 140, 0, 0.1) 0%, transparent 50%);
       pointer-events: none;
     }
 
@@ -67,7 +69,7 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+      background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.05), transparent);
       transform: rotate(45deg);
       animation: shine 6s infinite;
     }
@@ -77,35 +79,21 @@
       100% { transform: rotate(45deg) translateX(100%); }
     }
 
-    .logo {
-      width: 100px;
-      height: 100px;
+    .crown-logo {
+      font-size: 4rem;
       margin-bottom: 20px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 
-        0 0 30px rgba(52, 152, 219, 0.4),
-        inset 0 0 20px rgba(0, 0, 0, 0.5);
-      position: relative;
+      animation: crownGlow 4s ease-in-out infinite;
+      text-shadow: 
+        0 0 20px gold,
+        0 0 40px orange,
+        0 0 60px red;
+      filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
     }
 
-    .logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(0.3) contrast(1.1);
-    }
-
-    .logo::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(45deg, rgba(52, 152, 219, 0.2), rgba(41, 128, 185, 0.1));
-      border-radius: 50%;
+    @keyframes crownGlow {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(1.1) rotate(-2deg); }
+      75% { transform: scale(1.1) rotate(2deg); }
     }
 
     .welcome-message {
@@ -115,14 +103,16 @@
 
     .welcome-title {
       font-size: 2.2rem;
-      font-weight: 300;
+      font-weight: 900;
       margin-bottom: 10px;
-      background: linear-gradient(45deg, #3498db, #2c3e50, #95a5a6);
+      background: linear-gradient(45deg, gold, orange, red, purple);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      text-shadow: 0 2px 10px rgba(52, 152, 219, 0.3);
+      text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
       letter-spacing: 1.5px;
+      font-family: 'MedievalSharp', cursive;
+      text-transform: uppercase;
     }
 
     .welcome-subtitle {
@@ -146,8 +136,8 @@
       background: white;
       padding: 15px;
       border-radius: 15px;
-      box-shadow: 0 0 30px rgba(52, 152, 219, 0.6);
-      border: 3px solid rgba(52, 152, 219, 0.3);
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+      border: 3px solid rgba(255, 215, 0, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -178,15 +168,16 @@
 
     .countdown {
       font-size: 1.3rem;
-      color: #3498db;
+      color: gold;
       font-weight: bold;
       margin: 15px 0;
-      text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+      font-family: 'MedievalSharp', cursive;
     }
 
-    .btn-glacial {
-      background: linear-gradient(135deg, #2980b9, #2c3e50);
-      color: white;
+    .btn-royal {
+      background: linear-gradient(135deg, gold, orange);
+      color: #000;
       border: none;
       padding: 16px 30px;
       border-radius: 12px;
@@ -195,25 +186,28 @@
       cursor: pointer;
       transition: all 0.3s ease;
       letter-spacing: 1px;
-      box-shadow: 0 5px 25px rgba(41, 128, 185, 0.6);
+      box-shadow: 0 5px 25px rgba(255, 215, 0, 0.6);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
       border: 1px solid rgba(255, 255, 255, 0.2);
+      font-family: 'Cinzel', serif;
+      text-transform: uppercase;
     }
 
-    .btn-glacial:hover:not(:disabled) {
+    .btn-royal:hover:not(:disabled) {
       transform: translateY(-3px);
-      background: linear-gradient(135deg, #3498db, #34495e);
-      box-shadow: 0 8px 30px rgba(41, 128, 185, 0.8);
+      background: linear-gradient(135deg, orange, red);
+      box-shadow: 0 8px 30px rgba(255, 140, 0, 0.8);
+      color: white;
     }
 
-    .btn-glacial:active {
+    .btn-royal:active {
       transform: translateY(1px);
     }
 
-    .btn-glacial:disabled {
+    .btn-royal:disabled {
       opacity: 0.7;
       cursor: not-allowed;
       transform: none;
@@ -222,14 +216,14 @@
     .status-container {
       margin: 20px 0;
       padding: 15px;
-      background: rgba(41, 128, 185, 0.1);
+      background: rgba(255, 215, 0, 0.1);
       border-radius: 12px;
-      border: 1px solid rgba(41, 128, 185, 0.3);
+      border: 1px solid rgba(255, 215, 0, 0.3);
       width: 100%;
     }
 
     .status-title {
-      color: #3498db;
+      color: gold;
       font-size: 1.1rem;
       margin-bottom: 8px;
       font-weight: 500;
@@ -251,7 +245,7 @@
     }
 
     .instructions-title {
-      color: #3498db;
+      color: gold;
       font-size: 1.2rem;
       margin-bottom: 15px;
       text-align: center;
@@ -265,8 +259,8 @@
     }
 
     .step-number {
-      background: #3498db;
-      color: white;
+      background: gold;
+      color: #000;
       width: 30px;
       height: 30px;
       border-radius: 50%;
@@ -294,7 +288,7 @@
       width: 40px;
       height: 40px;
       border: 3px solid rgba(255, 255, 255, 0.3);
-      border-top: 3px solid #3498db;
+      border-top: 3px solid gold;
       border-radius: 50%;
       animation: spin 1s linear infinite;
       margin: 0 auto;
@@ -306,14 +300,14 @@
     }
 
     .loading-text {
-      color: #3498db;
+      color: gold;
       margin-top: 10px;
       font-size: 1rem;
     }
 
     .back-button {
       margin-top: 20px;
-      color: #3498db;
+      color: gold;
       text-decoration: none;
       font-size: 1rem;
       display: flex;
@@ -321,10 +315,11 @@
       justify-content: center;
       gap: 8px;
       transition: all 0.3s ease;
+      font-family: 'Cinzel', serif;
     }
 
     .back-button:hover {
-      color: #2980b9;
+      color: orange;
       transform: translateX(-5px);
     }
 
@@ -342,17 +337,17 @@
 
     .version-badge {
       display: inline-block;
-      background: linear-gradient(135deg, rgba(149, 165, 166, 0.2), rgba(127, 140, 141, 0.1));
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 140, 0, 0.1));
       padding: 8px 16px;
       border-radius: 20px;
       font-size: 0.8rem;
       font-weight: 500;
       margin-top: 15px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #bdc3c7;
+      color: gold;
     }
 
-    .snowflakes {
+    .gold-particles {
       position: fixed;
       top: 0;
       left: 0;
@@ -362,9 +357,9 @@
       z-index: -1;
     }
 
-    .snowflake {
+    .particle {
       position: absolute;
-      background: rgba(255, 255, 255, 0.8);
+      background: gold;
       border-radius: 50%;
       opacity: 0;
       animation: fall linear infinite;
@@ -400,9 +395,8 @@
         font-size: 1rem;
       }
       
-      .logo {
-        width: 80px;
-        height: 80px;
+      .crown-logo {
+        font-size: 3rem;
       }
       
       .qr-display {
@@ -410,7 +404,7 @@
         height: 200px;
       }
       
-      .btn-glacial {
+      .btn-royal {
         padding: 14px 25px;
         font-size: 1rem;
       }
@@ -418,25 +412,23 @@
   </style>
 </head>
 <body>
-  <div class="snowflakes" id="snowflakes"></div>
+  <div class="gold-particles" id="goldParticles"></div>
 
   <div class="container">
-    <div class="logo">
-      <img src="https://files.catbox.moe/usgvo9.jpg" alt="PATERSON-MD Logo">
-    </div>
+    <div class="crown-logo">👑</div>
     
     <div class="welcome-message">
-      <h1 class="welcome-title">QR CODE GLACÉ</h1>
+      <h1 class="welcome-title">QR CODE ROYAL</h1>
       <p class="welcome-subtitle">
-        Scannez ce QR code pour connecter WhatsApp à PATERSON-MD
+        Scannez ce QR code pour connecter WhatsApp à KING DIVIN
       </p>
     </div>
 
     <div class="qr-container">
       <div class="qr-display" id="qrDisplay">
         <div class="qr-placeholder">
-          <div class="qr-icon">❄️</div>
-          <span>Cliquez pour générer le QR code</span>
+          <div class="qr-icon">👑</div>
+          <span>Cliquez pour générer le QR code royal</span>
         </div>
       </div>
 
@@ -444,18 +436,18 @@
         ⏳ Le QR code expire après 2 minutes
       </div>
 
-      <button id="generateBtn" class="btn-glacial">
-        🔷 GÉNÉRER QR CODE
+      <button id="generateBtn" class="btn-royal">
+        👑 GÉNÉRER QR CODE ROYAL
       </button>
     </div>
 
     <div class="status-container">
-      <div class="status-title">Statut de connexion:</div>
-      <div class="status-message" id="statusMessage">🟡 En attente de génération...</div>
+      <div class="status-title">Statut de connexion divine:</div>
+      <div class="status-message" id="statusMessage">🟡 En attente de génération royale...</div>
     </div>
 
     <div class="instructions">
-      <h3 class="instructions-title">📋 Instructions de Connexion</h3>
+      <h3 class="instructions-title">📜 Instructions Royales de Connexion</h3>
       
       <div class="step">
         <div class="step-number">1</div>
@@ -474,60 +466,60 @@
       <div class="step">
         <div class="step-number">3</div>
         <div class="step-content">
-          <strong>Scannez le QR code</strong> affiché ci-dessus avec votre caméra
+          <strong>Scannez le QR code royal</strong> affiché ci-dessus avec votre caméra
         </div>
       </div>
       
       <div class="step">
         <div class="step-number">4</div>
         <div class="step-content">
-          <strong>Confirmez la connexion</strong> et attendez la synchronisation
+          <strong>Confirmez la connexion divine</strong> et attendez la synchronisation
         </div>
       </div>
       
       <div class="step">
         <div class="step-number">5</div>
         <div class="step-content">
-          <strong>Profitez</strong> de l'expérience PATERSON-MD glacée
+          <strong>Accédez au royaume</strong> de KING DIVIN
         </div>
       </div>
     </div>
 
     <div class="loading" id="loading">
       <div class="spinner"></div>
-      <p class="loading-text">Connexion à WhatsApp...</p>
+      <p class="loading-text">Connexion au royaume divin...</p>
     </div>
 
     <a href="/" class="back-button">
-      ← Retour à l'accueil
+      ← Retour au trône royal
     </a>
 
     <footer>
-      PATERSON-MD &copy; <span id="currentYear"></span> | 
-      <span style="color: #3498db;">Connexion Sécurisée SSL</span> | 
-      FROST EDITION
+      KING DIVIN &copy; <span id="currentYear"></span> | 
+      <span style="color: gold;">Connexion Royale Sécurisée</span> | 
+      LÉGENDE ÉTERNELLE
     </footer>
 
-    <div class="version-badge">v3.6.0 | QR System</div>
+    <div class="version-badge">v1.0.0 | Système Royal QR</div>
   </div>
 
   <script>
     // Initialisation
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-    // Effet de neige
-    function createSnowflakes() {
-      const container = document.getElementById('snowflakes');
-      for (let i = 0; i < 40; i++) {
-        const snowflake = document.createElement('div');
-        snowflake.className = 'snowflake';
-        snowflake.style.width = `${Math.random() * 4 + 2}px`;
-        snowflake.style.height = snowflake.style.width;
-        snowflake.style.left = `${Math.random() * 100}%`;
-        snowflake.style.top = `${Math.random() * 100}%`;
-        snowflake.style.animationDuration = `${Math.random() * 10 + 10}s`;
-        snowflake.style.animationDelay = `${Math.random() * 20}s`;
-        container.appendChild(snowflake);
+    // Effet de particules dorées
+    function createGoldParticles() {
+      const container = document.getElementById('goldParticles');
+      for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.width = `${Math.random() * 4 + 2}px`;
+        particle.style.height = particle.style.width;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+        particle.style.animationDelay = `${Math.random() * 20}s`;
+        container.appendChild(particle);
       }
     }
 
@@ -541,9 +533,9 @@
       // Masquer les précédents résultats
       loading.style.display = 'block';
       btn.disabled = true;
-      btn.innerHTML = '⏳ CONNEXION WHATSAPP...';
-      statusMessage.textContent = '🟡 Connexion en cours...';
-      statusMessage.style.color = '#f39c12';
+      btn.innerHTML = '⏳ CONNEXION ROYALE...';
+      statusMessage.textContent = '🟡 Connexion divine en cours...';
+      statusMessage.style.color = 'gold';
 
       try {
         // Appel à votre API pour générer un vrai QR code
@@ -553,7 +545,7 @@
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            data: `PATERSON-MD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+            data: `KING-DIVIN-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
           })
         });
 
@@ -561,8 +553,8 @@
 
         if (data.qrCode) {
           // Afficher le vrai QR code
-          qrDisplay.innerHTML = `<img src="${data.qrCode}" alt="QR Code PATERSON-MD">`;
-          statusMessage.textContent = '🟢 QR code généré - Scannez maintenant!';
+          qrDisplay.innerHTML = `<img src="${data.qrCode}" alt="QR Code KING DIVIN">`;
+          statusMessage.textContent = '🟢 QR code royal généré - Scannez maintenant!';
           statusMessage.style.color = '#2ecc71';
           
           // Démarrer le compte à rebours
@@ -574,27 +566,27 @@
       } catch (error) {
         // Fallback: Générer un QR code localement si l'API échoue
         generateLocalQRCode();
-        statusMessage.textContent = '🟢 QR code généré (mode local)';
+        statusMessage.textContent = '🟢 QR code royal généré (mode local)';
         statusMessage.style.color = '#2ecc71';
         startCountdown();
       } finally {
         loading.style.display = 'none';
         btn.disabled = false;
-        btn.innerHTML = '🔷 NOUVEAU QR CODE';
+        btn.innerHTML = '👑 NOUVEAU QR CODE ROYAL';
       }
     });
 
     // Génération locale de QR code (fallback)
     function generateLocalQRCode() {
       const qrDisplay = document.getElementById('qrDisplay');
-      const randomData = `PATERSON-MD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      const randomData = `KING-DIVIN-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       
       QRCode.toDataURL(randomData, {
         errorCorrectionLevel: 'H',
         width: 500,
         margin: 1,
         color: {
-          dark: '#2980b9',
+          dark: '#FFD700', // Or
           light: '#000000'
         }
       }, function(err, url) {
@@ -602,11 +594,11 @@
           qrDisplay.innerHTML = `
             <div class="qr-placeholder">
               <div class="qr-icon">❌</div>
-              <span>Erreur de génération</span>
+              <span>Erreur de génération royale</span>
             </div>
           `;
         } else {
-          qrDisplay.innerHTML = `<img src="${url}" alt="QR Code PATERSON-MD">`;
+          qrDisplay.innerHTML = `<img src="${url}" alt="QR Code KING DIVIN">`;
         }
       });
     }
@@ -620,14 +612,14 @@
       const countdownInterval = setInterval(() => {
         if (timeLeft <= 0) {
           clearInterval(countdownInterval);
-          countdownElement.textContent = '⏰ QR code expiré';
+          countdownElement.textContent = '⏰ QR code royal expiré';
           countdownElement.style.color = '#e74c3c';
           statusElement.textContent = '🔴 QR code expiré - Régénérez-en un nouveau';
           statusElement.style.color = '#e74c3c';
         } else {
           const minutes = Math.floor(timeLeft / 60);
           const seconds = timeLeft % 60;
-          countdownElement.textContent = `⏳ Expiration dans: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+          countdownElement.textContent = `⏳ Expiration royale dans: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
           timeLeft--;
         }
       }, 1000);
@@ -637,19 +629,19 @@
     document.getElementById('qrDisplay').addEventListener('click', function() {
       const statusMessage = document.getElementById('statusMessage');
       if (statusMessage.textContent.includes('Scannez') || statusMessage.textContent.includes('généré')) {
-        statusMessage.textContent = '✅ Connexion réussie! Bienvenue dans PATERSON-MD';
+        statusMessage.textContent = '✅ Connexion royale réussie! Bienvenue dans KING DIVIN';
         statusMessage.style.color = '#2ecc71';
         
         // Animation de succès
         this.style.boxShadow = '0 0 40px rgba(46, 204, 113, 0.8)';
         setTimeout(() => {
-          this.style.boxShadow = '0 0 30px rgba(52, 152, 219, 0.6)';
+          this.style.boxShadow = '0 0 30px rgba(255, 215, 0, 0.6)';
         }, 2000);
       }
     });
 
     // Initialiser les effets
-    createSnowflakes();
+    createGoldParticles();
 
     // Animation des boutons
     document.getElementById('generateBtn').addEventListener('mouseenter', function() {
