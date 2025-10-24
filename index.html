@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KING 🤴 - Légende Divine</title>
+    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=MedievalSharp&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .crown {
+            font-size: 8rem;
+            margin-bottom: 2rem;
+            animation: crownGlow 4s ease-in-out infinite;
+            text-shadow: 
+                0 0 20px gold,
+                0 0 40px orange,
+                0 0 60px red;
+        }
+
+        @keyframes crownGlow {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-2deg); }
+            75% { transform: scale(1.1) rotate(2deg); }
+        }
+
+        .title {
+            font-size: 4.5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, gold, orange, red, purple);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 300% 300%;
+            animation: gradientShift 8s ease infinite;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-family: 'MedievalSharp', cursive;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #ccc;
+            margin-bottom: 3rem;
+            font-style: italic;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .divine-button {
+            position: relative;
+            padding: 1.5rem 2rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            border-radius: 15px;
+            background: linear-gradient(135deg, 
+                rgba(255,215,0,0.1) 0%,
+                rgba(255,140,0,0.2) 50%,
+                rgba(255,69,0,0.1) 100%);
+            backdrop-filter: blur(10px);
+            color: gold;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-family: 'Cinzel', serif;
+            box-shadow: 
+                0 0 20px rgba(255,215,0,0.3),
+                inset 0 0 20px rgba(255,255,255,0.1);
+            display: block;
+            text-align: center;
+        }
+
+        .divine-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 0 40px rgba(255,215,0,0.6),
+                0 0 80px rgba(255,140,0,0.4);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .title { font-size: 3rem; }
+            .crown { font-size: 6rem; }
+            .button-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="crown">👑</div>
+        <h1 class="title">KING DIVIN</h1>
+        <p class="subtitle">Légende Éternelle - Créé par Kervens Aubourg</p>
+        
+        <div class="button-grid">
+            <a href="/qr-page" class="divine-button">
+                🌟 QR CODE SACRÉ
+            </a>
+            
+            <a href="/pair-page" class="divine-button">
+                ⚡ CODE D'UNION
+            </a>
+            
+            <a href="https://github.com/kervens-king/KING/fork" class="divine-button" target="_blank">
+                🎯 FORK LA LÉGENDE
+            </a>
+            
+            <a href="https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20" class="divine-button" target="_blank">
+                📢 CANAL ROYAL
+            </a>
+            
+            <a href="https://wa.me/50942737567" class="divine-button" target="_blank">
+                🛡️ SUPPORT DIVIN
+            </a>
+            
+            <a href="/status" class="divine-button">
+                📊 STATUT CÉLESTE
+            </a>
+        </div>
+    </div>
+</body>
+</html>
