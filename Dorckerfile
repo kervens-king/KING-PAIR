@@ -1,27 +1,33 @@
 FROM node:lts-bookworm
 
+# 📦 Dépendances système optimisées
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         ffmpeg \
         imagemagick \
-        webp && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-  
-WORKDIR /usr/src/app
+        webp \
+        && apt-get clean \
+        && rm -rf /var/lib/apt/lists/*
 
-# Copier les fichiers de dépendances d'abord
-COPY package.json package-lock.json* ./
+WORKDIR /app
 
-# Installer les dépendances (incluant maintenant qrcode)
-RUN npm install
+# 📋 Copie des dépendances d'abord (optimisation cache Docker)
+COPY package*.json ./
+COPY yarn.lock ./
 
-# Installer les packages globaux
-RUN npm install -g qrcode-terminal pm2
+# 🔧 Installation avec Yarn (comme spécifié dans package.json)
+RUN yarn install --production --frozen-lockfile
 
-# Copier le reste de l'application
+# 📁 Copie du code source
 COPY . .
 
+# 🚀 Ports exposés
+EXPOSE 3000
+EXPOSE 5000
 EXPOSE 10000
 
+# 💾 Volume pour les sessions (IMPORTANT pour Render)
+VOLUME ["/app/sessions"]
+
+# ⚡ Commande de démarrage
 CMD ["npm", "start"]
