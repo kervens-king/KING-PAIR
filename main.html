@@ -1,48 +1,20 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="" type="image/x-icon">
-  <title>KING 🤴</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
-    
     body {
-      background-color: #0a0a0a;
+      background-color: black;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
       margin: 0;
       color: white;
-      font-family: 'Cinzel', serif;
-      background-image: radial-gradient(circle at center, #1a0f00 0%, #000000 70%);
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Effet de particules dorées */
-    .particles {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .particle {
-      position: absolute;
-      background: gold;
-      border-radius: 50%;
-      animation: float 6s infinite ease-in-out;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(180deg); }
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-image: linear-gradient(to bottom, #000000, #1a1a1a, #2d2d2d);
     }
 
     .button-container {
@@ -50,69 +22,59 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 30px;
-      background: rgba(20, 15, 5, 0.8);
-      border-radius: 20px;
-      box-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
-      border: 1px solid rgba(255, 215, 0, 0.2);
-      backdrop-filter: blur(10px);
-      max-width: 500px;
-      width: 90%;
+      padding: 20px;
+      background: rgba(30, 30, 30, 0.8);
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
     }
 
     h3 {
-      margin-top: -10px;
+      margin-top: -20px;
       margin-bottom: 30px;
       opacity: 0;
       animation: fadeIn 3s forwards;
-      color: gold;
-      text-shadow: 0 0 15px gold, 0 0 30px orange;
-      font-size: 2.2rem;
-      font-weight: 900;
-      letter-spacing: 3px;
+      color: #00ff00;
+      text-shadow: 0 0 10px #00ff00;
+      font-size: 1.8rem;
     }
 
     .button {
-      width: 280px;
-      height: 60px;
+      width: 220px;
+      height: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      padding: 0px 20px;
-      border-radius: 12px;
+      gap: 10px;
+      padding: 0px 15px;
+      background-color: red;
+      border-radius: 10px;
       border: none;
       color: white;
       position: relative;
       cursor: pointer;
-      font-weight: 700;
-      transition-duration: .3s;
-      background: linear-gradient(0deg, #1a1200, #3a2a00);
+      font-weight: 900;
+      transition-duration: .2s;
+      background: linear-gradient(0deg, #000, #272727);
       text-decoration: none;
       margin-bottom: 20px;
-      font-size: 1.2rem;
-      letter-spacing: 1px;
-      overflow: hidden;
+      font-size: 1.1rem;
     }
 
     .button:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+      transform: translateY(-3px);
     }
 
     footer {
       position: fixed;
       bottom: 0;
       width: 100%;
-      background-color: rgba(10, 8, 0, 0.8);
-      color: gold;
+      background-color: #111;
+      color: #00ff00;
       padding: 15px 0;
       text-align: center;
       font-size: 16px;
       font-weight: bold;
-      text-shadow: 0 0 5px gold;
-      backdrop-filter: blur(5px);
-      border-top: 1px solid rgba(255, 215, 0, 0.2);
+      text-shadow: 0 0 5px #00ff00;
     }
     
     .button:before, .button:after {
@@ -120,13 +82,13 @@
       position: absolute;
       left: -2px;
       top: -2px;
-      border-radius: 12px;
-      background: linear-gradient(45deg, #ffd700, #ffaa00, #ff6a00, #ffd700);
+      border-radius: 10px;
+      background: linear-gradient(45deg, #48ff00, #15ff00, #000000,#000000, #ff0000);
       background-size: 400%;
       width: calc(100% + 4px);
       height: calc(100% + 4px);
       z-index: -1;
-      animation: steam 15s linear infinite;
+      animation: steam 10s linear infinite;
     }
 
     @keyframes steam {
@@ -142,15 +104,11 @@
     }
 
     .button:after {
-      filter: blur(30px);
-      opacity: 0.7;
+      filter: blur(50px);
     }
 
     .button span {
       z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
 
     @keyframes fadeIn {
@@ -161,125 +119,56 @@
     
     .info-text {
       margin: 15px 0;
-      color: #cc9900;
-      font-size: 1rem;
+      color: #aaa;
+      font-size: 0.9rem;
       text-align: center;
-      max-width: 350px;
-      font-style: italic;
+      max-width: 300px;
     }
     
     .logo {
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
       margin-bottom: 20px;
       border-radius: 50%;
-      background: radial-gradient(circle, gold, orange);
+      background: linear-gradient(135deg, #00ff00, #008800);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 3.5rem;
+      font-size: 2rem;
       font-weight: bold;
-      box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
-      animation: pulse 4s infinite ease-in-out;
-      border: 3px solid rgba(255, 255, 255, 0.3);
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    /* Couronne animée */
-    .crown {
-      font-size: 4rem;
-      margin-bottom: 10px;
-      animation: crownGlow 4s infinite ease-in-out;
-      text-shadow: 0 0 20px gold, 0 0 40px orange;
-    }
-
-    @keyframes crownGlow {
-      0%, 100% { transform: scale(1) rotate(0deg); }
-      25% { transform: scale(1.1) rotate(-5deg); }
-      75% { transform: scale(1.1) rotate(5deg); }
-    }
-
-    /* Effet de lumière divine */
-    .divine-light {
-      position: fixed;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%);
-      animation: divineRotate 20s linear infinite;
-      pointer-events: none;
-      z-index: -2;
-    }
-
-    @keyframes divineRotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    /* Étoiles scintillantes */
-    .stars {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .star {
-      position: absolute;
-      background: gold;
-      border-radius: 50%;
-      animation: twinkle 3s infinite;
-    }
-
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.3; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.2); }
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
     }
   </style>
 </head>
 <body>
-  <!-- Effets visuels -->
-  <div class="divine-light"></div>
-  <div class="stars" id="stars"></div>
-  <div class="particles" id="particles"></div>
-
   <div class="button-container">
-    <div class="crown">👑</div>
-    <div class="logo">K</div>
-    <h3>KING DIVIN</h3>
+    <div class="logo">P</div>
+    <h3>KERVENS SESSION</h3>
     
     <a href="/qr" class="button" target="_blank"> 
-      <span>🌟 QR CODE SACRÉ</span>
+      <span>QR-CODE</span>
     </a>
     
     <a href="/pair" class="button" target="_blank"> 
-      <span>⚡ CODE D'UNION</span>
+      <span>PAIRING-CODE</span>
     </a>
     
     <a href="https://github.com/kervens-king/KING/fork" class="button" target="_blank"> 
-      <span>🎯 FORK LA LÉGENDE</span>
+      <span>FORK KING</span>
     </a>
     
     <a href="https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20" class="button" target="_blank"> 
-      <span>📢 CANAL ROYAL</span>
+      <span>WHATSAPP CHANNEL</span>
     </a>
 
-    <p class="info-text">Pour toute assistance divine, contactez le royaume :</p>
+    <p class="info-text">Pour toute assistance technique, contactez-nous :</p>
     
     <a href="https://wa.me/50942737567" class="button" target="_blank"> 
-      <span>🛡️ SUPPORT DIVIN</span>
+      <span>SUPPORT TECHNIQUE</span>
     </a>
 
     <footer>
-     KING 🤴 &copy; <span id="currentYear"></span> | Légende créée par Kervens Aubourg
+     KING &copy; <span id="currentYear"></span> | Créé par Kervens Aubourg
     </footer>
   </div>
   
@@ -290,48 +179,13 @@
     // Animation supplémentaire pour les boutons
     document.querySelectorAll('.button').forEach(button => {
       button.addEventListener('mouseenter', () => {
-        button.style.transform = 'translateY(-5px) scale(1.05)';
+        button.style.transform = 'scale(1.05)';
       });
       
       button.addEventListener('mouseleave', () => {
-        button.style.transform = 'translateY(0) scale(1)';
-      });
-    });
-
-    // Création des étoiles
-    const stars = document.getElementById('stars');
-    for (let i = 0; i < 100; i++) {
-      const star = document.createElement('div');
-      star.className = 'star';
-      star.style.left = `${Math.random() * 100}%`;
-      star.style.top = `${Math.random() * 100}%`;
-      star.style.width = `${Math.random() * 3 + 1}px`;
-      star.style.height = star.style.width;
-      star.style.animationDelay = `${Math.random() * 3}s`;
-      stars.appendChild(star);
-    }
-
-    // Création des particules
-    const particles = document.getElementById('particles');
-    for (let i = 0; i < 30; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'particle';
-      particle.style.left = `${Math.random() * 100}%`;
-      particle.style.top = `${Math.random() * 100}%`;
-      particle.style.width = `${Math.random() * 10 + 5}px`;
-      particle.style.height = particle.style.width;
-      particle.style.animationDelay = `${Math.random() * 6}s`;
-      particle.style.opacity = `${Math.random() * 0.5 + 0.2}`;
-      particles.appendChild(particle);
-    }
-
-    // Effet de son au clic (optionnel)
-    document.querySelectorAll('.button').forEach(button => {
-      button.addEventListener('click', () => {
-        // Pourrait déclencher un son épique ici
-        console.log('🎵 Son royal joué !');
+        button.style.transform = 'scale(1)';
       });
     });
   </script>
 </body>
-</html>
+  </html>
