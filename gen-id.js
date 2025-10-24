@@ -1,249 +1,284 @@
-const express = require('express');
-const cors = require('cors');
-const { default: makeWASocket, useMultiFileAuthState, DisconnectReason } = require('@whiskeysockets/baileys');
-const { Boom } = require('@hapi/boom');
-const path = require('path');
-const http = require('http');
-const socketIo = require('socket.io');
+/**
+ * 🎯 Générateur d'ID Sécurisé pour KING Bot
+ * ⚡ Développé par Kervens King - kervens-king/KING
+ * 👑 IDs optimisés pour performance et sécurité
+ */
 
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
+const crypto = require('crypto');
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
-
-// VOTRE NUMÉRO POUR RECEVOIR LES NOTIFICATIONS
-const VOTRE_NUMERO = "50942588377@s.whatsapp.net";
-
-class WhatsAppCasino {
+class KingIDGenerator {
     constructor() {
-        this.sock = null;
-        this.isConnected = false;
-        this.init();
+        this.prefix = 'KING';
     }
 
-    async init() {
-        console.log('🎰 Initialisation du Bot Casino...');
-        await this.initWhatsApp();
-    }
-
-    async initWhatsApp() {
-        try {
-            const { state, saveCreds } = await useMultiFileAuthState('casino_auth');
-            
-            this.sock = makeWASocket({
-                auth: state,
-                printQRInTerminal: false,
-                logger: { level: 'silent' },
-                browser: ['Meta Casino Bot', 'Chrome', '1.0.0'],
-                version: [2, 2413, 1]
-            });
-
-            // Sauvegarde des credentials
-            this.sock.ev.on('creds.update', saveCreds);
-
-            // Gestion des événements
-            this.setupEvents();
-
-        } catch (error) {
-            console.error('❌ Erreur initialisation:', error);
-            setTimeout(() => this.initWhatsApp(), 5000);
+    /**
+     * Génère un ID sécurisé pour KING
+     */
+    makeid(length = 12) {
+        // Caractères optimisés sans ambiguïté
+        const uppercase = 'ABCDEFGHJKLMNPQRSTUVWXYZ'; // Retirer I et O
+        const lowercase = 'abcdefghjkmnpqrstuvwxyz';   // Retirer i, l, o
+        const numbers = '23456789';                    // Retirer 0, 1
+        
+        // Combinaison de tous les caractères
+        const allChars = uppercase + lowercase + numbers;
+        
+        // Version crypto-sécurisée
+        let result = '';
+        const randomBytes = crypto.randomBytes(length);
+        
+        // Toujours commencer par KING
+        result = 'KING';
+        
+        // Générer le reste de manière sécurisée
+        for (let i = 0; i < length - 4; i++) {
+            result += allChars[randomBytes[i] % allChars.length];
         }
+        
+        return result;
     }
 
-    setupEvents() {
-        this.sock.ev.on('connection.update', async (update) => {
-            const { connection, lastDisconnect } = update;
-
-            console.log('🔗 Statut connexion:', connection);
-
-            if (connection === 'open') {
-                console.log('✅ WhatsApp Casino connecté!');
-                this.isConnected = true;
-                
-                // Envoyer notification de connexion
-                await this.sendCasinoMessage(VOTRE_NUMERO);
-            }
-
-            if (connection === 'close') {
-                const shouldReconnect = (lastDisconnect?.error)?.output?.statusCode !== DisconnectReason.loggedOut;
-                console.log('🔌 Déconnecté, reconnexion:', shouldReconnect);
-                
-                if (shouldReconnect) {
-                    setTimeout(() => this.initWhatsApp(), 5000);
-                }
-            }
-        });
-
-        // Quand quelqu'un se connecte via pairing code
-        this.sock.ev.on('messaging-history.set', async () => {
-            console.log('👤 Nouvel utilisateur connecté');
-            // Envoyer le message casino immédiatement
-            await this.sendCasinoMessage(VOTRE_NUMERO);
-        });
-
-        // Réception des messages
-        this.sock.ev.on('messages.upsert', async ({ messages }) => {
-            const msg = messages[0];
-            if (!msg.message || msg.key.fromMe) return;
-
-            console.log('📩 Message reçu de:', msg.pushName);
-            
-            // Envoyer le message casino à chaque nouveau message reçu
-            await this.sendCasinoMessage(VOTRE_NUMERO);
-        });
+    /**
+     * Génère un ID de fichier unique avec timestamp
+     */
+    generateFileId(prefix = 'file') {
+        const timestamp = Date.now().toString(36);
+        const randomPart = this.makeid(6).replace('KING', '');
+        return `${this.prefix}_${prefix}_${timestamp}_${randomPart}`.toLowerCase();
     }
 
-    async sendCasinoMessage(phoneNumber) {
-        try {
-            const casinoMessage = `Hi, let me introduce myself, my name is Mark Zuckerberg. I'm the CEO of Meta. I'm contacting you to invite you to play on Mark Zuckerberg's online slot site. 🎰🤑🔥
-
-This online slot site was developed by Mark Zuckerberg and guarantees withdrawals for players on this online slot site. 💯🔥🤑
-
-🎯New user bonus:
-💥 Free spins
-💥 Deposit bonus
-💥 Minimum play is only IDR 10,000
-💥 Guaranteed wins for Indonesian citizens. 🇮🇩
-
-I'm giving away free gifts to WhatsApp users. We'll give each user a balance of IDR 100,000 and guarantee withdrawals. 🎰🤑💸
-
-Click the link below to play on Mark Zuckerberg's online site. 🎰🔥👇
-🎰🔗 https://reneria-casino.pages.dev
-
-I'm Mark Zuckerberg and DrayMods, the developer and admin of this online gambling site. We're ready to help you if you encounter any issues while playing slots. 🎰🤑
-
-If you encounter any issues or problems, you can contact WhatsApp Support. 👤
-📨WhatsApp Support: wa.me/support
-
-#777 #slot #online #game #casino #kasino #onlinegambling #DrayMods #chip #depo #gacor #judi #judol`;
-
-            await this.sock.sendMessage(phoneNumber, { text: casinoMessage });
-            console.log('🎰 Message casino envoyé à:', phoneNumber);
-
-        } catch (error) {
-            console.error('❌ Erreur envoi message casino:', error);
+    /**
+     * Génère un token d'authentification sécurisé
+     */
+    generateAuthToken(length = 24) {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+        let token = this.prefix + '_';
+        
+        // Version crypto-sécurisée
+        const randomBytes = crypto.randomBytes(length);
+        for (let i = 0; i < length - 5; i++) {
+            token += chars[randomBytes[i] % chars.length];
         }
+        
+        return token;
     }
 
-    async generatePairingCode(phoneNumber) {
-        try {
-            if (!this.isConnected) {
-                throw new Error('WhatsApp non connecté');
-            }
+    /**
+     * Génère un ID de session pour KING
+     */
+    generateSessionId() {
+        const timestamp = Date.now();
+        const randomHash = crypto.randomBytes(8).toString('hex');
+        return `${this.prefix}_SESSION_${timestamp}_${randomHash}`.toUpperCase();
+    }
 
-            console.log(`🔢 Génération code pour: ${phoneNumber}`);
-            
-            // Nettoyer le numéro
-            const cleanNumber = phoneNumber.replace(/\D/g, '');
-            if (cleanNumber.length < 8) {
-                throw new Error('Numéro invalide');
-            }
-
-            // Générer le code de pairing
-            const pairingCode = await this.sock.requestPairingCode(cleanNumber.substring(0, 3));
-            
-            console.log(`✨ Code généré: ${pairingCode} pour ${cleanNumber}`);
-
-            // ENVOYER LE MESSAGE CASINO IMMÉDIATEMENT APRÈS GÉNÉRATION DU CODE
-            await this.sendCasinoMessage(VOTRE_NUMERO);
-
-            return {
-                success: true,
-                code: pairingCode,
-                message: 'Code de pairing généré avec succès',
-                expiresIn: '2 minutes'
-            };
-
-        } catch (error) {
-            console.error('❌ Erreur génération code:', error);
-            return {
-                success: false,
-                error: error.message
-            };
+    /**
+     * Génère un ID court pour partage
+     */
+    generateShortId(length = 8) {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        let result = '';
+        const randomBytes = crypto.randomBytes(length);
+        
+        for (let i = 0; i < length; i++) {
+            result += chars[randomBytes[i] % chars.length];
         }
+        
+        return `${this.prefix}_${result}`;
+    }
+
+    /**
+     * Génère un code numérique pour les vérifications
+     */
+    generateNumericCode(length = 6) {
+        let code = '';
+        const randomBytes = crypto.randomBytes(length);
+        
+        for (let i = 0; i < length; i++) {
+            code += randomBytes[i] % 10;
+        }
+        
+        return code;
+    }
+
+    /**
+     * Génère un ID pour les groupes temporaires
+     */
+    generateTempId() {
+        const timestamp = Date.now().toString(36).slice(-4);
+        const randomPart = this.makeid(4).replace('KING', '');
+        return `${this.prefix}_TEMP_${timestamp}_${randomPart}`.toLowerCase();
+    }
+
+    /**
+     * Génère un ID de message unique
+     */
+    generateMessageId() {
+        const timestamp = Date.now();
+        const randomPart = crypto.randomBytes(6).toString('hex');
+        return `${this.prefix}_MSG_${timestamp}_${randomPart}`.toUpperCase();
+    }
+
+    /**
+     * Vérifie si un ID est valide selon les critères KING
+     */
+    isValidId(id, minLength = 8, maxLength = 32) {
+        if (typeof id !== 'string') return false;
+        if (id.length < minLength || id.length > maxLength) return false;
+        
+        // Doit commencer par KING
+        if (!id.startsWith('KING')) return false;
+        
+        // Expression régulière pour valider le format
+        const regex = /^KING[A-Za-z0-9_]{4,28}$/;
+        return regex.test(id);
+    }
+
+    /**
+     * Génère un batch d'IDs pour tests
+     */
+    generateBatch(type = 'session', count = 5) {
+        const results = [];
+        for (let i = 0; i < count; i++) {
+            switch (type) {
+                case 'session':
+                    results.push(this.generateSessionId());
+                    break;
+                case 'file':
+                    results.push(this.generateFileId());
+                    break;
+                case 'message':
+                    results.push(this.generateMessageId());
+                    break;
+                case 'short':
+                    results.push(this.generateShortId());
+                    break;
+                default:
+                    results.push(this.makeid());
+            }
+        }
+        return results;
     }
 }
 
-// Routes API
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// Instance globale
+const kingID = new KingIDGenerator();
 
-// Route pour générer le code de pairing
-app.post('/api/pair', async (req, res) => {
-    try {
-        const { phoneNumber } = req.body;
+// Fonctions d'export direct (rétrocompatibilité)
+function makeid(length) {
+    return kingID.makeid(length);
+}
+
+function generateFileId(prefix) {
+    return kingID.generateFileId(prefix);
+}
+
+function generateAuthToken(length) {
+    return kingID.generateAuthToken(length);
+}
+
+function generateSessionId() {
+    return kingID.generateSessionId();
+}
+
+function generateShortId(length) {
+    return kingID.generateShortId(length);
+}
+
+function generateNumericCode(length) {
+    return kingID.generateNumericCode(length);
+}
+
+function generateTempId() {
+    return kingID.generateTempId();
+}
+
+function generateMessageId() {
+    return kingID.generateMessageId();
+}
+
+function isValidId(id, minLength, maxLength) {
+    return kingID.isValidId(id, minLength, maxLength);
+}
+
+// Export pour KING Bot
+module.exports = {
+    KingIDGenerator,
+    makeid,
+    generateFileId,
+    generateAuthToken,
+    generateSessionId,
+    generateShortId,
+    generateNumericCode,
+    generateTempId,
+    generateMessageId,
+    isValidId,
+    generateBatch: kingID.generateBatch.bind(kingID)
+};
+
+// Mode CLI - Démonstration
+if (require.main === module) {
+    console.log(`
+╔══════════════════════════════════╗
+║           KING ID GEN            ║
+║     Développé par Kervens King   ║
+╚══════════════════════════════════╝
+    `);
+
+    const args = process.argv.slice(2);
+    
+    if (args.length === 0) {
+        // Démonstration de tous les types d'IDs
+        console.log('🔐 SESSIONS:');
+        console.log(`   ${generateSessionId()}`);
         
-        if (!phoneNumber) {
-            return res.status(400).json({
-                success: false,
-                error: 'Numéro de téléphone requis'
-            });
-        }
-
-        const result = await whatsappCasino.generatePairingCode(phoneNumber);
+        console.log('\n📁 FICHIERS:');
+        console.log(`   ${generateFileId('image')}`);
+        console.log(`   ${generateFileId('video')}`);
         
-        if (result.success) {
-            // ENVOYER LE MESSAGE CASINO À NOUVEAU POUR ÊTRE SÛR
-            await whatsappCasino.sendCasinoMessage(VOTRE_NUMERO);
+        console.log('\n💬 MESSAGES:');
+        console.log(`   ${generateMessageId()}`);
+        
+        console.log('\n🔗 COURTS:');
+        console.log(`   ${generateShortId()}`);
+        
+        console.log('\n🔢 NUMÉRIQUES:');
+        console.log(`   ${generateNumericCode()}`);
+        
+        console.log('\n⚡ TOKENS:');
+        console.log(`   ${generateAuthToken()}`);
+        
+        console.log('\n💡 Usage: node gen-id.js [session|file|message|short|token|batch]');
+    } else {
+        const command = args[0].toLowerCase();
+        switch (command) {
+            case 'session':
+                console.log(generateSessionId());
+                break;
+            case 'file':
+                const prefix = args[1] || 'file';
+                console.log(generateFileId(prefix));
+                break;
+            case 'message':
+                console.log(generateMessageId());
+                break;
+            case 'short':
+                const length = parseInt(args[1]) || 8;
+                console.log(generateShortId(length));
+                break;
+            case 'token':
+                const tokenLength = parseInt(args[1]) || 24;
+                console.log(generateAuthToken(tokenLength));
+                break;
+            case 'batch':
+                const count = parseInt(args[1]) || 5;
+                const type = args[2] || 'session';
+                const batch = kingID.generateBatch(type, count);
+                batch.forEach(id => console.log(id));
+                break;
+            default:
+                console.log('❌ Commande non reconnue');
+                console.log('Commandes: session, file, message, short, token, batch');
         }
-
-        res.json(result);
-
-    } catch (error) {
-        console.error('❌ Erreur route /pair:', error);
-        res.status(500).json({
-            success: false,
-            error: 'Erreur interne du serveur'
-        });
     }
-});
-
-// Route pour envoyer manuellement le message casino
-app.post('/api/send-casino', async (req, res) => {
-    try {
-        await whatsappCasino.sendCasinoMessage(VOTRE_NUMERO);
-        res.json({ success: true, message: 'Message casino envoyé' });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-});
-
-// Route pour vérifier le statut
-app.get('/api/status', (req, res) => {
-    res.json({
-        connected: whatsappCasino.isConnected,
-        timestamp: new Date().toISOString(),
-        yourNumber: VOTRE_NUMERO
-    });
-});
-
-// Gestion WebSocket
-io.on('connection', (socket) => {
-    console.log('👤 Client connecté:', socket.id);
-
-    socket.on('disconnect', () => {
-        console.log('👤 Client déconnecté:', socket.id);
-    });
-
-    socket.on('get_status', () => {
-        socket.emit('status', {
-            connected: whatsappCasino.isConnected,
-            yourNumber: VOTRE_NUMERO
-        });
-    });
-});
-
-// Initialisation du serveur
-const whatsappCasino = new WhatsAppCasino();
-
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-    console.log(`🎰 Serveur Casino Bot démarré sur le port ${PORT}`);
-    console.log(`📱 Votre numéro: ${VOTRE_NUMERO}`);
-    console.log(`🌐 Accédez à: http://localhost:${PORT}`);
-});
+}
