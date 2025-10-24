@@ -8,7 +8,7 @@ const fs = require('fs');
 let router = express.Router()
 const pino = require("pino");
 const {
-	default: PATERSON_MD,
+	default: KING_MD,
 	useMultiFileAuthState,
 	jidNormalizedUser,
 	Browsers,
@@ -26,15 +26,19 @@ function removeFile(FilePath) {
 const {
 	readFile
 } = require("node:fs/promises")
+
+// URL de l'image KING
+const KING_IMAGE_URL = 'https://files.catbox.moe/ndj85q.jpg';
+
 router.get('/', async (req, res) => {
 	const id = makeid();
-	async function PATERSON_MD_QR_CODE() {
+	async function KING_DIVIN_QR_CODE() {
 		const {
 			state,
 			saveCreds
 		} = await useMultiFileAuthState('./temp/' + id)
 		try {
-			let Qr_Code_By_Kervens_King = PATERSON_MD({
+			let Qr_Code_By_Kervens_King = KING_MD({
 				auth: state,
 				printQRInTerminal: false,
 				logger: pino({
@@ -56,32 +60,91 @@ router.get('/', async (req, res) => {
 					let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
 					await delay(800);
 				   let b64data = Buffer.from(data).toString('base64');
-				   let session = await Qr_Code_By_Kervens_King.sendMessage(Qr_Code_By_Kervens_King.user.id, { text: 'paterson~' + b64data });
+				   let session = await Qr_Code_By_Kervens_King.sendMessage(Qr_Code_By_Kervens_King.user.id, { text: 'king~' + b64data });
+
+				   // Envoyer l'image KING en premier
+				   try {
+					   await Qr_Code_By_Kervens_King.sendMessage(Qr_Code_By_Kervens_King.user.id, {
+						   image: { url: KING_IMAGE_URL },
+						   caption: '👑 *SESSION ROYALE CONNECTÉE* 👑\n\nBienvenue dans le royaume KING DIVIN !'
+					   });
+				   } catch (imageError) {
+					   console.log('Image KING non envoyée:', imageError);
+				   }
+
+				   // Envoyer les invitations avec image
+				   try {
+					   const channelInvite = 'https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20';
+					   const groupInvite = 'https://chat.whatsapp.com/GIIGfaym8V7DZZElf6C3Qh?mode=ac_t';
+					   
+					   await Qr_Code_By_Kervens_King.sendMessage(Qr_Code_By_Kervens_King.user.id, {
+						   image: { url: KING_IMAGE_URL },
+						   caption: '🌟 *REJOIGNEZ LE ROYAUME* 🌟\n\nAccédez à nos plateformes officielles :',
+						   templateButtons: [
+							   {
+								   index: 1,
+								   urlButton: {
+									   displayText: '📢 Canal Royal',
+									   url: channelInvite
+								   }
+							   },
+							   {
+								   index: 2,
+								   urlButton: {
+									   displayText: '🤝 Communauté',
+									   url: groupInvite
+								   }
+							   }
+						   ]
+					   });
+				   } catch (inviteError) {
+					   console.log('Erreur invitations:', inviteError);
+				   }
 	
-				   let PATERSON_MD_TEXT = `
-╭─═━⌬━═─⊹⊱✦⊰⊹─═━⌬━═─ 
-╎   『 𝐒𝐄𝐒𝐒𝐈𝐎𝐍 𝐂𝐎𝐍𝐍𝐄𝐂𝐓𝐄𝐃 』   
-╎  ✦ PATERSON-MD SESSION
-╎  ✦  ʙʏ Kervens King
-╰╴╴╴╴
+				   let KING_DIVIN_TEXT = `
+╔═══════════════════════════════╗
+║         👑 KING DIVIN 👑      ║
+║    LÉGENDE ÉTERNELLE v1.0     ║
+╚═══════════════════════════════╝
 
-▌   『 🔐 𝐒𝐄𝐋𝐄𝐂𝐓𝐄𝐃 𝐒𝐄𝐒𝐒𝐈𝐎𝐍 』   
-▌  • Session ID:  
-▌  ⛔ [ Please set your SESSION_ID ] 
+▌ 🤴 SESSION ROYALE CONNECTÉE
+▌ ✦ Session ID: ${id}
+▌ ✦ Statut: ✅ ACTIVE
+▌ ✦ Créateur: Kervens Aubourg
 
-╔═
-╟   『 𝐂𝐎𝐍𝐓𝐀𝐂𝐓 & 𝐒𝐔𝐏𝐏𝐎𝐑𝐓 』  
-╟  👑 𝐎𝐰𝐧𝐞𝐫: 50942737567 
-╟  💻 𝐑𝐞𝐩𝐨: github.com/PATERSON-MD/PATERSON-MD 
-╟  👥 𝐖𝐚𝐆𝐫𝐨𝐮𝐩: https://chat.whatsapp.com/YourGroupLink 
-╟  📢 𝐖𝐚𝐂𝐡𝐚𝐧𝐧𝐞𝐥: https://whatsapp.com/channel/YourChannelLink 
-╰  
+╔═══════════════════════════════╗
+║        📞 CONTACT ROYAL       ║
+╟───────────────────────────────╢
+║ 👑 Support: 50942737567       ║
+║ 💻 GitHub: Kervens-King       ║
+║ 🎭 Légende: Éternelle         ║
+╚═══════════════════════════════╝
+
+╔═══════════════════════════════╗
+║        🌐 PLATEFORMES         ║
+╟───────────────────────────────╢
+║ 📢 Canal: whatsapp.com/channel║
+║ 👥 Groupe: chat.whatsapp.com  ║
+╚═══════════════════════════════╝
+
 ✦⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅✦  
-   𝐄𝐍𝐉𝐎𝐘 𝐏𝐀𝐓𝐄𝐑𝐒𝐎𝐍-𝐌𝐃!  
+   BIENVENU DANS LE ROYAUME!  
 ✦⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅⋆⋅✦  
-______________________________
-★彡[ᴅᴏɴ'ᴛ ғᴏʀɢᴇᴛ ᴛᴏ sᴛᴀʀ ᴛʜᴇ ʀᴇᴘᴏ!]彡★`;
-	 await Qr_Code_By_Kervens_King.sendMessage(Qr_Code_By_Kervens_King.user.id,{text:PATERSON_MD_TEXT},{quoted:session})
+
+🎭 "Au stade le plus tragique et plus belle"
+__________________________________________
+`;
+	 await Qr_Code_By_Kervens_King.sendMessage(Qr_Code_By_Kervens_King.user.id,{text:KING_DIVIN_TEXT},{quoted:session})
+
+	 // Message final avec image
+	 try {
+		 await Qr_Code_By_Kervens_King.sendMessage(Qr_Code_By_Kervens_King.user.id, {
+			 image: { url: KING_IMAGE_URL },
+			 caption: '🎉 **INITIATION ROYALE TERMINÉE** 🎉\n\nVotre place dans le royaume est confirmée.\n\nQue votre légende commence... ✨'
+		 });
+	 } catch (finalError) {
+		 console.log('Message final non envoyé:', finalError);
+	 }
 
 
 
@@ -90,19 +153,19 @@ ______________________________
 					return await removeFile("temp/" + id);
 				} else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
 					await delay(10000);
-					PATERSON_MD_QR_CODE();
+					KING_DIVIN_QR_CODE();
 				}
 			});
 		} catch (err) {
 			if (!res.headersSent) {
 				await res.json({
-					code: "Service is Currently Unavailable"
+					code: "Service Royale Temporairement Indisponible"
 				});
 			}
 			console.log(err);
 			await removeFile("temp/" + id);
 		}
 	}
-	return await PATERSON_MD_QR_CODE()
+	return await KING_DIVIN_QR_CODE()
 });
 module.exports = router
