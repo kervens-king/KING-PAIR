@@ -14,9 +14,6 @@ try {
     const fs = require('fs');
     console.log('✅ FS chargé');
     
-    const { WebSocketServer } = require('ws');
-    console.log('✅ WebSocket chargé');
-    
     const logger = require('./logger');
     console.log('✅ Logger chargé');
     
@@ -70,44 +67,42 @@ try {
     const app = express();
     console.log('✅ Application Express créée');
 
-    // WebSocket Server pour temps réel
-    const wss = new WebSocketServer({ noServer: true });
-    const activeConnections = new Set();
-
-    wss.on('connection', (ws) => {
-      activeConnections.add(ws);
-      console.log('👑 Nouvelle connexion WebSocket royale');
-      
-      ws.send(JSON.stringify({
-        type: 'welcome',
-        message: 'Bienvenue dans le royaume KING DIVIN',
-        timestamp: Date.now()
-      }));
-
-      ws.on('close', () => {
-        activeConnections.delete(ws);
-        console.log('👑 Connexion WebSocket fermée');
-      });
-
-      ws.on('error', (error) => {
-        console.error('❌ Erreur WebSocket:', error);
-      });
-    });
-
     // Charger les variables d'environnement
     dotenv.config();
     console.log('✅ Variables d\'environnement chargées');
 
+    // ⭐ CRÉATION AUTOMATIQUE DES DOSSIERS ⭐
+    function ensureDirectories() {
+        const directories = [
+            'views',
+            'public',
+            'public/css', 
+            'public/js',
+            'public/images',
+            'temp',
+            'routes'
+        ];
+        
+        directories.forEach(dir => {
+            const dirPath = path.join(__dirname, dir);
+            if (!fs.existsSync(dirPath)) {
+                fs.mkdirSync(dirPath, { recursive: true });
+                console.log(`📁 Dossier créé: ${dir}`);
+            }
+        });
+    }
+    ensureDirectories();
+
     // Middleware
     console.log('🔄 Configuration des middlewares royaux...');
     app.use(express.json());
+    app.use(express.static('.')); // Servir la racine pour index.html
     app.use(express.static('public'));
-    app.use(express.static(path.join(__dirname, 'views')));
     
     // MIDDLEWARE DE LOGGING ROYAL ✅
     app.use((req, res, next) => {
         const timestamp = new Date().toISOString();
-        logger.info(`👑 [${timestamp}] ${req.method} ${req.url} - ${req.ip}`);
+        console.log(`👑 [${timestamp}] ${req.method} ${req.url} - ${req.ip}`);
         next();
     });
     
@@ -123,22 +118,106 @@ try {
 
     // ⭐ ROUTES ROYALES ⭐
 
-    // Route principale - Page d'accueil KING
+    // Route principale - Page d'accueil KING (index.html à la racine)
     app.get('/', (req, res) => {
         try {
-            console.log('🏰 Servir la page d\'accueil royale');
-            res.sendFile(path.join(__dirname, 'views', 'index.html'));
+            const indexPath = path.join(__dirname, 'index.html');
+            
+            if (fs.existsSync(indexPath)) {
+                console.log('🏰 Servir index.html depuis la racine');
+                res.sendFile(indexPath);
+            } else {
+                // Fallback HTML si index.html n'existe pas
+                console.log('⚠️ index.html non trouvé, servir version basique');
+                res.send(`
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KING 🤴 - Légende Divine</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-family: Arial; 
+            color: white;
+        }
+        .container { text-align: center; padding: 2rem; }
+        .crown { font-size: 4rem; margin-bottom: 1rem; }
+        .title { font-size: 2.5rem; color: gold; margin-bottom: 0.5rem; }
+        .subtitle { color: #ccc; margin-bottom: 2rem; }
+        .button { 
+            display: inline-block; 
+            background: gold; 
+            color: black; 
+            padding: 1rem 2rem; 
+            margin: 0.5rem; 
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        .button:hover { background: orange; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="crown">👑</div>
+        <h1 class="title">KING DIVIN</h1>
+        <p class="subtitle">Légende Éternelle - Créé par Kervens Aubourg</p>
+        
+        <a href="/qr-page" class="button">🌟 QR CODE SACRÉ</a>
+        <a href="/pair-page" class="button">⚡ CODE D'UNION</a>
+        <a href="/status" class="button">📊 STATUT CÉLESTE</a>
+        <a href="https://wa.me/50942737567" class="button">🛡️ SUPPORT DIVIN</a>
+    </div>
+</body>
+</html>
+                `);
+            }
         } catch (error) {
             console.error('❌ Erreur chargement accueil:', error);
-            res.status(500).json({ error: 'Erreur de chargement du royaume' });
+            res.status(500).json({ 
+                error: 'Erreur de chargement du royaume',
+                message: 'Le royaume est en maintenance'
+            });
         }
     });
 
     // Route pour la page QR Code Royal
     app.get('/qr-page', (req, res) => {
         try {
-            console.log('📱 Servir la page QR code royal');
-            res.sendFile(path.join(__dirname, 'views', 'qr-royal.html'));
+            const qrPagePath = path.join(__dirname, 'views', 'qr-royal.html');
+            if (fs.existsSync(qrPagePath)) {
+                console.log('📱 Servir la page QR code royal');
+                res.sendFile(qrPagePath);
+            } else {
+                // Fallback pour QR page
+                res.send(`
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Royal - KING DIVIN</title>
+    <style>
+        body { background: #000; color: gold; text-align: center; padding: 3rem; }
+        h1 { margin-bottom: 2rem; }
+        .info { background: rgba(255,215,0,0.1); padding: 2rem; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <h1>👑 QR CODE ROYAL</h1>
+    <div class="info">
+        <p>Page QR Code en construction...</p>
+        <p>Accédez directement à: <a href="/qr" style="color:gold;">/qr</a></p>
+    </div>
+</body>
+</html>
+                `);
+            }
         } catch (error) {
             console.error('❌ Erreur chargement QR page:', error);
             res.status(500).json({ error: 'Erreur de chargement du QR code royal' });
@@ -148,72 +227,74 @@ try {
     // Route pour la page Pair Code
     app.get('/pair-page', (req, res) => {
         try {
-            console.log('⚡ Servir la page pair code');
-            res.sendFile(path.join(__dirname, 'views', 'pair.html'));
+            const pairPagePath = path.join(__dirname, 'views', 'pair.html');
+            if (fs.existsSync(pairPagePath)) {
+                console.log('⚡ Servir la page pair code');
+                res.sendFile(pairPagePath);
+            } else {
+                // Fallback pour Pair page
+                res.send(`
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pair Code - KING DIVIN</title>
+    <style>
+        body { background: #000; color: gold; text-align: center; padding: 3rem; }
+        h1 { margin-bottom: 2rem; }
+        .info { background: rgba(255,215,0,0.1); padding: 2rem; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <h1>⚡ CODE D'UNION</h1>
+    <div class="info">
+        <p>Page Pair Code en construction...</p>
+        <p>Utilisez: <a href="/pair?number=VOTRE_NUMERO" style="color:gold;">/pair?number=509XXXXXXX</a></p>
+    </div>
+</body>
+</html>
+                `);
+            }
         } catch (error) {
             console.error('❌ Erreur chargement pair page:', error);
             res.status(500).json({ error: 'Erreur de chargement du code d\'union' });
         }
     });
 
-    // ⭐ API ROYALE ⭐
-
-    // API pour générer un QR Code
-    app.post('/api/qr/generate', (req, res) => {
+    // ⭐ CHARGEMENT DES ROUTES DYNAMIQUES ⭐
+    console.log('🔄 Chargement des routes...');
+    
+    // Charger les routes avec gestion d'erreur
+    function loadRoute(routePath, routeName) {
         try {
-            console.log('👑 Génération QR code royal...');
-            const qrData = generateQRData();
-            
-            // Simuler la génération d'un QR code
-            const qrCode = {
-                data: `KING-DIVIN-${qrData.sessionId}`,
-                sessionId: qrData.sessionId,
-                expires: qrData.expires,
-                timestamp: qrData.timestamp
-            };
-
-            // Notifier toutes les connexions WebSocket
-            activeConnections.forEach(ws => {
-                ws.send(JSON.stringify({
-                    type: 'qr_generated',
-                    sessionId: qrData.sessionId,
-                    timestamp: qrData.timestamp
-                }));
-            });
-
-            logger.info(`QR code royal généré: ${qrData.sessionId}`);
-            res.json({
-                success: true,
-                qrCode: qrCode,
-                message: 'QR code royal généré avec succès',
-                expiresIn: '2 minutes'
-            });
-
+            if (fs.existsSync(routePath)) {
+                const route = require(routePath);
+                app.use('/' + routeName.toLowerCase(), route);
+                console.log(`✅ Route ${routeName} chargée`);
+                return true;
+            } else {
+                console.log(`⚠️ Route ${routeName} non trouvée: ${routePath}`);
+                return false;
+            }
         } catch (error) {
-            console.error('❌ Erreur génération QR:', error);
-            res.status(500).json({ 
-                success: false, 
-                error: 'Erreur lors de la génération du QR code royal' 
-            });
+            console.error(`❌ Erreur chargement route ${routeName}:`, error.message);
+            return false;
         }
-    });
+    }
+
+    // Charger les routes principales
+    const qrLoaded = loadRoute('./routes/qr.js', 'qr');
+    const pairLoaded = loadRoute('./routes/pair.js', 'pair');
+    const mainLoaded = loadRoute('./routes/main.js', 'main');
+
+    // ⭐ API ROYALE ⭐
 
     // API pour générer un Pair Code
     app.post('/api/pair/generate', (req, res) => {
         try {
-            console.log('👑 Génération pair code royal...');
+            console.log('👑 Génération pair code royal via API...');
             const pairData = generatePairCode();
             
-            // Notifier toutes les connexions WebSocket
-            activeConnections.forEach(ws => {
-                ws.send(JSON.stringify({
-                    type: 'pair_generated',
-                    code: pairData.code,
-                    timestamp: Date.now()
-                }));
-            });
-
-            logger.info(`Pair code royal généré: ${pairData.code}`);
+            console.log(`🎯 Pair code généré: ${pairData.code}`);
             res.json({
                 success: true,
                 code: pairData.code,
@@ -223,7 +304,7 @@ try {
             });
 
         } catch (error) {
-            console.error('❌ Erreur génération pair code:', error);
+            console.error('❌ Erreur génération pair code API:', error);
             res.status(500).json({ 
                 success: false, 
                 error: 'Erreur lors de la génération du code d\'union' 
@@ -238,9 +319,13 @@ try {
             service: 'KING DIVIN',
             version: '1.0.0 Royale',
             uptime: process.uptime(),
-            activeConnections: activeConnections.size,
             timestamp: Date.now(),
-            message: 'Le royaume fonctionne parfaitement 👑'
+            message: 'Le royaume fonctionne parfaitement 👑',
+            routes: {
+                qr: qrLoaded,
+                pair: pairLoaded,
+                main: mainLoaded
+            }
         });
     });
 
@@ -265,13 +350,14 @@ try {
 
     // Route pour le statut céleste
     app.get('/status', (req, res) => {
-        try {
-            console.log('📊 Servir la page de statut céleste');
-            res.sendFile(path.join(__dirname, 'views', 'status.html'));
-        } catch (error) {
-            console.error('❌ Erreur chargement statut:', error);
-            res.status(500).json({ error: 'Erreur de chargement du statut céleste' });
-        }
+        res.json({
+            status: 'online',
+            king: 'DIVIN',
+            version: '1.0.0',
+            uptime: process.uptime(),
+            timestamp: new Date().toISOString(),
+            message: '🎭 Au stade le plus tragique et plus belle'
+        });
     });
 
     // Route pour le support divin
@@ -288,17 +374,17 @@ try {
 
     // Gestion des erreurs 404 - Route non trouvée
     app.use((req, res) => {
-        logger.warn(`Route non trouvée: ${req.method} ${req.url}`);
+        console.log(`⚠️ Route non trouvée: ${req.method} ${req.url}`);
         res.status(404).json({
             error: 'Route royale non trouvée',
             message: 'Cette route n\'existe pas dans le royaume',
-            availableRoutes: ['/', '/qr-page', '/pair-page', '/status', '/support']
+            availableRoutes: ['/', '/qr-page', '/pair-page', '/status', '/support', '/api/status']
         });
     });
 
     // Gestion des erreurs globales
     app.use((err, req, res, next) => {
-        logger.error(`Erreur royale: ${err.stack}`);
+        console.error(`❌ Erreur royale: ${err.stack}`);
         res.status(500).json({
             error: 'Erreur interne du royaume',
             message: 'Une erreur divine s\'est produite'
@@ -312,36 +398,25 @@ try {
         console.log('🧹 Nettoyage des sessions royales...');
         const tempDir = path.join(__dirname, 'temp');
         if (fs.existsSync(tempDir)) {
-            fs.readdirSync(tempDir).forEach(file => {
-                const filePath = path.join(tempDir, file);
-                try {
-                    const stat = fs.statSync(filePath);
-                    
-                    // Supprimer les sessions vieilles de plus d'1 heure
-                    if (stat.isDirectory() && (Date.now() - stat.mtimeMs) > 3600000) {
-                        fs.rmSync(filePath, { recursive: true, force: true });
-                        logger.info(`Session royale ancienne supprimée: ${file}`);
-                    }
-                } catch (error) {
-                    console.error(`❌ Erreur nettoyage session ${file}:`, error);
-                }
-            });
-        }
-    }
-
-    // Fonction pour broadcaster des mises à jour
-    function broadcastToAll(message) {
-        activeConnections.forEach(ws => {
             try {
-                ws.send(JSON.stringify({
-                    type: 'broadcast',
-                    message: message,
-                    timestamp: Date.now()
-                }));
+                fs.readdirSync(tempDir).forEach(file => {
+                    const filePath = path.join(tempDir, file);
+                    try {
+                        const stat = fs.statSync(filePath);
+                        
+                        // Supprimer les sessions vieilles de plus d'1 heure
+                        if ((Date.now() - stat.mtimeMs) > 3600000) {
+                            fs.rmSync(filePath, { recursive: true, force: true });
+                            console.log(`🗑️ Session royale ancienne supprimée: ${file}`);
+                        }
+                    } catch (error) {
+                        console.error(`❌ Erreur nettoyage session ${file}:`, error);
+                    }
+                });
             } catch (error) {
-                console.error('❌ Erreur broadcast:', error);
+                console.error('❌ Erreur accès dossier temp:', error);
             }
-        });
+        }
     }
 
     // Démarrer le serveur royal
@@ -351,7 +426,10 @@ try {
         displayKingInfo();
         
         console.log(`✅ Serveur royal démarré sur le port ${PORT}`);
-        logger.info(`👑 Royaume KING DIVIN démarré sur le port ${PORT}`);
+        console.log(`🏰 Accès: http://localhost:${PORT}`);
+        console.log(`📱 QR Code: http://localhost:${PORT}/qr`);
+        console.log(`⚡ Pair Code: http://localhost:${PORT}/pair`);
+        console.log(`📊 Statut: http://localhost:${PORT}/status`);
         
         // ⭐ EXEMPLE D'UTILISATION DES FONCTIONS ROYALES ⭐
         const sessionId = makeKingCode(8);
@@ -366,17 +444,7 @@ try {
         // Planifier le nettoyage régulier
         setInterval(cleanupRoyalSessions, 3600000); // Toutes les heures
         
-        // Broadcast de bienvenue
-        setTimeout(() => {
-            broadcastToAll('Le royaume KING DIVIN est maintenant opérationnel 👑');
-        }, 2000);
-    });
-
-    // Attacher WebSocket au serveur HTTP
-    server.on('upgrade', (request, socket, head) => {
-        wss.handleUpgrade(request, socket, head, (ws) => {
-            wss.emit('connection', ws, request);
-        });
+        console.log('🎭 "Au stade le plus tragique et plus belle"');
     });
 
 } catch (error) {
@@ -388,7 +456,7 @@ try {
 // Gestion propre de l'arrêt royal
 process.on('SIGINT', () => {
     console.log('\n🛑 Arrêt du royaume KING...');
-    broadcastToAll('Le royaume s\'éteint... À bientôt 👑');
+    console.log('👑 Merci d\'avoir visité le royaume KING DIVIN');
     setTimeout(() => {
         process.exit(0);
     }, 1000);
@@ -396,19 +464,16 @@ process.on('SIGINT', () => {
 
 process.on('SIGTERM', () => {
     console.log('\n🛑 Arrêt demandé du royaume...');
-    broadcastToAll('Maintenance royale en cours...');
     process.exit(0);
 });
 
 process.on('uncaughtException', (error) => {
     console.error('❌ Exception royale non capturée:', error);
-    logger.error(`Exception royale: ${error.message}`, error.stack);
     process.exit(1);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
     console.error('❌ Rejet royal non géré:', reason);
-    logger.error(`Rejet royal: ${reason}`);
     process.exit(1);
 });
 
