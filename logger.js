@@ -2,31 +2,32 @@
  * 🎯 LOGGER.JS - Système de Logs Magistral pour KING
  * ⚡ Développé par Kervens King - kervens-king/KING
  * 📊 Logs optimisés pour performance et debugging
+ * 🚫 VERSION SANS CHALK - Compatibilité garantie
  */
 
 const pino = require('pino');
-const chalk = require('chalk');
 
-// 🎨 Configuration des couleurs pour KING
-const kingColors = {
-    success: '#00FF00',
-    warning: '#FFA500', 
-    error: '#FF0000',
-    info: '#00FFFF',
-    debug: '#888888',
-    king: '#FFD700' // Or pour KING
+// 🎨 Configuration des couleurs pour KING (sans chalk)
+const kingStyles = {
+    success: '🟢 SUCCESS',
+    warning: '🟡 WARN', 
+    error: '🔴 ERROR',
+    info: '🔵 INFO',
+    debug: '🐛 DEBUG',
+    king: '👑 KING',
+    fatal: '💀 FATAL'
 };
 
 // 🎪 Formateurs personnalisés pour KING
 const kingFormatters = {
     level: (label) => {
         const levels = {
-            'success': 'SUCCESS 🟢',
-            'warn': 'WARN 🟡',
-            'error': 'ERROR 🔴',
-            'info': 'INFO 🔵',
-            'debug': 'DEBUG 🐛',
-            'fatal': 'FATAL 💀'
+            'success': kingStyles.success,
+            'warn': kingStyles.warning,
+            'error': kingStyles.error,
+            'info': kingStyles.info,
+            'debug': kingStyles.debug,
+            'fatal': kingStyles.fatal
         };
         return { level: levels[label] || label.toUpperCase() };
     },
@@ -52,7 +53,6 @@ const loggerConfig = {
             translateTime: 'SYS:dd-mm-yyyy HH:MM:ss',
             ignore: 'pid,hostname',
             messageFormat: '{msg}',
-            customColors: 'success:green,warn:yellow,error:red,info:blue,debug:gray,fatal:magenta',
             customLevels: {
                 success: 35,
                 warn: 40,
@@ -198,27 +198,43 @@ class KingLogger {
     /**
      * 🔄 Méthodes standard (compatibilité)
      */
-    info(message, data) {
-        this.logger.info(data, message);
+    info(message, data = {}) {
+        this.logger.info({
+            ...data,
+            msg: `🔵 ${message}`,
+            type: 'INFO'
+        }, message);
     }
 
-    error(message, data) {
-        this.logger.error(data, message);
+    error(message, data = {}) {
+        this.logger.error({
+            ...data,
+            msg: `🔴 ${message}`,
+            type: 'ERROR'
+        }, message);
     }
 
-    warn(message, data) {
-        this.logger.warn(data, message);
+    warn(message, data = {}) {
+        this.logger.warn({
+            ...data,
+            msg: `🟡 ${message}`,
+            type: 'WARN'
+        }, message);
     }
 
-    debug(message, data) {
-        this.logger.debug(data, message);
+    debug(message, data = {}) {
+        this.logger.debug({
+            ...data,
+            msg: `🐛 ${message}`,
+            type: 'DEBUG'
+        }, message);
     }
 
     /**
-     * 🎪 Log décoratif KING (pour le démarrage)
+     * 🎪 Log décoratif KING (pour le démarrage) - SANS CHALK
      */
     banner() {
-        console.log(chalk.hex(kingColors.king)(`
+        console.log(`
 ╔══════════════════════════════════════════════╗
 ║                👑 KING BOT                   ║
 ║           Développé par Kervens King         ║
@@ -228,7 +244,29 @@ class KingLogger {
 ║         📊 Environnement: ${process.env.NODE_ENV || 'development'}              ║
 ║         ⏰ Timezone: Africa/Porto-Novo       ║
 ╚══════════════════════════════════════════════╝
-        `));
+        `);
+    }
+
+    /**
+     * 🎭 Log spécial "Stade Tragique et Belle"
+     */
+    tragicBeautiful(message, data = {}) {
+        this.logger.info({
+            ...data,
+            msg: `🎭 ${message}`,
+            type: 'TRAGIC_BEAUTIFUL'
+        }, message);
+    }
+
+    /**
+     * 🤴 Log royal KING DIVIN
+     */
+    royal(message, data = {}) {
+        this.logger.info({
+            ...data,
+            msg: `🤴 ${message}`,
+            type: 'ROYAL'
+        }, message);
     }
 }
 
@@ -259,6 +297,8 @@ if (require.main === module) {
     kingLogger.warn('Stockage faible - 85% utilisé');
     kingLogger.debug('Variable d\'environnement chargée: BOT_NAME=KING');
     kingLogger.error('Erreur de connexion API', { code: 500, url: 'https://api.example.com' });
+    kingLogger.royal('Royaume KING DIVIN opérationnel');
+    kingLogger.tragicBeautiful('Au stade le plus tragique et plus belle');
     
     console.log('\n🎯 Système de logs KING opérationnel !');
 }
