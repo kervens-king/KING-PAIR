@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KING 🤴 - Légende Divine</title>
+    <title>NexusLink • WhatsApp Pairing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -11,126 +12,475 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --glow: 0 0 40px rgba(99, 102, 241, 0.3);
+        }
+
         body {
-            background: linear-gradient(135deg, #0a0a0a, #000);
+            background: var(--darker);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            z-index: -2;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(100px, 100px) rotate(90deg); }
+            50% { transform: translate(0, 200px) rotate(180deg); }
+            75% { transform: translate(-100px, 100px) rotate(270deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: Arial, sans-serif;
-            color: white;
         }
 
-        .container {
+        .hero {
             text-align: center;
-            padding: 2rem;
+            width: 100%;
         }
 
-        .crown {
+        .logo {
             font-size: 4rem;
-            margin-bottom: 1rem;
-            animation: glow 2s ease-in-out infinite alternate;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 2s infinite;
         }
 
-        @keyframes glow {
-            from { text-shadow: 0 0 10px gold; }
-            to { text-shadow: 0 0 20px gold, 0 0 30px orange; }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .title {
-            font-size: 3rem;
-            font-weight: bold;
-            color: gold;
-            margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--light), #c7d2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
         }
 
         .subtitle {
-            color: #ccc;
+            font-size: 1.3rem;
             margin-bottom: 3rem;
-            font-style: italic;
+            color: #cbd5e1;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
         }
 
-        .button-grid {
+        .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            max-width: 800px;
-            margin: 0 auto;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .feature:hover::before {
+            left: 100%;
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--glow);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+        }
+
+        .feature-desc {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
         }
 
         .btn {
-            background: linear-gradient(45deg, gold, orange);
-            color: black;
-            padding: 1rem 2rem;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 15px;
             text-decoration: none;
-            border-radius: 10px;
-            font-weight: bold;
             transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
             border: none;
             cursor: pointer;
-            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn:hover {
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255,215,0,0.4);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6);
+        }
+
+        .btn-secondary {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            color: var(--light);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
         .footer {
-            margin-top: 3rem;
-            color: #888;
+            margin-top: 4rem;
+            text-align: center;
+            color: #64748b;
             font-size: 0.9rem;
         }
 
-        .footer a {
-            color: gold;
-            text-decoration: none;
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
+        .social-link {
+            color: #94a3b8;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .title { font-size: 2rem; }
-            .crown { font-size: 3rem; }
-            .button-grid { grid-template-columns: 1fr; }
+            .title { font-size: 2.5rem; }
+            .subtitle { font-size: 1.1rem; }
+            .features { grid-template-columns: 1fr; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .btn { width: 100%; max-width: 300px; justify-content: center; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="crown">👑</div>
-        <h1 class="title">KING DIVIN</h1>
-        <p class="subtitle">Légende Éternelle - Créé par Kervens Aubourg</p>
-        
-        <div class="button-grid">
-            <a href="qr.html" class="btn">🌟 QR CODE SACRÉ</a>
-            <a href="pair.html" class="btn">⚡ CODE D'UNION</a>
-            <a href="https://github.com/kervens-king/KING/fork" class="btn" target="_blank">🎯 FORK LA LÉGENDE</a>
-            <a href="https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20" class="btn" target="_blank">📢 CANAL ROYAL</a>
-            <a href="https://wa.me/50942737567" class="btn" target="_blank">🛡️ SUPPORT DIVIN</a>
-            <a href="status.html" class="btn">📊 STATUT CÉLESTE</a>
-        </div>
+    <div class="background"></div>
+    <div class="particles" id="particles"></div>
 
-        <div class="footer">
-            <p>KING 🤴 &copy; 2024 | 
-                <a href="https://github.com/kervens-king" target="_blank">Kervens Aubourg</a> - 
-                Tous pouvoirs divins réservés
+    <div class="container">
+        <div class="hero">
+            <!-- Logo et Titre -->
+            <div class="logo animate-fade-in">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <h1 class="title animate-fade-in delay-1">
+                NexusLink
+                <span style="display: block; font-size: 1.8rem; margin-top: 0.5rem; color: var(--accent);">
+                    WhatsApp Pairing
+                </span>
+            </h1>
+            <p class="subtitle animate-fade-in delay-2">
+                Système de liaison avancé par Pair Code. Connectez votre compte WhatsApp 
+                en toute sécurité avec une technologie de pointe.
             </p>
+
+            <!-- Features Grid -->
+            <div class="features">
+                <div class="feature animate-fade-in delay-1">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Sécurité Maximale</h3>
+                    <p class="feature-desc">Authentification chiffrée de bout en bout pour protéger vos données</p>
+                </div>
+                <div class="feature animate-fade-in delay-2">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Instantané</h3>
+                    <p class="feature-desc">Connexion en moins de 10 secondes avec la technologie Pair Code</p>
+                </div>
+                <div class="feature animate-fade-in delay-3">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Multi-Device</h3>
+                    <p class="feature-desc">Compatible avec tous vos appareils et toutes les versions WhatsApp</p>
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="stats animate-fade-in delay-3">
+                <div class="stat">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-label">Utilisateurs</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Uptime</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">&lt;1s</div>
+                    <div class="stat-label">Rapidité</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support</div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="cta-buttons animate-fade-in delay-4">
+                <a href="/pair.html" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i>
+                    Démarrer le Pairing
+                </a>
+                <a href="/status" class="btn btn-secondary">
+                    <i class="fas fa-chart-bar"></i>
+                    Voir le Statut
+                </a>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer animate-fade-in delay-4">
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                </div>
+                <p>&copy; 2024 NexusLink • WhatsApp Pairing System</p>
+                <p style="margin-top: 0.5rem; font-size: 0.8rem; color: #475569;">
+                    Déployé sur Cloud Infrastructure • Sécurisé par SSL
+                </p>
+            </div>
         </div>
     </div>
 
-    <!-- Musique -->
-    <audio id="bgMusic" loop>
-        <source src="https://files.catbox.moe/9snj0e.mp3" type="audio/mpeg">
-    </audio>
-
     <script>
-        document.addEventListener('click', function() {
-            const music = document.getElementById('bgMusic');
-            music.play().catch(e => console.log('Lecture automatique bloquée'));
-        }, { once: true });
+        // Création des particules animées
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Taille aléatoire
+                const size = Math.random() * 100 + 50;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Position aléatoire
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Animation delay aléatoire
+                particle.style.animationDelay = `${Math.random() * 20}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
 
-        document.querySelector('.footer p').innerHTML = 
-            document.querySelector('.footer p').innerHTML.replace('2024', new Date().getFullYear());
+        // Vérification du statut du serveur
+        async function checkServerStatus() {
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+                console.log('✅ Serveur en ligne:', data);
+            } catch (error) {
+                console.log('⚠️ Impossible de contacter le serveur');
+            }
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            checkServerStatus();
+            
+            // Ajout d'effets de hover dynamiques
+            const features = document.querySelectorAll('.feature');
+            features.forEach(feature => {
+                feature.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                feature.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+
+        // Effet de typing pour le sous-titre (optionnel)
+        function typeWriter(element, text, speed = 50) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Démarrer l'effet typing après le chargement
+        window.addEventListener('load', function() {
+            const subtitle = document.querySelector('.subtitle');
+            const originalText = subtitle.textContent;
+            typeWriter(subtitle, originalText, 30);
+        });
     </script>
 </body>
 </html>
