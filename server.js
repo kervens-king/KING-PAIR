@@ -57,31 +57,10 @@ try {
     dotenv.config();
     console.log('✅ Variables d\'environnement chargées');
 
-    // ⭐ ROUTE POUR pair.html ⭐
-    app.get('/pair-page', (req, res) => {
-        try {
-            console.log('📄 Servir la page pair.html');
-            res.sendFile(path.join(__dirname, 'pair.html'));
-        } catch (error) {
-            console.error('❌ Erreur chargement pair.html:', error);
-            res.status(500).send('Erreur de chargement de la page');
-        }
-    });
-
-    // Routes
-    console.log('🔄 Chargement des routes...');
-    const pairRouter = require('./routes/pair');
-    console.log('✅ Routes pair chargées');
-    
-    const qrRouter = require('./routes/qr');
-    console.log('✅ Routes QR chargées');
-    
-    const mainRouter = require('./routes/main');
-    console.log('✅ Routes main chargées');
-
     // Middleware
     console.log('🔄 Configuration des middlewares...');
     app.use(express.json());
+    app.use(express.static('.')); // ✅ Servir la racine pour main.html
     app.use(express.static('public'));
     
     // MIDDLEWARE DE LOGGING
@@ -92,10 +71,50 @@ try {
     
     console.log('✅ Middlewares configurés');
 
-    // Routes
+    // ⭐ ROUTES POUR LES PAGES HTML ⭐
+    app.get('/', (req, res) => {
+        try {
+            console.log('🏰 Servir main.html');
+            res.sendFile(path.join(__dirname, 'main.html'));
+        } catch (error) {
+            console.error('❌ Erreur chargement main.html:', error);
+            res.status(500).send('Erreur de chargement de la page');
+        }
+    });
+
+    app.get('/pair-page', (req, res) => {
+        try {
+            console.log('📄 Servir la page pair.html');
+            res.sendFile(path.join(__dirname, 'pair.html'));
+        } catch (error) {
+            console.error('❌ Erreur chargement pair.html:', error);
+            res.status(500).send('Erreur de chargement de la page');
+        }
+    });
+
+    app.get('/qr-page', (req, res) => {
+        try {
+            console.log('📱 Servir la page qr.html');
+            res.sendFile(path.join(__dirname, 'qr.html'));
+        } catch (error) {
+            console.error('❌ Erreur chargement qr.html:', error);
+            res.status(500).send('Erreur de chargement de la page');
+        }
+    });
+
+    // Routes API
+    console.log('🔄 Chargement des routes API...');
+    const pairRouter = require('./routes/pair');
+    console.log('✅ Routes pair chargées');
+    
+    const qrRouter = require('./routes/qr');
+    console.log('✅ Routes QR chargées');
+    
+    // ✅ PLUS de mainRouter - SUPPRIMÉ
+
+    // Routes API
     app.use('/pair', pairRouter);
     app.use('/qr', qrRouter);
-    app.use('/', mainRouter);
     console.log('✅ Routes attachées');
 
     // Gestion des erreurs
