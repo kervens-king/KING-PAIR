@@ -84,6 +84,12 @@
             transform: scale(1.05);
         }
 
+        .submit-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .loading {
             display: none;
             margin-top: 20px;
@@ -104,11 +110,30 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .success {
+            background: rgba(0,255,0,0.1);
+            border: 2px solid green;
+            color: lightgreen;
+        }
+
+        .error {
+            background: rgba(255,0,0,0.1);
+            border: 2px solid red;
+            color: #ff6b6b;
+        }
     </style>
 </head>
 <body>
     <!-- Musique en arrière-plan -->
-    <audio id="bgMusic" autoplay loop>
+    <audio id="bgMusic" loop>
         <source src="https://files.catbox.moe/9snj0e.mp3" type="audio/mpeg">
     </audio>
 
@@ -136,9 +161,14 @@
             <div class="spinner"></div>
             <div>Génération du code...</div>
         </div>
+
+        <div id="result" class="result"></div>
     </div>
 
     <script>
+        // Configuration
+        const API_URL = 'http://localhost:3000'; // Changez selon votre serveur
+
         // Lecture automatique de la musique
         document.addEventListener('click', function() {
             const music = document.getElementById('bgMusic');
@@ -147,18 +177,23 @@
             }
         });
 
-        // Gestion du formulaire
+        // Gestion du formulaire CORRIGÉE
         document.getElementById('pairForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const phoneInput = this.querySelector('.phone-input');
             const submitBtn = this.querySelector('.submit-btn');
             const loading = document.getElementById('loading');
+            const resultDiv = document.getElementById('result');
             const phoneNumber = phoneInput.value.trim();
+
+            // Reset result
+            resultDiv.style.display = 'none';
+            resultDiv.className = 'result';
 
             // Validation basique
             if (!phoneNumber.match(/^\+[0-9]{10,15}$/)) {
-                alert('Format invalide. Utilisez: +509XXXXXXXX');
+                showResult('Format invalide. Utilisez: +509XXXXXXXX', 'error');
                 return;
             }
 
@@ -167,25 +202,46 @@
             loading.style.display = 'block';
 
             try {
-                // Appel vers pair.js
-                const response = await fetch(`/pair?number=${encodeURIComponent(phoneNumber)}`);
+                // Appel API CORRIGÉ - utilisation de POST
+                const response = await fetch(`${API_URL}/pair`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        number: phoneNumber 
+                    })
+                });
+
                 const data = await response.json();
 
-                if (data.code) {
-                    alert(`✅ CODE GÉNÉRÉ: ${data.code}\n\nVérifiez vos messages WhatsApp!`);
+                if (!response.ok) {
+                    throw new Error(data.error || `Erreur HTTP: ${response.status}`);
+                }
+
+                if (data.success && data.code) {
+                    showResult(`✅ CODE GÉNÉRÉ: ${data.code}<br><br>Vérifiez vos messages WhatsApp!`, 'success');
                     phoneInput.value = '';
                 } else {
-                    throw new Error(data.error || 'Erreur inconnue');
+                    throw new Error(data.error || 'Aucun code reçu');
                 }
 
             } catch (error) {
-                console.error('Erreur:', error);
-                alert('❌ Erreur lors de la génération du code');
+                console.error('Erreur détaillée:', error);
+                showResult(`❌ Erreur: ${error.message}`, 'error');
             } finally {
                 submitBtn.disabled = false;
                 loading.style.display = 'none';
             }
         });
+
+        // Fonction pour afficher les résultats
+        function showResult(message, type) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = message;
+            resultDiv.className = `result ${type}`;
+            resultDiv.style.display = 'block';
+        }
 
         // Format automatique du numéro
         document.querySelector('.phone-input').addEventListener('input', function(e) {
@@ -195,6 +251,9 @@
             }
             e.target.value = value;
         });
+
+        // Focus sur l'input au chargement
+        document.querySelector('.phone-input').focus();
     </script>
 </body>
 </html>
