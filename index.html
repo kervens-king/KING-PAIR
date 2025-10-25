@@ -1,159 +1,191 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KING 🤴 - Légende Divine</title>
-    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=MedievalSharp&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="" type="image/x-icon">
+  <style>
+    body {
+      background-color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-image: linear-gradient(to bottom, #000000, #1a1a1a, #2d2d2d);
+    }
 
-        body {
-            background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Cinzel', serif;
-            overflow: hidden;
-            position: relative;
-        }
+    .button-container {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      background: rgba(30, 30, 30, 0.8);
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
+    }
 
-        .container {
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
+    h3 {
+      margin-top: -20px;
+      margin-bottom: 30px;
+      opacity: 0;
+      animation: fadeIn 3s forwards;
+      color: #00ff00;
+      text-shadow: 0 0 10px #00ff00;
+      font-size: 1.8rem;
+    }
 
-        .crown {
-            font-size: 8rem;
-            margin-bottom: 2rem;
-            animation: crownGlow 4s ease-in-out infinite;
-            text-shadow: 
-                0 0 20px gold,
-                0 0 40px orange,
-                0 0 60px red;
-        }
+    .button {
+      width: 220px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0px 15px;
+      background-color: red;
+      border-radius: 10px;
+      border: none;
+      color: white;
+      position: relative;
+      cursor: pointer;
+      font-weight: 900;
+      transition-duration: .2s;
+      background: linear-gradient(0deg, #000, #272727);
+      text-decoration: none;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
 
-        @keyframes crownGlow {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            25% { transform: scale(1.1) rotate(-2deg); }
-            75% { transform: scale(1.1) rotate(2deg); }
-        }
+    .button:hover {
+      transform: translateY(-3px);
+    }
 
-        .title {
-            font-size: 4.5rem;
-            font-weight: 900;
-            background: linear-gradient(45deg, gold, orange, red, purple);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 300% 300%;
-            animation: gradientShift 8s ease infinite;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-family: 'MedievalSharp', cursive;
-        }
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #111;
+      color: #00ff00;
+      padding: 15px 0;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      text-shadow: 0 0 5px #00ff00;
+    }
+    
+    .button:before, .button:after {
+      content: '';
+      position: absolute;
+      left: -2px;
+      top: -2px;
+      border-radius: 10px;
+      background: linear-gradient(45deg, #48ff00, #15ff00, #000000,#000000, #ff0000);
+      background-size: 400%;
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      z-index: -1;
+      animation: steam 10s linear infinite;
+    }
 
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
+    @keyframes steam {
+      0% {
+        background-position: 0 0;
+      }
+      50% {
+        background-position: 400% 0;
+      }
+      100% {
+        background-position: 0 0;
+      }
+    }
 
-        .subtitle {
-            font-size: 1.5rem;
-            color: #ccc;
-            margin-bottom: 3rem;
-            font-style: italic;
-        }
+    .button:after {
+      filter: blur(50px);
+    }
 
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+    .button span {
+      z-index: 1;
+    }
 
-        .divine-button {
-            position: relative;
-            padding: 1.5rem 2rem;
-            font-size: 1.3rem;
-            font-weight: bold;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: none;
-            border-radius: 15px;
-            background: linear-gradient(135deg, 
-                rgba(255,215,0,0.1) 0%,
-                rgba(255,140,0,0.2) 50%,
-                rgba(255,69,0,0.1) 100%);
-            backdrop-filter: blur(10px);
-            color: gold;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            font-family: 'Cinzel', serif;
-            box-shadow: 
-                0 0 20px rgba(255,215,0,0.3),
-                inset 0 0 20px rgba(255,255,255,0.1);
-            display: block;
-            text-align: center;
-        }
-
-        .divine-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 
-                0 0 40px rgba(255,215,0,0.6),
-                0 0 80px rgba(255,140,0,0.4);
-            color: white;
-        }
-
-        @media (max-width: 768px) {
-            .title { font-size: 3rem; }
-            .crown { font-size: 6rem; }
-            .button-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+    
+    .info-text {
+      margin: 15px 0;
+      color: #aaa;
+      font-size: 0.9rem;
+      text-align: center;
+      max-width: 300px;
+    }
+    
+    .logo {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00ff00, #008800);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: bold;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="crown">👑</div>
-        <h1 class="title">KING DIVIN</h1>
-        <p class="subtitle">Légende Éternelle - Créé par Kervens Aubourg</p>
-        
-        <div class="button-grid">
-            <a href="/qr-page" class="divine-button">
-                🌟 QR CODE SACRÉ
-            </a>
-            
-            <a href="/pair-page" class="divine-button">
-                ⚡ CODE D'UNION
-            </a>
-            
-            <a href="https://github.com/kervens-king/KING/fork" class="divine-button" target="_blank">
-                🎯 FORK LA LÉGENDE
-            </a>
-            
-            <a href="https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20" class="divine-button" target="_blank">
-                📢 CANAL ROYAL
-            </a>
-            
-            <a href="https://wa.me/50942737567" class="divine-button" target="_blank">
-                🛡️ SUPPORT DIVIN
-            </a>
-            
-            <a href="/status" class="divine-button">
-                📊 STATUT CÉLESTE
-            </a>
-        </div>
-    </div>
+  <div class="button-container">
+    <div class="logo">P</div>
+    <h3>KERVENS SESSION</h3>
+    
+    <a href="/qr" class="button" target="_blank"> 
+      <span>QR-CODE</span>
+    </a>
+    
+    <a href="/pair" class="button" target="_blank"> 
+      <span>PAIRING-CODE</span>
+    </a>
+    
+    <a href="https://github.com/kervens-king/KING/fork" class="button" target="_blank"> 
+      <span>FORK KING</span>
+    </a>
+    
+    <a href="https://whatsapp.com/channel/0029Vb6KikfLdQefJursHm20" class="button" target="_blank"> 
+      <span>WHATSAPP CHANNEL</span>
+    </a>
+
+    <p class="info-text">Pour toute assistance technique, contactez-nous :</p>
+    
+    <a href="https://wa.me/50942737567" class="button" target="_blank"> 
+      <span>SUPPORT TECHNIQUE</span>
+    </a>
+
+    <footer>
+     KING &copy; <span id="currentYear"></span> | Créé par Kervens Aubourg
+    </footer>
+  </div>
+  
+  <script>
+    // Ajouter l'année actuelle dans le footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+    // Animation supplémentaire pour les boutons
+    document.querySelectorAll('.button').forEach(button => {
+      button.addEventListener('mouseenter', () => {
+        button.style.transform = 'scale(1.05)';
+      });
+      
+      button.addEventListener('mouseleave', () => {
+        button.style.transform = 'scale(1)';
+      });
+    });
+  </script>
 </body>
-</html>
+  </html>
