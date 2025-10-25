@@ -1,656 +1,235 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KING 🤴 - QR Code Royal</title>
-  <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=MedievalSharp&display=swap');
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KING 🤴 - QR Code</title>
+    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      color: #e6e6e6;
-      font-family: 'Cinzel', serif;
-      overflow: hidden;
-      position: relative;
-      padding: 20px;
-    }
+        body {
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            color: gold;
+            padding: 20px;
+        }
 
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(255, 140, 0, 0.1) 0%, transparent 50%);
-      pointer-events: none;
-    }
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255,215,0,0.1);
+            border-radius: 15px;
+            border: 2px solid gold;
+            box-shadow: 0 0 30px rgba(255,215,0,0.3);
+            max-width: 500px;
+            width: 100%;
+        }
 
-    .container {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px;
-      background: rgba(15, 15, 25, 0.95);
-      border-radius: 20px;
-      box-shadow: 
-        0 0 50px rgba(0, 0, 0, 0.8),
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        inset 0 0 20px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      max-width: 500px;
-      width: 100%;
-      position: relative;
-      overflow: hidden;
-    }
+        .crown {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: glow 2s infinite;
+        }
 
-    .container::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.05), transparent);
-      transform: rotate(45deg);
-      animation: shine 6s infinite;
-    }
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px gold; }
+            50% { text-shadow: 0 0 20px orange, 0 0 30px gold; }
+        }
 
-    @keyframes shine {
-      0% { transform: rotate(45deg) translateX(-100%); }
-      100% { transform: rotate(45deg) translateX(100%); }
-    }
+        .title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: gold;
+        }
 
-    .crown-logo {
-      font-size: 4rem;
-      margin-bottom: 20px;
-      animation: crownGlow 4s ease-in-out infinite;
-      text-shadow: 
-        0 0 20px gold,
-        0 0 40px orange,
-        0 0 60px red;
-      filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
-    }
+        .subtitle {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: #ccc;
+        }
 
-    @keyframes crownGlow {
-      0%, 100% { transform: scale(1) rotate(0deg); }
-      25% { transform: scale(1.1) rotate(-2deg); }
-      75% { transform: scale(1.1) rotate(2deg); }
-    }
+        .qr-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
 
-    .welcome-message {
-      margin-bottom: 25px;
-      text-align: center;
-    }
+        .qr-display {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            border: 2px solid gold;
+        }
 
-    .welcome-title {
-      font-size: 2.2rem;
-      font-weight: 900;
-      margin-bottom: 10px;
-      background: linear-gradient(45deg, gold, orange, red, purple);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
-      letter-spacing: 1.5px;
-      font-family: 'MedievalSharp', cursive;
-      text-transform: uppercase;
-    }
+        .qr-placeholder {
+            color: #666;
+            font-size: 0.9rem;
+        }
 
-    .welcome-subtitle {
-      color: #bdc3c7;
-      font-size: 1.1rem;
-      font-weight: 300;
-      line-height: 1.6;
-      max-width: 400px;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-    }
+        .generate-btn {
+            background: gold;
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin: 10px;
+        }
 
-    .qr-container {
-      width: 100%;
-      margin-bottom: 25px;
-    }
+        .generate-btn:hover {
+            background: orange;
+            transform: scale(1.05);
+        }
 
-    .qr-display {
-      width: 250px;
-      height: 250px;
-      margin: 0 auto;
-      background: white;
-      padding: 15px;
-      border-radius: 15px;
-      box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
-      border: 3px solid rgba(255, 215, 0, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
+        .loading {
+            display: none;
+            margin: 20px 0;
+            color: gold;
+        }
 
-    .qr-display img {
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 8px;
-    }
+        .spinner {
+            border: 3px solid rgba(255,215,0,0.3);
+            border-top: 3px solid gold;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
 
-    .qr-placeholder {
-      color: #7f8c8d;
-      font-size: 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      gap: 15px;
-    }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-    .qr-icon {
-      font-size: 3rem;
-      opacity: 0.7;
-    }
+        .instructions {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,215,0,0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: left;
+        }
 
-    .countdown {
-      font-size: 1.3rem;
-      color: gold;
-      font-weight: bold;
-      margin: 15px 0;
-      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-      font-family: 'MedievalSharp', cursive;
-    }
+        .instructions h3 {
+            margin-bottom: 10px;
+            color: gold;
+        }
 
-    .btn-royal {
-      background: linear-gradient(135deg, gold, orange);
-      color: #000;
-      border: none;
-      padding: 16px 30px;
-      border-radius: 12px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      letter-spacing: 1px;
-      box-shadow: 0 5px 25px rgba(255, 215, 0, 0.6);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      font-family: 'Cinzel', serif;
-      text-transform: uppercase;
-    }
+        .instructions ol {
+            padding-left: 20px;
+        }
 
-    .btn-royal:hover:not(:disabled) {
-      transform: translateY(-3px);
-      background: linear-gradient(135deg, orange, red);
-      box-shadow: 0 8px 30px rgba(255, 140, 0, 0.8);
-      color: white;
-    }
-
-    .btn-royal:active {
-      transform: translateY(1px);
-    }
-
-    .btn-royal:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .status-container {
-      margin: 20px 0;
-      padding: 15px;
-      background: rgba(255, 215, 0, 0.1);
-      border-radius: 12px;
-      border: 1px solid rgba(255, 215, 0, 0.3);
-      width: 100%;
-    }
-
-    .status-title {
-      color: gold;
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-      font-weight: 500;
-    }
-
-    .status-message {
-      color: #bdc3c7;
-      font-size: 1rem;
-      font-weight: bold;
-    }
-
-    .instructions {
-      margin: 25px 0;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      text-align: left;
-    }
-
-    .instructions-title {
-      color: gold;
-      font-size: 1.2rem;
-      margin-bottom: 15px;
-      text-align: center;
-      font-weight: 500;
-    }
-
-    .step {
-      display: flex;
-      margin-bottom: 15px;
-      align-items: flex-start;
-    }
-
-    .step-number {
-      background: gold;
-      color: #000;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      margin-right: 15px;
-      flex-shrink: 0;
-      font-size: 0.9rem;
-    }
-
-    .step-content {
-      flex: 1;
-      color: #bdc3c7;
-      line-height: 1.5;
-    }
-
-    .loading {
-      display: none;
-      margin: 20px 0;
-    }
-
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(255, 255, 255, 0.3);
-      border-top: 3px solid gold;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .loading-text {
-      color: gold;
-      margin-top: 10px;
-      font-size: 1rem;
-    }
-
-    .back-button {
-      margin-top: 20px;
-      color: gold;
-      text-decoration: none;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.3s ease;
-      font-family: 'Cinzel', serif;
-    }
-
-    .back-button:hover {
-      color: orange;
-      transform: translateX(-5px);
-    }
-
-    footer {
-      margin-top: 30px;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 12px;
-      color: #7f8c8d;
-      font-weight: 300;
-      text-align: center;
-      width: 100%;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .version-badge {
-      display: inline-block;
-      background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 140, 0, 0.1));
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      margin-top: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: gold;
-    }
-
-    .gold-particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .particle {
-      position: absolute;
-      background: gold;
-      border-radius: 50%;
-      opacity: 0;
-      animation: fall linear infinite;
-    }
-
-    @keyframes fall {
-      0% {
-        transform: translateY(-100px) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.6;
-      }
-      90% {
-        opacity: 0.6;
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .container {
-        padding: 30px 20px;
-      }
-      
-      .welcome-title {
-        font-size: 1.8rem;
-      }
-      
-      .welcome-subtitle {
-        font-size: 1rem;
-      }
-      
-      .crown-logo {
-        font-size: 3rem;
-      }
-      
-      .qr-display {
-        width: 200px;
-        height: 200px;
-      }
-      
-      .btn-royal {
-        padding: 14px 25px;
-        font-size: 1rem;
-      }
-    }
-  </style>
+        .instructions li {
+            margin-bottom: 8px;
+        }
+    </style>
 </head>
 <body>
-  <div class="gold-particles" id="goldParticles"></div>
-
-  <div class="container">
-    <div class="crown-logo">👑</div>
-    
-    <div class="welcome-message">
-      <h1 class="welcome-title">QR CODE ROYAL</h1>
-      <p class="welcome-subtitle">
-        Scannez ce QR code pour connecter WhatsApp à KING DIVIN
-      </p>
-    </div>
-
-    <div class="qr-container">
-      <div class="qr-display" id="qrDisplay">
-        <div class="qr-placeholder">
-          <div class="qr-icon">👑</div>
-          <span>Cliquez pour générer le QR code royal</span>
-        </div>
-      </div>
-
-      <div class="countdown" id="countdown">
-        ⏳ Le QR code expire après 2 minutes
-      </div>
-
-      <button id="generateBtn" class="btn-royal">
-        👑 GÉNÉRER QR CODE ROYAL
-      </button>
-    </div>
-
-    <div class="status-container">
-      <div class="status-title">Statut de connexion divine:</div>
-      <div class="status-message" id="statusMessage">🟡 En attente de génération royale...</div>
-    </div>
-
-    <div class="instructions">
-      <h3 class="instructions-title">📜 Instructions Royales de Connexion</h3>
-      
-      <div class="step">
-        <div class="step-number">1</div>
-        <div class="step-content">
-          <strong>Ouvrez WhatsApp</strong> sur votre téléphone mobile
-        </div>
-      </div>
-      
-      <div class="step">
-        <div class="step-number">2</div>
-        <div class="step-content">
-          <strong>Allez dans Paramètres</strong> → Appareils connectés → Lier un appareil
-        </div>
-      </div>
-      
-      <div class="step">
-        <div class="step-number">3</div>
-        <div class="step-content">
-          <strong>Scannez le QR code royal</strong> affiché ci-dessus avec votre caméra
-        </div>
-      </div>
-      
-      <div class="step">
-        <div class="step-number">4</div>
-        <div class="step-content">
-          <strong>Confirmez la connexion divine</strong> et attendez la synchronisation
-        </div>
-      </div>
-      
-      <div class="step">
-        <div class="step-number">5</div>
-        <div class="step-content">
-          <strong>Accédez au royaume</strong> de KING DIVIN
-        </div>
-      </div>
-    </div>
-
-    <div class="loading" id="loading">
-      <div class="spinner"></div>
-      <p class="loading-text">Connexion au royaume divin...</p>
-    </div>
-
-    <a href="/" class="back-button">
-      ← Retour au trône royal
-    </a>
-
-    <footer>
-      KING DIVIN &copy; <span id="currentYear"></span> | 
-      <span style="color: gold;">Connexion Royale Sécurisée</span> | 
-      LÉGENDE ÉTERNELLE
-    </footer>
-
-    <div class="version-badge">v1.0.0 | Système Royal QR</div>
-  </div>
-
-  <script>
-    // Initialisation
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-    // Effet de particules dorées
-    function createGoldParticles() {
-      const container = document.getElementById('goldParticles');
-      for (let i = 0; i < 30; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.width = `${Math.random() * 4 + 2}px`;
-        particle.style.height = particle.style.width;
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.top = `${Math.random() * 100}%`;
-        particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
-        particle.style.animationDelay = `${Math.random() * 20}s`;
-        container.appendChild(particle);
-      }
-    }
-
-    // Génération du QR code
-    document.getElementById('generateBtn').addEventListener('click', async function() {
-      const qrDisplay = document.getElementById('qrDisplay');
-      const loading = document.getElementById('loading');
-      const statusMessage = document.getElementById('statusMessage');
-      const btn = this;
-
-      // Masquer les précédents résultats
-      loading.style.display = 'block';
-      btn.disabled = true;
-      btn.innerHTML = '⏳ CONNEXION ROYALE...';
-      statusMessage.textContent = '🟡 Connexion divine en cours...';
-      statusMessage.style.color = 'gold';
-
-      try {
-        // Appel à votre API pour générer un vrai QR code
-        const response = await fetch('/qr/generate', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            data: `KING-DIVIN-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-          })
-        });
-
-        const data = await response.json();
-
-        if (data.qrCode) {
-          // Afficher le vrai QR code
-          qrDisplay.innerHTML = `<img src="${data.qrCode}" alt="QR Code KING DIVIN">`;
-          statusMessage.textContent = '🟢 QR code royal généré - Scannez maintenant!';
-          statusMessage.style.color = '#2ecc71';
-          
-          // Démarrer le compte à rebours
-          startCountdown();
-        } else {
-          throw new Error('Pas de QR code reçu');
-        }
-
-      } catch (error) {
-        // Fallback: Générer un QR code localement si l'API échoue
-        generateLocalQRCode();
-        statusMessage.textContent = '🟢 QR code royal généré (mode local)';
-        statusMessage.style.color = '#2ecc71';
-        startCountdown();
-      } finally {
-        loading.style.display = 'none';
-        btn.disabled = false;
-        btn.innerHTML = '👑 NOUVEAU QR CODE ROYAL';
-      }
-    });
-
-    // Génération locale de QR code (fallback)
-    function generateLocalQRCode() {
-      const qrDisplay = document.getElementById('qrDisplay');
-      const randomData = `KING-DIVIN-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-      
-      QRCode.toDataURL(randomData, {
-        errorCorrectionLevel: 'H',
-        width: 500,
-        margin: 1,
-        color: {
-          dark: '#FFD700', // Or
-          light: '#000000'
-        }
-      }, function(err, url) {
-        if (err) {
-          qrDisplay.innerHTML = `
-            <div class="qr-placeholder">
-              <div class="qr-icon">❌</div>
-              <span>Erreur de génération royale</span>
-            </div>
-          `;
-        } else {
-          qrDisplay.innerHTML = `<img src="${url}" alt="QR Code KING DIVIN">`;
-        }
-      });
-    }
-
-    // Compte à rebours
-    function startCountdown() {
-      let timeLeft = 120;
-      const countdownElement = document.getElementById('countdown');
-      const statusElement = document.getElementById('statusMessage');
-      
-      const countdownInterval = setInterval(() => {
-        if (timeLeft <= 0) {
-          clearInterval(countdownInterval);
-          countdownElement.textContent = '⏰ QR code royal expiré';
-          countdownElement.style.color = '#e74c3c';
-          statusElement.textContent = '🔴 QR code expiré - Régénérez-en un nouveau';
-          statusElement.style.color = '#e74c3c';
-        } else {
-          const minutes = Math.floor(timeLeft / 60);
-          const seconds = timeLeft % 60;
-          countdownElement.textContent = `⏳ Expiration royale dans: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-          timeLeft--;
-        }
-      }, 1000);
-    }
-
-    // Simulation de scan réussi
-    document.getElementById('qrDisplay').addEventListener('click', function() {
-      const statusMessage = document.getElementById('statusMessage');
-      if (statusMessage.textContent.includes('Scannez') || statusMessage.textContent.includes('généré')) {
-        statusMessage.textContent = '✅ Connexion royale réussie! Bienvenue dans KING DIVIN';
-        statusMessage.style.color = '#2ecc71';
+    <div class="container">
+        <div class="crown">👑</div>
+        <h1 class="title">KING DIVIN - QR CODE</h1>
+        <p class="subtitle">Scannez pour connecter WhatsApp</p>
         
-        // Animation de succès
-        this.style.boxShadow = '0 0 40px rgba(46, 204, 113, 0.8)';
-        setTimeout(() => {
-          this.style.boxShadow = '0 0 30px rgba(255, 215, 0, 0.6)';
-        }, 2000);
-      }
-    });
+        <div class="qr-container">
+            <div class="qr-display" id="qrDisplay">
+                <div class="qr-placeholder" id="qrPlaceholder">
+                    👑<br>QR Code apparaîtra ici
+                </div>
+                <img id="qrImage" style="display: none; max-width: 100%; max-height: 100%;">
+            </div>
+        </div>
 
-    // Initialiser les effets
-    createGoldParticles();
+        <button class="generate-btn" id="generateBtn">
+            GÉNÉRER QR CODE
+        </button>
 
-    // Animation des boutons
-    document.getElementById('generateBtn').addEventListener('mouseenter', function() {
-      this.style.transform = 'translateY(-3px) scale(1.05)';
-    });
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <div>Génération du QR Code...</div>
+        </div>
 
-    document.getElementById('generateBtn').addEventListener('mouseleave', function() {
-      this.style.transform = 'translateY(0) scale(1)';
-    });
-  </script>
+        <div class="instructions">
+            <h3>📋 Instructions :</h3>
+            <ol>
+                <li>Cliquez sur "GÉNÉRER QR CODE"</li>
+                <li>Ouvrez WhatsApp sur votre téléphone</li>
+                <li>Allez dans Paramètres → Appareils connectés</li>
+                <li>Scannez le QR code avec votre caméra</li>
+                <li>Attendez la connexion automatique</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('generateBtn').addEventListener('click', generateQRCode);
+
+        async function generateQRCode() {
+            const generateBtn = document.getElementById('generateBtn');
+            const loading = document.getElementById('loading');
+            const qrPlaceholder = document.getElementById('qrPlaceholder');
+            const qrImage = document.getElementById('qrImage');
+
+            // Afficher le loading
+            generateBtn.disabled = true;
+            loading.style.display = 'block';
+            qrPlaceholder.style.display = 'block';
+            qrImage.style.display = 'none';
+
+            try {
+                // Appel vers routes/qr.js
+                const response = await fetch('/qr');
+                
+                if (!response.ok) {
+                    throw new Error('Erreur serveur: ' + response.status);
+                }
+
+                // Récupérer l'image QR code
+                const blob = await response.blob();
+                const imageUrl = URL.createObjectURL(blob);
+                
+                // Afficher le QR code
+                qrImage.src = imageUrl;
+                qrImage.style.display = 'block';
+                qrPlaceholder.style.display = 'none';
+
+                console.log('✅ QR code généré avec succès');
+
+            } catch (error) {
+                console.error('❌ Erreur:', error);
+                alert('Erreur lors de la génération du QR code');
+                
+                // Réafficher le placeholder
+                qrPlaceholder.style.display = 'block';
+                qrPlaceholder.innerHTML = '❌<br>Erreur de génération';
+                qrImage.style.display = 'none';
+            } finally {
+                generateBtn.disabled = false;
+                loading.style.display = 'none';
+            }
+        }
+
+        // Générer automatiquement au chargement de la page
+        window.addEventListener('load', generateQRCode);
+    </script>
 </body>
 </html>
