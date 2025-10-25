@@ -15,7 +15,7 @@
     "pino-pretty": "^10.2.3",
     "qrcode": "^1.5.3",
     "qrcode-terminal": "^0.12.0",
-    "pastebin-js": "^1.0.5"  // ⭐ AJOUTEZ CETTE LIGNE
+    "pastebin-js": "^1.0.5"
   },
   "engines": {
     "node": ">=18.x"
